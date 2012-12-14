@@ -1,6 +1,9 @@
 Developer-installation
 ======================
 
+
+## Virtualenv och dependencies
+
 Installera virtualenv and virtualenvwrapper.
 
     pip install virtualenv
@@ -39,3 +42,12 @@ Kör development-servern med:
 
 
 Hett tips är att aliasa djangoadmin.py till **dj** och workon till **wo**.
+
+
+## Databas
+
+Skapa en mysql-databas, kör t.ex. mysql och sedan
+
+    create database sof13;
+
+Login till denna kan konfigureras i settings.py.
