@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Orkesteranmälan</h3>
 
-    <form method="post" action="">
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
         <ul>
             {% for field in form %}
-                <h4>{{ field.title }}</h4>
+                {% if field.field.title %}
+                    <h3 class="form-title">{{ field.field.title }}</h3>
+                {% endif %}
+
+                {% if field.field.extra_text %}
+                    <p class="extra">{{ field.field.extra_text }}</p>
+                {% endif %}
+
                 <li>
-                {{ field.errors }}
-                {{ field.label_tag }} {{ field }}
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }} {% if field.field.required %}*{% endif %}
                 </li>
             {% endfor %}
         </ul>

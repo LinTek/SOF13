@@ -1,12 +1,12 @@
 # encoding: utf-8
 from django.db import models
 
-YESNO = [(True, 'Ja'), (False, 'Nej')]
+YESNO = [('yes', 'Ja'), ('no', 'Nej')]
 YESNO_MAYBE = [('yes', 'Ja'), ('maybe', 'Kanske'), ('no', 'Nej')]
 YESNO_NOT_NEEDED = [('yes', 'Ja'), ('maybe', 'Klarar oss utan om det kniper'), ('no', 'Nej')]
 
 ARRIVAL_DAYS = [('thursday', 'Torsdag'), ('friday', 'Fredag')]
-PLAY_LENGTHS = [(i, '%d min' % i) for i in [20, 30, 40]]
+PLAY_LENGTHS = [(unicode(i), '%d min' % i) for i in [20, 30, 40]]
 
 TICKET_TYPES = [('thursday', 'Torsdag - Söndag'),
                 ('friday', 'Fredag - Söndag')]
@@ -16,12 +16,19 @@ def numeric_choice(start, stop):
     """
     Returns choices for all numeric values between start and stop
     """
-    return [(i, '%d st' % i) for i in range(start, stop + 1)]
+    return [(unicode(i), '%d st' % i) for i in range(start, stop + 1)]
 
 
 class Orchestra(models.Model):
+    class Meta:
+        verbose_name = 'orkester'
+        verbose_name_plural = 'orkestrar'
+
+    def __unicode__(self):
+        return unicode(self.orchestra_name)
+
     # Orkesterinfo
-    name = models.CharField("Orkesterns namn", max_length=50)
+    orchestra_name = models.CharField("Orkesterns namn", max_length=50)
     short_name = models.CharField("Förkortning av orkesternamn", max_length=10)
     use_short_name = models.CharField("Är det ok att använda förkortningen i spelschemat?",
                                       choices=YESNO, max_length=5)
@@ -70,7 +77,7 @@ class Orchestra(models.Model):
                                      choices=numeric_choice(1, 2), max_length=5)
 
     play_length = models.CharField("Önskad längd på spelningarna, kväll",
-                                    choices=PLAY_LENGTHS, max_length=5)
+                                    choices=PLAY_LENGTHS, max_length=5, blank=True)
 
     concerto_preludium = models.CharField("Vill ni spela under Conserto Preludium på fredagen?",
                                           choices=YESNO, max_length=5)
@@ -94,7 +101,7 @@ class Orchestra(models.Model):
                                   choices=YESNO_NOT_NEEDED, max_length=5)
 
     microphones = models.PositiveSmallIntegerField("Ungefärligt antal mikrofoner som behövs (om några)",
-                                                   blank=True)
+                                                   blank=True, null=True)
 
     # Kontaktperson
     primary_contact_name = models.CharField("Namn kontaktperson", max_length=40)
@@ -106,16 +113,25 @@ class Orchestra(models.Model):
     vice_contact_email = models.EmailField("E-postadress vice kontakt", max_length=40)
 
     # Balett
-    ballet_name = name = models.CharField("Namn på eventuell tillhörande balett?", max_length=50, blank=True)
+    ballet_name = models.CharField("Namn på eventuell tillhörande balett?", max_length=50, blank=True)
     ballet_contact_name = models.CharField("Namn kontakt balett", max_length=40, blank=True)
     ballet_contact_phone = models.CharField("Telefon kontakt balett", max_length=40, blank=True)
     ballet_contact_email = models.EmailField("E-postadress kontakt balett", max_length=40, blank=True)
 
     # Övrigt
-    message = models.TextField("Meddelande till Crew Orkester")
+    message = models.TextField("Meddelande till Crew Orkester", blank=True)
+
+    token = models.CharField(max_length=60)
 
 
-class Person(models.Model):
+class Member(models.Model):
+    class Meta:
+        verbose_name = 'orkestermedlem'
+        verbose_name_plural = 'orkestermedlemmar'
+
+    def __unicode__(self):
+        return unicode("%s %s" % (self.first_name, self.last_name))
+
     first_name = models.CharField("förnamn", max_length=30)
     last_name = models.CharField("efternamn", max_length=30)
     ticket_type = models.CharField("biljettyp", max_length=10, choices=TICKET_TYPES)
