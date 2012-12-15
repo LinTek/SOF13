@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <ul>
+            {% for field in form %}
+                {% if field.field.title %}
+                    <h3 class="form-title">{{ field.field.title }}</h3>
+                {% endif %}
+
+                {% if field.field.extra_text %}
+                    <p class="extra">{{ field.field.extra_text }}</p>
+                {% endif %}
+
+                <li>
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }} {% if field.field.required %}*{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <input type="submit" value="Skicka in" class="btn btn-primary btn-large">
+    </form>
+{% endblock content %}
