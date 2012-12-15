@@ -1,12 +1,15 @@
 # encoding: utf-8
 from django.db import models
 
-YESNO = [(True, 'ja'), (False, 'nej')]
-YESNO_MAYBE = [('yes', 'ja'), ('maybe', 'kanske'), ('no', 'nej')]
-YESNO_NOT_NEEDED = [('yes', 'ja'), ('maybe', 'klarar oss utan om det kniper'), ('no', 'nej')]
+YESNO = [(True, 'Ja'), (False, 'Nej')]
+YESNO_MAYBE = [('yes', 'Ja'), ('maybe', 'Kanske'), ('no', 'Nej')]
+YESNO_NOT_NEEDED = [('yes', 'Ja'), ('maybe', 'Klarar oss utan om det kniper'), ('no', 'Nej')]
 
-ARRIVAL_DAYS = [('thursday', 'torsdag'), ('friday', 'fredag')]
+ARRIVAL_DAYS = [('thursday', 'Torsdag'), ('friday', 'Fredag')]
 PLAY_LENGTHS = [(i, '%d min' % i) for i in [20, 30, 40]]
+
+TICKET_TYPES = [('thursday', 'Torsdag - Söndag'),
+                ('friday', 'Fredag - Söndag')]
 
 
 def numeric_choice(start, stop):
@@ -20,7 +23,7 @@ class Orchestra(models.Model):
     # Orkesterinfo
     name = models.CharField("Orkesterns namn", max_length=50)
     short_name = models.CharField("Förkortning av orkesternamn", max_length=10)
-    use_short_name = models.CharField("Är det ok att använda det i spelschemat?",
+    use_short_name = models.CharField("Är det ok att använda förkortningen i spelschemat?",
                                       choices=YESNO, max_length=5)
     sof_count = models.PositiveSmallIntegerField("Hur många gånger har ni deltagit i SOF?")
     look_forward_to = models.TextField("Vad ser ni mest fram emot?")
@@ -77,6 +80,7 @@ class Orchestra(models.Model):
     family_play = models.CharField("Vill ni spela på den jättemysiga Familjespelningan på söndagen?",
                                           choices=YESNO, max_length=5)
 
+    # Extra utrustning
     backline = models.TextField("Har ni några speciella behov gällande backline?", blank=True)
     amplifier_guitar = models.CharField("Behöver ni gitarrförstärkare?",
                                         choices=YESNO_NOT_NEEDED, max_length=5)
@@ -94,14 +98,42 @@ class Orchestra(models.Model):
                                                    blank=True)
 
     # Kontaktperson
-
     primary_contact_name = models.CharField("Namn kontaktperson", max_length=40)
     primary_contact_phone = models.CharField("Telefon kontaktperson", max_length=40)
     primary_contact_email = models.EmailField("E-postadress kontaktperson", max_length=40)
 
-    vice_contact_name = models.CharField("Namn vice kontaktperson", max_length=40)
-    vice_contact_phone = models.CharField("Telefon vice kontaktperson", max_length=40)
-    vice_contact_email = models.EmailField("E-postadress vice kontaktperson", max_length=40)
+    vice_contact_name = models.CharField("Namn vice kontakt", max_length=40)
+    vice_contact_phone = models.CharField("Telefon vice kontakt", max_length=40)
+    vice_contact_email = models.EmailField("E-postadress vice kontakt", max_length=40)
+
+    # Balett
+    ballet_name = name = models.CharField("Namn på eventuell tillhörande balett?", max_length=50, blank=True)
+    ballet_contact_name = models.CharField("Namn kontakt balett", max_length=40, blank=True)
+    ballet_contact_phone = models.CharField("Telefon kontakt balett", max_length=40, blank=True)
+    ballet_contact_email = models.EmailField("E-postadress kontakt balett", max_length=40, blank=True)
 
     # Övrigt
     message = models.TextField("Meddelande till Crew Orkester")
+
+
+class Person(models.Model):
+    first_name = models.CharField("förnamn", max_length=30)
+    last_name = models.CharField("efternamn", max_length=30)
+    ticket_type = models.CharField("biljettyp", max_length=10, choices=TICKET_TYPES)
+
+    plays_kartege = models.CharField("Kommer du att gå/spela/dansa i kårtegen?",
+                                     choices=YESNO, max_length=5)
+    allergies = models.CharField("Eventuella allergier",
+                                   max_length=60, blank=True)
+    needs_bed = models.CharField("Önskar sovplats",
+                                 choices=YESNO, max_length=5)
+    attend_sitting = models.CharField("""Önskar att få möjligheten att gå på sittningen på torsdagen
+                                        (om det blir tillräckligt stort intresse så kommer denna sittning att hållas)""",
+                                        choices=YESNO, max_length=5)
+
+    t_shirt = models.BooleanField("T-shirt")
+    badge_orchestra = models.BooleanField("Orkestermärke")
+    badge_visitor = models.BooleanField("Besökarmärke")
+    medal = models.BooleanField("Medalj")
+    bottle_opener = models.BooleanField("Kapsylöppnare")
+    yoyo = models.BooleanField("Jojo (skidliftkortshållare som man kan ha kapsylöppnaren i)")

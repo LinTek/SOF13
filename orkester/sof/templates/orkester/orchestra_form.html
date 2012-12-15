@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="post" action="">
-        {{ form.as_ul }}
+    <h3>Orkesteranmälan</h3>
 
-        <input type="submit" value="Skicka in"/>
+    <form method="post" action="">
+        <ul>
+            {% for field in form %}
+                <h4>{{ field.title }}</h4>
+                <li>
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <input type="submit" value="Skicka in" class="btn btn-primary btn-large">
     </form>
 {% endblock content %}

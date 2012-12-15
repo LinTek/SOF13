@@ -1,4 +1,6 @@
 from django.conf.urls import patterns, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -6,8 +8,8 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
     # Examples:
+    url(r'^$', 'sof.orkester.views.home', name='home'),
     url(r'^signup/$', 'sof.orkester.views.orchestra_form', name='orchestra_form'),
-    # url(r'^sof/', include('sof.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -15,3 +17,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )
+
+urlpatterns += staticfiles_urlpatterns()

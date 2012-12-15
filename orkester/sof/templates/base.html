@@ -1,12 +1,19 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Min portfolio - {% block title %}Välkommen{% endblock %}</title>
+    <title>SOF2013 - Orkesteranmälan</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
  </head>
 <body>
+
 <div class="container">
+    <img src="{% static "images/tutputten-logo-small.png" %}">
+    <h2>SOF 2013</h2>
+
     {% block content %}{% endblock content %}
 </div>
 </body>
