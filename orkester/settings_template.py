@@ -17,3 +17,9 @@ SECRET_KEY = 'xaysuftadsf9m<2d5d3fg65zxv33d6fsdgsl#&addmp;=mg)k39lq2q'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

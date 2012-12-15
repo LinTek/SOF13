@@ -112,7 +112,7 @@ INSTALLED_APPS = (
 
     'south',
 
-    'orkester'
+    'sof.orkester',
 )
 
 # A sample logging configuration. The only tangible logging

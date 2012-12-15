@@ -1,11 +1,20 @@
 Developer-installation
 ======================
 
+## System-dependencies
+
+    sudo apt-get install libmysqlclient-dev python-dev
+
+Och om man vill även
+
+    sudo apt-get install libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
+
 
 ## Virtualenv och dependencies
 
-Installera virtualenv and virtualenvwrapper.
+Installera pip, virtualenv and virtualenvwrapper (eventuellt krävs root)
 
+    easy_install pip
     pip install virtualenv
     pip install virtualenvwrapper
 
@@ -27,8 +36,8 @@ Installera dependencies:
 
 Gör ett par roliga saker med pythonpath för att slippa manage.py
 
-    echo "export DJANGO_SETTINGS_MODULE=sof.settings" >> ~/.virtualenvs/sof/bin/postactivate
-    add2virtualenv ~/path/to/orkester-folder/in/sof/project
+    echo "export DJANGO_SETTINGS_MODULE=settings" >> ~/.virtualenvs/sof/bin/postactivate
+    add2virtualenv /path/to/orkester/folder/in/sof/project
 
 
 Starta om skalet igen. Aktivera ditt virtualenv med:
