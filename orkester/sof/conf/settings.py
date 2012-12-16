@@ -9,7 +9,7 @@ ADMINS = (
     ('Niclas Olofsson', 'n@niclasolofsson.se'),
 )
 
-DEFAULT_FROM_EMAIL = 'noreply@sof13.se'
+DEFAULT_FROM_EMAIL = 'SOF Orkester <orkester@sof13.se>'
 
 MANAGERS = ADMINS
 
