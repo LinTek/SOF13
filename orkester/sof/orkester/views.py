@@ -10,6 +10,10 @@ def home(request):
     return render(request, 'index.html')
 
 
+def e500(request):
+    assert False
+
+
 def confirm_member(request):
     return render(request, 'orkester/confirm_member.html')
 
