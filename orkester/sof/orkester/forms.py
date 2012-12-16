@@ -1,7 +1,7 @@
 # encoding: utf-8
 from django import forms
 
-from orkester.models import Orchestra, Member
+from sof.orkester.models import Orchestra, Member
 
 
 class OrchestraForm(forms.ModelForm):
