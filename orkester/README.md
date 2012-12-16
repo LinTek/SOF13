@@ -40,6 +40,7 @@ Gör ett par roliga saker med pythonpath för att slippa manage.py
     add2virtualenv /path/to/orkester/folder/in/sof/project
 
 
+
 Starta om skalet igen. Aktivera ditt virtualenv med:
 
     workon sof

@@ -4,6 +4,7 @@
 settings.py
 orkester/media
 orkester/static
+
 *.db
 *.sublime-workspace
 *.sublime-project
