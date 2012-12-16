@@ -1,0 +1,9 @@
+Hej {{ member.first_name }}!
+
+Du är nu registrerad som medlem i orkestern {{ orchestra }} till SOF 2013.
+
+Om du är medlem i flera orkestrar, använd respektive orkesters registeringslänk
+för att lägga till dig själv till dessa.
+
+Vänliga hälsningar,
+Crew Orkester

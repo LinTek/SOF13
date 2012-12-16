@@ -1,20 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Registrera medlem i {{ orchestra }}</h3>
+    <h3>Registrera ny person</h3>
+    <p>
+        Du kommer att läggas till i orkestern <b>{{ orchestra }}</b>.
+    </p>
+    <p>
+        Har du redan registerat dig i en annan orkester?<br>
+        I sådana fall behöver du inte skriva in alla dina uppgifter igen.
+        <a href="{% url add_member token=orchestra.token %}">Klicka här</a>
+    </p>
+
 
     <form method="post" action="">
         {% csrf_token %}
         <ul>
             {% for field in form %}
-                {% if field.field.title %}
-                    <h3 class="form-title">{{ field.field.title }}</h3>
-                {% endif %}
-
-                {% if field.field.extra_text %}
-                    <p class="extra">{{ field.field.extra_text }}</p>
-                {% endif %}
-
                 <li>
                     {{ field.errors }}
                     {{ field.label_tag }} {{ field }} {% if field.field.required %}*{% endif %}

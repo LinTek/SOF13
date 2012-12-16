@@ -11,12 +11,12 @@
                 {% endif %}
 
                 {% if field.field.extra_text %}
-                    <p class="extra">{{ field.field.extra_text }}</p>
+                    <li class="extra">{{ field.field.extra_text }}</li>
                 {% endif %}
 
                 <li>
-                    {{ field.errors }}
                     {{ field.label_tag }} {{ field }} {% if field.field.required %}*{% endif %}
+                    {{ field.errors }}
                 </li>
             {% endfor %}
         </ul>

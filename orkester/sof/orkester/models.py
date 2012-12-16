@@ -1,4 +1,7 @@
 # encoding: utf-8
+
+import os
+
 from django.db import models
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -18,12 +21,15 @@ TICKET_TYPES = [('thursday', 'Torsdag - Söndag'),
 
 
 def _mail(template_name, to, template_params):
-    send_mail(render_to_string('orkester/mail/%s_subject.txt' % template_name,
-                template_params).replace('\n', ''),
-              render_to_string('orkester/mail/%s.txt' % template_name,
-                template_params),
-              DEFAULT_FROM_EMAIL,
-              to)
+    """
+    Sends a mail with content from template_name, to all recipients in
+    a list. Uses template_params to render the content templates.
+    """
+    send_mail(subject=render_to_string('orkester/mail/%s_subject.txt' % template_name,
+                                       template_params).replace('\n', ''),
+              message=render_to_string('orkester/mail/%s.txt' % template_name,
+                                       template_params),
+              from_email=DEFAULT_FROM_EMAIL, recipient_list=to)
 
 
 def numeric_choice(start, stop):
@@ -142,6 +148,9 @@ class Orchestra(models.Model):
               [self.primary_contact_email],
               {'orchestra': self})
 
+    def generate_token(self):
+        self.token = os.urandom(10).encode('hex')
+
 
 class Member(models.Model):
     class Meta:
@@ -153,6 +162,9 @@ class Member(models.Model):
 
     first_name = models.CharField("förnamn", max_length=30)
     last_name = models.CharField("efternamn", max_length=30)
+    pid = models.CharField("personnummer", max_length=20, unique=True)
+    email = models.EmailField("e-postadress")
+
     ticket_type = models.CharField("biljettyp", max_length=10, choices=TICKET_TYPES)
 
     plays_kartege = models.CharField("Kommer du att gå/spela/dansa i kårtegen?",
@@ -172,4 +184,9 @@ class Member(models.Model):
     bottle_opener = models.BooleanField("Kapsylöppnare")
     yoyo = models.BooleanField("Jojo (skidliftkortshållare som man kan ha kapsylöppnaren i)")
 
-    orchestra = models.ForeignKey(Orchestra)
+    orchestras = models.ManyToManyField(Orchestra)
+
+    def send_confirm_email(self, orchestra):
+        _mail('confirm_member',
+              [self.email],
+              {'member': self, 'orchestra': orchestra})
