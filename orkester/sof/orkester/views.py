@@ -10,10 +10,6 @@ def home(request):
     return render(request, 'index.html')
 
 
-def e500(request):
-    assert False
-
-
 def confirm_member(request):
     return render(request, 'orkester/confirm_member.html')
 
@@ -29,8 +25,7 @@ def orchestra_form(request):
             o = form.save(commit=False)
             o.token = os.urandom(10).encode('hex')
             o.save()
-
-            #send_mail('Subject here', 'Wiee: ' + o.token, 'it@sof13.se', ['n@niclasolofsson.se'])
+            o.send_confirm_email()
 
             return redirect('confirm_orchestra')
     else:
@@ -54,4 +49,5 @@ def member_form(request, token):
     else:
         form = MemberForm()
 
-    return render(request, 'orkester/member_form.html', {'form': form})
+    return render(request, 'orkester/member_form.html',
+                    {'form': form, 'orchestra': orchestra})

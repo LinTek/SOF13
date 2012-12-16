@@ -1,0 +1,10 @@
+Hejsan!
+
+Vi har tagit emot anmälan för {{ orchestra }} till SOF 2013.
+Sprid vidare länken nedan till orkesterns medlemmar, så kan de registrera sig
+som deltagare. Länken innehåller en kod som är knuten till just denna orkester.
+
+http://orkester.sof13.se{% url member_form token=orchestra.token %}
+
+Vänliga hälsningar,
+Crew Orkester

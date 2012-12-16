@@ -1,5 +1,10 @@
 # encoding: utf-8
 from django.db import models
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
+from sof.conf.settings import DEFAULT_FROM_EMAIL
+
 
 YESNO = [('yes', 'Ja'), ('no', 'Nej')]
 YESNO_MAYBE = [('yes', 'Ja'), ('maybe', 'Kanske'), ('no', 'Nej')]
@@ -10,6 +15,15 @@ PLAY_LENGTHS = [(unicode(i), '%d min' % i) for i in [20, 30, 40]]
 
 TICKET_TYPES = [('thursday', 'Torsdag - Söndag'),
                 ('friday', 'Fredag - Söndag')]
+
+
+def _mail(template_name, to, template_params):
+    send_mail(render_to_string('orkester/mail/%s_subject.txt' % template_name,
+                template_params).replace('\n', ''),
+              render_to_string('orkester/mail/%s.txt' % template_name,
+                template_params),
+              DEFAULT_FROM_EMAIL,
+              to)
 
 
 def numeric_choice(start, stop):
@@ -122,6 +136,11 @@ class Orchestra(models.Model):
     message = models.TextField("Meddelande till Crew Orkester", blank=True)
 
     token = models.CharField(max_length=60)
+
+    def send_confirm_email(self):
+        _mail('confirm_orchestra',
+              [self.primary_contact_email],
+              {'orchestra': self})
 
 
 class Member(models.Model):

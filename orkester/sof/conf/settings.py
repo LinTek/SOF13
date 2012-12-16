@@ -9,6 +9,8 @@ ADMINS = (
     ('Niclas Olofsson', 'n@niclasolofsson.se'),
 )
 
+DEFAULT_FROM_EMAIL = 'noreply@sof13.se'
+
 MANAGERS = ADMINS
 
 # Local time zone for this installation. Choices can be found here:
@@ -115,7 +117,6 @@ INSTALLED_APPS = (
     'sof.orkester',
 )
 
-SEND_BROKEN_LINK_EMAILS = True
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
