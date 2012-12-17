@@ -5,6 +5,7 @@
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <ul>
+            {{ form.non_field_errors }}
             {% for field in form %}
                 {% if field.field.title %}
                     <h3 class="form-title">{{ field.field.title }}</h3>

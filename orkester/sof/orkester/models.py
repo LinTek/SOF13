@@ -9,34 +9,44 @@ from django.template.loader import render_to_string
 from sof.conf.settings import DEFAULT_FROM_EMAIL
 
 
+# Constants for choices. The first in each tuple is the DB-value, the second
+# is the display_name used in forms (and django admin and stuff).
+
+# Used for random questions. Using choices instead of BooleanFields because of
+# how the questions was formulated.
 YESNO = [('yes', 'Ja'), ('no', 'Nej')]
 YESNO_MAYBE = [('yes', 'Ja'), ('maybe', 'Kanske'), ('no', 'Nej')]
 YESNO_NOT_NEEDED = [('yes', 'Ja'), ('maybe', 'Klarar oss utan om det kniper'), ('no', 'Nej')]
 
+# Days and ticket types
 ARRIVAL_DAYS = [('thursday', 'Torsdag'), ('friday', 'Fredag')]
-PLAY_LENGTHS = [(unicode(i), '%d min' % i) for i in [20, 30, 40]]
 
-TICKET_TYPES = [('thursday', 'Torsdag - Söndag'),
-                ('friday', 'Fredag - Söndag')]
+TICKET_TYPES = [('thursday', 'Torsdag - Söndag (625 kr)'),
+                ('friday',   'Fredag - Söndag (575 kr)')]
+
+# Each choice must be a two-tuple. In this case we want the same value in
+# DB as in the forms, so generate tuples for all items in the list
+TSHIRT_SIZES = [(s, s) for s in ('XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL')]
+
+
+def numeric_choice(start, stop):
+    """
+    Returns choices for all numeric values between start and stop
+    i.e. [('1', '1 st'), ('2', '2 st')] if start = 1 and stop = 2
+    """
+    return [(unicode(i), '%d st' % i) for i in range(start, stop + 1)]
 
 
 def _mail(template_name, to, template_params):
     """
     Sends a mail with content from template_name, to all recipients in
-    a list. Uses template_params to render the content templates.
+    a list. Uses template_params to render the content-templates.
     """
     send_mail(subject=render_to_string('orkester/mail/%s_subject.txt' % template_name,
                                        template_params).replace('\n', ''),
               message=render_to_string('orkester/mail/%s.txt' % template_name,
                                        template_params),
               from_email=DEFAULT_FROM_EMAIL, recipient_list=to)
-
-
-def numeric_choice(start, stop):
-    """
-    Returns choices for all numeric values between start and stop
-    """
-    return [(unicode(i), '%d st' % i) for i in range(start, stop + 1)]
 
 
 class Orchestra(models.Model):
@@ -95,9 +105,6 @@ class Orchestra(models.Model):
                                      choices=YESNO_MAYBE, max_length=5)
     play_friday = models.CharField("Antal önskade spelningar, fre (räknat utan Conserto Preludium)",
                                      choices=numeric_choice(1, 2), max_length=5)
-
-    play_length = models.CharField("Önskad längd på spelningarna, kväll",
-                                    choices=PLAY_LENGTHS, max_length=5, blank=True)
 
     concerto_preludium = models.CharField("Vill ni spela under Conserto Preludium på fredagen?",
                                           choices=YESNO, max_length=5)
@@ -173,16 +180,20 @@ class Member(models.Model):
                                  max_length=60, blank=True)
     needs_bed = models.CharField("Önskar sovplats",
                                  choices=YESNO, max_length=5)
-    attend_sitting = models.CharField("""Önskar att få möjligheten att gå på sittningen på torsdagen
+    attend_sitting = models.CharField("""Önskar att få möjligheten att gå på sittningen på torsdagen (pris 125 kr)
                                         (om det blir tillräckligt stort intresse så kommer denna sittning att hållas)""",
                                         choices=YESNO, max_length=5)
 
-    t_shirt = models.BooleanField("T-shirt")
-    badge_orchestra = models.BooleanField("Orkestermärke")
-    badge_visitor = models.BooleanField("Besökarmärke")
-    medal = models.BooleanField("Medalj")
-    bottle_opener = models.BooleanField("Kapsylöppnare")
-    yoyo = models.BooleanField("Jojo (skidliftkortshållare som man kan ha kapsylöppnaren i)")
+    t_shirt = models.BooleanField("T-shirt (100 kr)")
+    t_shirt_size = models.CharField("Storlek T-shirt",
+                                    choices=TSHIRT_SIZES, max_length=5,
+                                    blank=True)
+    badge_orchestra = models.BooleanField("Orkestermärke (20 kr)")
+    badge_visitor = models.BooleanField("Besökarmärke (20 kr)")
+    medal = models.BooleanField("Medalj (25 kr)")
+    bottle_opener = models.BooleanField("Kapsylöppnare (30 kr)")
+    yoyo = models.BooleanField("Jojo (20 kr) (skidliftkortshållare som man kan ha kapsylöppnaren i)")
+    beer_glass = models.BooleanField("Ölglas (50 kr)")
 
     orchestras = models.ManyToManyField(Orchestra)
 
