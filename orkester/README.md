@@ -3,7 +3,7 @@ Developer-installation
 
 ## System-dependencies
 
-    sudo apt-get install libmysqlclient-dev python-dev
+    sudo apt-get install libmysqlclient-dev python-dev python-setuptools
 
 Och om man vill även
 
@@ -14,14 +14,14 @@ Och om man vill även
 
 Installera pip, virtualenv and virtualenvwrapper (eventuellt krävs root)
 
-    easy_install pip
-    pip install virtualenv
-    pip install virtualenvwrapper
+    sudo easy_install pip
+    sudo pip install virtualenv
+    sudo pip install virtualenvwrapper
 
 
 Lägg till i .bashrc/.zshrc -filen. Starta sedan om skalet.
 
-    source /usr/local/bin/virtualenvwrapper.sh
+    echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 
 
 Skapa ett virtualenv:
@@ -40,6 +40,11 @@ Gör ett par roliga saker med pythonpath för att slippa manage.py
     add2virtualenv /path/to/orkester/folder/in/sof/project
 
 
+Hett tips är att aliasa djangoadmin.py till **dj** och workon till **wo**.
+
+    echo "alias dj='djangoadmin.py'" >> ~/.bashrc
+    echo "alias wo='workon'" >> ~/.bashrc
+
 
 Starta om skalet igen. Aktivera ditt virtualenv med:
 
@@ -49,9 +54,6 @@ Starta om skalet igen. Aktivera ditt virtualenv med:
 Kör development-servern med:
 
     django-admin.py runserver
-
-
-Hett tips är att aliasa djangoadmin.py till **dj** och workon till **wo**.
 
 
 ## Databas
