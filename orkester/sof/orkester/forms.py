@@ -1,3 +1,10 @@
+"""
+forms.py
+
+Forms is Django's approach to handling - forms (surprisingly). Forms can
+be generated from models to easily create a new instance of a model, and
+is primarily responsible for validation of form input.
+"""
 # encoding: utf-8
 from django import forms
 from django.core.exceptions import ValidationError
@@ -7,10 +14,17 @@ from models import Orchestra, Member
 
 
 class OrchestraForm(forms.ModelForm):
+    """
+    This form is used to create new Orchestras. It is fully generated from
+    the model.
+    """
     class Meta:
-        model = Orchestra
-        exclude = ('token')
+        model = Orchestra  # tell ModelForm which model to use
+        exclude = ('token')  # do not let the orchestras pick their token...
 
+    # The stuff below is ugly and hackish, but made since we otherwise would
+    # have to render every single field manually. Which is what we normally do,
+    # but not when the number of fields almost goes to infinity as in this case...
     def __init__(self, *args, **kwargs):
         TITLES = {
             'orchestra_name':       'Orkester-information',
@@ -23,9 +37,6 @@ class OrchestraForm(forms.ModelForm):
 
         super(OrchestraForm, self).__init__(*args, **kwargs)
 
-        # This is ugly and hackish, but made since we otherwise would have to
-        # render every single field manually. Which is what we normally do, but
-        # not when the number of fields almost goes to infinity as in this case...
         for k, v in TITLES.iteritems():
             self.fields[k].title = v
 
@@ -35,19 +46,27 @@ class OrchestraForm(forms.ModelForm):
 
 
 class MemberForm(forms.ModelForm):
+    """
+    This form is used for adding new people to an Orchestra. It is pretty
+    straightforward and mostly generated from the model.
+
+    We also need to do some manual validation and overriding of a field.
+    """
     class Meta:
         model = Member
         exclude = ('orchestras')
 
-    # clean performs form validation of the whole form, after each field's
-    # own clean-method has been called. This is used for validating stuff
-    # that depends on each other.
     def clean(self):
+        """
+        Validates that t-shirt size is given if t-shirt is ordered.
+        """
+        # make sure the ModelForm's clean method is called
         cd = super(MemberForm, self).clean()
+
         # if t-shirt is selected but no size chosen
         if cd.get('t_shirt', False) and not cd.get('t_shirt_size'):
 
-            # We could justiraise ValidationError here, but we want the error
+            # We could just raise ValidationError here, but we want the error
             # to be displayed at the t-shirt size field.
             self._errors['t_shirt_size'] = self.error_class(['Välj en storlek på t-shirt'])
             del cd['t_shirt_size']
@@ -60,6 +79,12 @@ class MemberForm(forms.ModelForm):
 
 
 class AddMemberForm(forms.Form):
+    """
+    This form is used when adding an existing member to an Orchestra.
+
+    It is a normal, non-model Form, and just contains a pid. It validates
+    that a Member with the entered pid exists in the database.
+    """
     pid = SEPersonalIdentityNumberField(label='Personnummer')
 
     def clean_pid(self):

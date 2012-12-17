@@ -1,3 +1,12 @@
+"""
+views.py
+
+A view is called when a visited url-entry in urls.py points to it.
+They must return a HTTPResponse-object, which often is a rendered view or
+redirect. Views typically creates and saves form instances, fetches stuff
+from database or calls methods on models. Be careful not to do too much
+work in the views to maintain a somewhat good MVC-pattern.
+"""
 from django.shortcuts import render, redirect, get_object_or_404
 
 from forms import OrchestraForm, MemberForm, AddMemberForm

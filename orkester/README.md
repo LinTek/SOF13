@@ -1,16 +1,79 @@
-Developer-installation
-======================
+Orkesteranmälan
+===============
+
+Systemet är byggt i Python/Django (www.djangoproject.com), dels eftersom att det
+är awesome och dels eftersom att utvecklingen av ett system i Java EE inte hann klart.
+
+## Mappstruktur
+
+* ./media - här samlas alla uppladdade filer
+* ./static - vid deployment samlas alla statiska filer hit
+* ./sof - kod, templates och liknande
+
+Projektet har två settings-filer. En lokal settings-fil för t.ex. debugging
+och databas-inställningar, som inte finns i repot. Det finns dock en bra
+mall för hur denna kan se ut; settings-template.py.
+
+Den globala settings-filen finns i sof/conf/settings.py, där man kan ändra
+sådant som man vill även ska ändras vid deployment och liknande.
+
+
+# Praktiska småsaker
+
+## Typiskt vardags-workflow
+
+    git pull
+    wo sof
+    dj migrate
+    dj runserver
+
+## Databas-migrations
+
+Om man ändrar strukturen i någon modell måste eventuellt databasstrukturen
+uppdateras. Detta görs med hjälp av *south* och så kallade migrations.
+
+För att skapa en ny migration och sedan köra alla migrations
+
+    dj schemamigration orkester --auto
+    dj migrate
+
+
+
+## Deployment på SOF-servern
+
+Servern kör projektet med Apache + mod_wsgi. Undertecknad är mer van vid
+nginx + gunicorn, så om någon tycker att något är konstigt gjort så kan det
+mycket väl vara så. Nåväl. Det funkar iaf.
+
+Det finns en väldigt basic apache config-fil i /etc/apache2/sites-available/orkester.sof13.se
+Som framgår av denna ligger själva projektet i en home-mapp till den egna
+användaren django-sof13.
+
+Vill man göra saker är det lättast att bara su:a till användaren.
+
+    sudo su - django-sof13
+
+Nu kan man gå in i repositoryt och köra en git pull, samt köra samma kommandon
+för databas-migrations och liknande som lokalt. Dock krävs här även att man
+kör collectstatic om man ändrat några statiska filer.
+
+    dj collectstaic
+
+
+
+
+# Installation av utvecklingsmiljö
 
 ## System-dependencies
 
     sudo apt-get install libmysqlclient-dev python-dev python-setuptools
 
-Och om man vill även
+Om man vill ha stöd för jpeg och png när man installerar PIL krävs även
 
     sudo apt-get install libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
 
 
-## Virtualenv och dependencies
+## Virtualenv och Python-dependencies
 
 Installera pip, virtualenv and virtualenvwrapper (eventuellt krävs root)
 
@@ -34,32 +97,47 @@ Installera dependencies:
     sudo pip install -r requirements.txt
 
 
+Se till att du står i mappen orkester i SOF13-repositoryt.
 Gör ett par roliga saker med pythonpath för att slippa manage.py
 
     echo "export DJANGO_SETTINGS_MODULE=settings" >> ~/.virtualenvs/sof/bin/postactivate
-    add2virtualenv /path/to/orkester/folder/in/sof/project
+    add2virtualenv .
 
 
-Hett tips är att aliasa django-admin.py till **dj** och workon till **wo**.
+Man vill även aliasa django-admin.py till *dj* och workon till *wo*.
 
     echo "alias dj='django-admin.py'" >> ~/.bashrc
     echo "alias wo='workon'" >> ~/.bashrc
 
+Starta om skalet igen.
 
-Starta om skalet igen. Aktivera ditt virtualenv med:
+Kopiera filen settings_template.py till settings.py. Modifiera sedan den nya
+filen så att den stämmer för dina databas-inställningar och liknande.
 
-    workon sof
+    cp settings_template.py settings.py
 
-
-Kör development-servern med:
-
-    django-admin.py runserver
-
-
-## Databas
 
 Skapa en mysql-databas, kör t.ex. mysql och sedan
 
     create database sof13;
 
-Login till denna kan konfigureras i settings.py.
+(man kan naturligtvis köra postgres istället om man vill, bara ändra den
+lokala settings-filen och installera *psycopg2* med pip)
+
+
+## Sista stegen
+
+Aktivera ditt virtualenv
+
+    wo sof
+
+
+Bygg databasstruktur
+
+    dj syncdb
+    dj migrate
+
+
+Kör development-servern
+
+    dj runserver

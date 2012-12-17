@@ -1,5 +1,12 @@
 # encoding: utf-8
+"""
+This file declares models for the orkester-app. These models are later used
+in the system when creating objects or generating forms for them.
 
+If you add or remove fields from a model, forms and such will probably
+update automatically. However, you will probably need to generate a new
+database migration.
+"""
 import os
 
 from django.db import models
@@ -39,6 +46,8 @@ def numeric_choice(start, stop):
 
 def _mail(template_name, to, template_params):
     """
+    Helper-function used by send_confirm_email()-methods below.
+
     Sends a mail with content from template_name, to all recipients in
     a list. Uses template_params to render the content-templates.
     """
@@ -50,6 +59,11 @@ def _mail(template_name, to, template_params):
 
 
 class Orchestra(models.Model):
+    """
+    An Orchestra describes an visiting Orchestra, including an insane amount
+    of fields for unclear purposes specified by orkesteransvarig.
+    """
+
     class Meta:
         verbose_name = 'orkester'
         verbose_name_plural = 'orkestrar'
@@ -160,6 +174,9 @@ class Orchestra(models.Model):
 
 
 class Member(models.Model):
+    """
+    A Member is a member of one or many Orchestras.
+    """
     class Meta:
         verbose_name = 'orkestermedlem'
         verbose_name_plural = 'orkestermedlemmar'
