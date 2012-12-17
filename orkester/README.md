@@ -31,7 +31,7 @@ Skapa ett virtualenv:
 
 Installera dependencies:
 
-    pip install -r requirements.txt
+    sudo pip install -r requirements.txt
 
 
 Gör ett par roliga saker med pythonpath för att slippa manage.py
@@ -40,9 +40,9 @@ Gör ett par roliga saker med pythonpath för att slippa manage.py
     add2virtualenv /path/to/orkester/folder/in/sof/project
 
 
-Hett tips är att aliasa djangoadmin.py till **dj** och workon till **wo**.
+Hett tips är att aliasa django-admin.py till **dj** och workon till **wo**.
 
-    echo "alias dj='djangoadmin.py'" >> ~/.bashrc
+    echo "alias dj='django-admin.py'" >> ~/.bashrc
     echo "alias wo='workon'" >> ~/.bashrc
 
 

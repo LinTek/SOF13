@@ -6,5 +6,6 @@ som deltagare. Länken innehåller en kod som är knuten till just denna orkeste
 
 http://orkester.sof13.se{% url member_form token=orchestra.token %}
 
-Vänliga hälsningar,
+Med vänliga hälsningar,
 Crew Orkester
+
