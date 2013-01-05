@@ -1,11 +1,13 @@
 # encoding: utf-8
 """
+models.py
+
 This file declares models for the orkester-app. These models are later used
 in the system when creating objects or generating forms for them.
 
 If you add or remove fields from a model, forms and such will probably
 update automatically. However, you will probably need to generate a new
-database migration.
+database migration since the database structure are generated using this file.
 """
 import os
 
@@ -17,11 +19,11 @@ from django.template.defaultfilters import slugify
 from sof.conf.settings import DEFAULT_FROM_EMAIL
 
 
-# Constants for choices. The first in each tuple is the DB-value, the second
-# is the display_name used in forms (and django admin and stuff).
+## Constants for choices. The first in each tuple is the DB-value, the second
+## is the display_name used in forms (and django admin and stuff).
 
-# Used for random questions. Using choices instead of BooleanFields because of
-# how the questions was formulated.
+# These are used for random questions. Using choices instead of BooleanFields
+# for Yes/Now questions because of how the questions was formulated.
 YESNO = [('yes', 'Ja'), ('no', 'Nej')]
 YESNO_MAYBE = [('yes', 'Ja'), ('maybe', 'Kanske'), ('no', 'Nej')]
 YESNO_NOT_NEEDED = [('yes', 'Ja'), ('maybe', 'Klarar oss utan om det kniper'), ('no', 'Nej')]
@@ -38,14 +40,25 @@ TSHIRT_SIZES = [(s, s) for s in ('XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL')
 
 
 def _get_filename(orchestra, filename):
+    """
+    Helper-function for generating a filename without non-ascii chars.
+    The resulting filename will be an all-ASCII version of the orchestra
+    name with the same file extension as in the original file.
+    """
     return "%s.%s" % (slugify(orchestra.orchestra_name), filename.split('.')[-1])
 
 
 def image_filename(orchestra, filename):
+    """
+    Generates a directory/filename for an uploaded orchestra image.
+    """
     return "orchestra_images/%s" % _get_filename(orchestra, filename)
 
 
 def logo_filename(orchestra, filename):
+    """
+    Generates a directory/filename for an uploaded orchestra logo.
+    """
     return "orchestra_logos/%s" % _get_filename(orchestra, filename)
 
 
