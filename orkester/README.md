@@ -21,23 +21,23 @@ sådant som man vill även ska ändras vid deployment och liknande.
 
 # Praktiska småsaker
 
+## Databas-migrations
+
+Om man ändrar attributen i någon databasmodell måste eventuellt databasens
+struktur uppdateras. Detta görs med hjälp av *south* och så kallade migrations.
+
+För att skapa en ny migration och köra alla migrations
+
+    dj schemamigration orkester --auto
+    dj migrate
+
+
 ## Typiskt vardags-workflow
 
     git pull
     wo sof
     dj migrate
     dj runserver
-
-## Databas-migrations
-
-Om man ändrar strukturen i någon modell måste eventuellt databasstrukturen
-uppdateras. Detta görs med hjälp av *south* och så kallade migrations.
-
-För att skapa en ny migration och sedan köra alla migrations
-
-    dj schemamigration orkester --auto
-    dj migrate
-
 
 
 ## Deployment på SOF-servern
@@ -60,7 +60,34 @@ kör collectstatic om man ändrat några statiska filer.
 
     dj collectstaic
 
+Efter att man ändrat något måste mod_wsgi laddas om för att uppdateringen ska
+slå igenom (detsamma gäller i princip alla ramverk och tekniker, vissa gör
+dock detta automatiskt). Ett alternativ är att göra en reload av apache2.
 
+    sudo /etc/init.d/apache2 reload
+
+Det ska även gå att istället bara uppdatera wsgi.py-filen som ligger i
+conf-mappen.
+
+    touch sof/conf/wsgi.py
+
+
+## Typiskt deployment-workflow
+Om någon orkar i framtiden kan man istället använda *fabric* och skiva en
+fabfile som sköter deploy. Vi har dock prioriterat bort detta.
+
+    ssh sof@lysator.liu.se
+    sudo su - django-sof13
+    cd sof13/orkester
+    git pull
+    touch sof/conf/wsgi.py
+
+Om man skapat några migrations respektive lagt till någon statisk fil (bilder,
+css men inte t.ex. templates är statiska filer) krävs även att man kör:
+
+    wo sof
+    dj migrate
+    dj collectstatic
 
 
 # Installation av utvecklingsmiljö
