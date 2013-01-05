@@ -12,6 +12,7 @@ import os
 from django.db import models
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.template.defaultfilters import slugify
 
 from sof.conf.settings import DEFAULT_FROM_EMAIL
 
@@ -34,6 +35,18 @@ TICKET_TYPES = [('thursday', 'Torsdag - Söndag (625 kr)'),
 # Each choice must be a two-tuple. In this case we want the same value in
 # DB as in the forms, so generate tuples for all items in the list
 TSHIRT_SIZES = [(s, s) for s in ('XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL')]
+
+
+def _get_filename(orchestra, filename):
+    return "%s.%s" % (slugify(orchestra.orchestra_name), filename.split('.')[-1])
+
+
+def image_filename(orchestra, filename):
+    return "orchestra_images/%s" % _get_filename(orchestra, filename)
+
+
+def logo_filename(orchestra, filename):
+    return "orchestra_logos/%s" % _get_filename(orchestra, filename)
 
 
 def numeric_choice(start, stop):
@@ -98,9 +111,9 @@ class Orchestra(models.Model):
                                       max_length=30, blank=True)
     mottos = models.TextField("Vad har orkestern för motton?", blank=True)
     orchestra_image = models.ImageField("Ladda upp en högupplöst bild på er orkester",
-                                        upload_to='orchestra_images')
+                                        upload_to=image_filename)
     logo_image = models.ImageField("Ladda upp en högupplöst bild på er logga",
-                                    upload_to='orchestra_logos')
+                                    upload_to=logo_filename)
 
     # Under SOF
     departure_day = models.CharField("Ankomstdag", choices=ARRIVAL_DAYS,

@@ -5,6 +5,7 @@ import os
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(os.path.abspath(os.path.join(PROJECT_ROOT, '..')))
 
+# People in this list will get e-mail on 500 errors
 ADMINS = (
     ('Niclas Olofsson', 'n@niclasolofsson.se'),
 )

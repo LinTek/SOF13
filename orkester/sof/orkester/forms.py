@@ -1,3 +1,4 @@
+# encoding: utf-8
 """
 forms.py
 
@@ -5,7 +6,6 @@ Forms is Django's approach to handling - forms (surprisingly). Forms can
 be generated from models to easily create a new instance of a model, and
 is primarily responsible for validation of form input.
 """
-# encoding: utf-8
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.localflavor.se.forms import SEPersonalIdentityNumberField
