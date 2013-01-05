@@ -2,7 +2,8 @@ Orkesteranmälan
 ===============
 
 Systemet är byggt i Python/Django (www.djangoproject.com), dels eftersom att det
-är awesome och dels eftersom att utvecklingen av ett system i Java EE inte hann klart.
+är awesome och dels eftersom att utvecklingen av ett system i Java EE blev onödigt
+bökigt för ett en så pass simpelt system.
 
 ## Mappstruktur
 
