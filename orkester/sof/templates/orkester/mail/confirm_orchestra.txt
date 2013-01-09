@@ -6,6 +6,9 @@ som deltagare. Länken innehåller en kod som är knuten till just denna orkeste
 
 http://orkester.sof13.se{% url member_form token=orchestra.token %}
 
+Du kan se vilka personer i orkestern som anmält sig på följande sida:
+http://orkester.sof13.se{% url member_list token=orchestra.token %}
+
 Med vänliga hälsningar,
 Crew Orkester
 

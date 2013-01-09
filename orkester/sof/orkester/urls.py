@@ -11,7 +11,7 @@ urls in templates.
 from django.conf.urls import patterns, url
 
 from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_form,
-                                member_form, add_member, home)
+                                member_form, member_list, add_member, home)
 
 
 urlpatterns = patterns('',
@@ -24,4 +24,5 @@ urlpatterns = patterns('',
     url(r'^register/(?P<token>\w+)/$', member_form, name='member_form'),
     url(r'^register/(?P<token>\w+)/add/$', add_member, name='add_member'),
 
+    url(r'^list/(?P<token>\w+)/$', member_list, name='member_list'),
 )

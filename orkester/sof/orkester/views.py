@@ -44,7 +44,7 @@ def orchestra_form(request):
 
 
 def member_form(request, token):
-    orchestra = get_object_or_404(Orchestra, token=token)
+    orchestra = _orchestra_by_token(token)
 
     if request.method == 'POST':
         form = MemberForm(request.POST)
@@ -64,8 +64,16 @@ def member_form(request, token):
                     {'form': form, 'orchestra': orchestra})
 
 
+def member_list(request, token):
+    orchestra = _orchestra_by_token(token)
+    members = orchestra.member_set.all()
+
+    return render(request, 'orkester/member_list.html',
+                    {'orchestra': orchestra, 'members': members})
+
+
 def add_member(request, token):
-    orchestra = get_object_or_404(Orchestra, token=token)
+    orchestra = _orchestra_by_token(token)
 
     if request.method == 'POST':
         form = AddMemberForm(request.POST)
@@ -83,3 +91,7 @@ def add_member(request, token):
 
     return render(request, 'orkester/add_member_form.html',
                     {'form': form, 'orchestra': orchestra})
+
+
+def _orchestra_by_token(token):
+    return get_object_or_404(Orchestra, token=token)

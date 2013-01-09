@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Anmälda personer i {{ orchestra }}</h3>
+
+    {% if members %}
+    <table class="table table-striped">
+        <tr>
+            <th>Namn</th><th>E-postadress</th>
+        </tr>
+    {% for member in members %}
+        <tr>
+            <td>{{ member }}</td>
+            <td>{{ member.email }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    {% else %}
+        <p>Ingen ha anmält sig ännu. Bli den första!</p>
+    {% endif %}
+     <a href="{% url member_form token=orchestra.token %}">Registrera ny person</a>
+
+{% endblock content %}
