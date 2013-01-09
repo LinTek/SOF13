@@ -62,12 +62,8 @@ kör collectstatic om man ändrat några statiska filer.
 
 Efter att man ändrat något måste mod_wsgi laddas om för att uppdateringen ska
 slå igenom (detsamma gäller i princip alla ramverk och tekniker, vissa gör
-dock detta automatiskt). Ett alternativ är att göra en reload av apache2.
-
-    sudo /etc/init.d/apache2 reload
-
-Det ska även gå att istället bara uppdatera wsgi.py-filen som ligger i
-conf-mappen.
+dock detta automatiskt). Detta kan göras genom att köra touch på wsgi.py-filen
+som ligger i conf-mappen.
 
     touch sof/conf/wsgi.py
 
@@ -91,6 +87,13 @@ css men inte t.ex. templates är statiska filer) krävs även att man kör:
 
 
 # Installation av utvecklingsmiljö
+
+## Vad behöver jag?
+En dator med Linux/MacOS X är att föredra, Windows borde funka fint också
+men är otestat. Instruktionerna nedan förutsätter Linux. Som IDE brukar
+man i allmänhet bara köra en bra textaditor, såsom Sublime Text 2, samt en
+bra terminal. iTerm2 kan rekommenderas för mac.
+
 
 ## System-dependencies
 

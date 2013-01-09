@@ -27,23 +27,34 @@ def confirm_orchestra(request):
 
 
 def orchestra_form(request):
+    # if we are submittning a form
     if request.method == 'POST':
+        # create a form filled with the sent POST-data
         form = OrchestraForm(request.POST, request.FILES)
 
+        # if the form was filled-in correctly
         if form.is_valid():
+            # save the orchestra in memory, but not write it to database yet
+            # since we want to assign a token for the orchestra first
             orchestra = form.save(commit=False)
+            # generate a token (that work is done in the model)
             orchestra.generate_token()
+            # save to database and send an confirmation e-mail
             orchestra.save()
             orchestra.send_confirm_email()
 
             return redirect('confirm_orchestra')
+
+    # otherwise, if we just visit the form for the first time
     else:
+        # create a new, empty form
         form = OrchestraForm()
 
     return render(request, 'orkester/orchestra_form.html', {'form': form})
 
 
 def member_form(request, token):
+    # fetch the orchestra from db by the token in the URL
     orchestra = _orchestra_by_token(token)
 
     if request.method == 'POST':
@@ -66,6 +77,8 @@ def member_form(request, token):
 
 def member_list(request, token):
     orchestra = _orchestra_by_token(token)
+    # member_set is a so-called backwards relation, which allows us to get
+    # all the orchestra members which belongs to a certain orchestra.
     members = orchestra.member_set.all()
 
     return render(request, 'orkester/member_list.html',
@@ -79,8 +92,11 @@ def add_member(request, token):
         form = AddMemberForm(request.POST)
 
         if form.is_valid():
+            # get the personal id number from the form
             pid = form.cleaned_data.get('pid')
+            # fetch that member from db
             member = Member.objects.get(pid=pid)
+            # add the orchestra to the set of the member's orchestras
             member.orchestras.add(orchestra)
 
             member.send_confirm_email(orchestra)
@@ -94,4 +110,8 @@ def add_member(request, token):
 
 
 def _orchestra_by_token(token):
+    """
+    Helper function which just fetches an orchestra from a token or returns
+    HTTP 404 is not found.
+    """
     return get_object_or_404(Orchestra, token=token)
