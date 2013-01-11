@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load utils %}
 
 {% block content %}
     <h3>Anmälda personer i {{ orchestra }}</h3>
@@ -6,12 +7,17 @@
     {% if members %}
     <table class="table table-striped">
         <tr>
-            <th>Namn</th><th>E-postadress</th>
+            <th>Namn</th>
+            <th>E-postadress</th>
+            <th>Biljettyp</th>
+            <th>Sittning</th>
         </tr>
     {% for member in members %}
         <tr>
             <td>{{ member }}</td>
             <td>{{ member.email }}</td>
+            <td>{{ member.get_ticket_type_display }}</td>
+            <td>{{ member.attend_sitting|boolify|yesno:"Ja,Nej" }}</td>
         </tr>
     {% endfor %}
     </table>

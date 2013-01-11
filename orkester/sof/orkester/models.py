@@ -22,11 +22,14 @@ from sof.conf.settings import DEFAULT_FROM_EMAIL
 ## Constants for choices. The first in each tuple is the DB-value, the second
 ## is the display_name used in forms (and django admin and stuff).
 
-# These are used for random questions. Using choices instead of BooleanFields
-# for Yes/Now questions because of how the questions was formulated.
-YESNO = [('yes', 'Ja'), ('no', 'Nej')]
-YESNO_MAYBE = [('yes', 'Ja'), ('maybe', 'Kanske'), ('no', 'Nej')]
-YESNO_NOT_NEEDED = [('yes', 'Ja'), ('maybe', 'Klarar oss utan om det kniper'), ('no', 'Nej')]
+# These are used for some questions. Using choices instead of BooleanFields
+# for Yes/Now questions to be consistent with yes/no/maybe-questions.
+YES = 'yes'
+NO = 'no'
+
+YESNO = [(YES, 'Ja'), (NO, 'Nej')]
+YESNO_MAYBE = [(YES, 'Ja'), ('maybe', 'Kanske'), (NO, 'Nej')]
+YESNO_NOT_NEEDED = [(YES, 'Ja'), ('maybe', 'Klarar oss utan om det kniper'), (NO, 'Nej')]
 
 # Days and ticket types
 ARRIVAL_DAYS = [('thursday', 'Torsdag'), ('friday', 'Fredag')]
@@ -37,6 +40,14 @@ TICKET_TYPES = [('thursday', 'Torsdag - Söndag (625 kr)'),
 # Each choice must be a two-tuple. In this case we want the same value in
 # DB as in the forms, so generate tuples for all items in the list
 TSHIRT_SIZES = [(s, s) for s in ('XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL')]
+
+
+def boolify(value):
+    if value == YES:
+        return True
+    if value == NO:
+        return False
+    return None
 
 
 def _get_filename(orchestra, filename):

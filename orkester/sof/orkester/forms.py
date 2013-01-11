@@ -22,7 +22,7 @@ class OrchestraForm(forms.ModelForm):
         model = Orchestra  # tell ModelForm which model to use
         exclude = ('token')  # do not let the orchestras pick their token...
 
-    # The stuff below is ugly and hackish, but made since we otherwise would
+    # The stuff below is ugly and hackish, but done since we otherwise would
     # have to render every single field manually. Which is what we normally do,
     # but not when the number of fields almost goes to infinity as in this case...
     def __init__(self, *args, **kwargs):
@@ -35,6 +35,7 @@ class OrchestraForm(forms.ModelForm):
             'message':              'Övrigt',
         }
 
+        # Anyways, this just sets titles-properties to fields
         super(OrchestraForm, self).__init__(*args, **kwargs)
 
         for k, v in TITLES.iteritems():
