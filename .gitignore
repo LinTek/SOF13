@@ -2,8 +2,8 @@
 *.pot
 *.pyc
 settings.py
-orkester/media
-orkester/static
+anmalan/media
+anmalan/static
 
 *.db
 *.sublime-workspace

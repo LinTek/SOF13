@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form|crispy }}
+
+        <input type="submit" value="Skicka in" class="btn btn-primary btn-large">
+    </form>
+{% endblock content %}
