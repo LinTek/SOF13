@@ -8,7 +8,10 @@ Urls are specified with a regex of the url, the name of the view it should
 point to, and last a name which is used when redirecting or when rendering
 urls in templates.
 """
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import admin
+admin.autodiscover()
 
 from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_form,
                                 member_form, member_list, add_member, home)
@@ -16,6 +19,7 @@ from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_for
 
 urlpatterns = patterns('',
     url(r'^$', home, name='home'),
+    url(r'^admin/', include(admin.site.urls)),
 
     url(r'^thanks/$', confirm_member, name='confirm_member'),
     url(r'^confirm/$', confirm_orchestra, name='confirm_orchestra'),
@@ -26,3 +30,6 @@ urlpatterns = patterns('',
 
     url(r'^list/(?P<token>\w+)/$', member_list, name='member_list'),
 )
+
+# Serve static and media files when using development server
+urlpatterns += staticfiles_urlpatterns()

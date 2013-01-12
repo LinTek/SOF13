@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 
-from sof.conf.settings import DEFAULT_FROM_EMAIL
+from sof.orchestra.settings import DEFAULT_FROM_EMAIL
 
 
 ## Constants for choices. The first in each tuple is the DB-value, the second
