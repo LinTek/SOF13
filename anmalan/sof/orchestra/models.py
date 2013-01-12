@@ -2,7 +2,7 @@
 """
 models.py
 
-This file declares models for the orkester-app. These models are later used
+This file declares models for the orchestra-app. These models are later used
 in the system when creating objects or generating forms for them.
 
 If you add or remove fields from a model, forms and such will probably
@@ -16,8 +16,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 
-from sof.orchestra.settings import DEFAULT_FROM_EMAIL
-
+from settings_orchestra import DEFAULT_FROM_EMAIL
 
 ## Constants for choices. The first in each tuple is the DB-value, the second
 ## is the display_name used in forms (and django admin and stuff).

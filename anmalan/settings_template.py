@@ -23,3 +23,6 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+ROOT_URLCONF = 'sof.cortege.urls'
+# ROOT_URLCONF = 'sof.orchestra.urls'
