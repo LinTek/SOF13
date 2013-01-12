@@ -1,7 +1,7 @@
 *.log
 *.pot
 *.pyc
-anmalan/settings.py
+settings_local.py
 anmalan/media
 anmalan/static
 
