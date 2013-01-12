@@ -2,7 +2,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="post">
+    <h4>Kårtegebidrags-anmälan</h4>
+    <form method="post" class="form">
         {% csrf_token %}
 
         {{ form|crispy }}

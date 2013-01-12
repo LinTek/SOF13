@@ -15,7 +15,7 @@ from models import Orchestra, Member
 
 
 def home(request):
-    return render(request, 'orkester/index.html')
+    return redirect('orchestra_form')
 
 
 def confirm_member(request):

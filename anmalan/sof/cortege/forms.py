@@ -4,11 +4,6 @@ from django.core.exceptions import ValidationError
 
 from .models import CortegeContribution
 
-YES_NO_FIELD = forms.TypedChoiceField(coerce=lambda x: bool(int(x)),
-                                      choices=((0, 'Ja'), (1, 'Nej')),
-                                      label='Behöver elverk',
-                                      widget=forms.RadioSelect)
-
 
 class CortegeContributionForm(forms.ModelForm):
     """
@@ -23,7 +18,10 @@ class CortegeContributionForm(forms.ModelForm):
             'size_type': forms.RadioSelect,
         }
 
-    needs_generator = YES_NO_FIELD
+    needs_generator = forms.TypedChoiceField(coerce=lambda x: bool(int(x)),
+                                      choices=((0, 'Ja'), (1, 'Nej')),
+                                      label='Behöver elverk',
+                                      widget=forms.RadioSelect)
 
     def clean(self):
         cd = super(CortegeContributionForm, self).clean()
