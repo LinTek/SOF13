@@ -13,7 +13,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 admin.autodiscover()
 
-from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_form,
+from sof.orchestra.views import (confirm_orchestra, confirm_member, orchestra_form,
                                 member_form, member_list, add_member, home)
 
 
