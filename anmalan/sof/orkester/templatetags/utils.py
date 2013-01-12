@@ -1,6 +1,6 @@
 from django import template
 
-from sof.orchestra.models import boolify
+from sof.orkester.models import boolify
 
 register = template.Library()
 
