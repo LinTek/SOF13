@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from sof.orkester.models import CortegeContribution
+from sof.cortege.models import CortegeContribution
 
 admin.site.register(CortegeContribution)

@@ -15,7 +15,7 @@ from models import Orchestra, Member
 
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'orkester/index.html')
 
 
 def confirm_member(request):
