@@ -23,4 +23,4 @@ class CortegeContribution(models.Model):
 
     idea = models.TextField('Byggidé')
     participant_count = models.PositiveSmallIntegerField('Antal personer som ska deltaga')
-    tickets_count = models.PositiveSmallIntegerField('Antal biljetter')
+    tickets_count = models.PositiveSmallIntegerField('Antal förköpsbiljetter')
