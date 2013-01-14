@@ -1,7 +1,22 @@
 # encoding: utf-8
 from django.db import models
 
-SIZE_TYPES = (('micro', 'Microbygge'), ('makro', 'Makrobygge'))
+
+class Micro:
+    value = 'micro'
+    max_count = 10
+    description = 'Microbygge - 2500 kr/lag (max %d personer)' % max_count
+
+
+class Makro:
+    value = 'makro'
+    max_count = 25
+    description = 'Makrobygge - 3000-4000 kr/lag (max %d personer)' % max_count
+
+
+SIZE_SET = (Micro, Makro)
+SIZE_TYPES = { c.value: c for c in SIZE_SET }
+SIZE_CHOICES = ((c.value, c.description) for c in SIZE_SET)
 
 
 class CortegeContribution(models.Model):
@@ -16,7 +31,7 @@ class CortegeContribution(models.Model):
     contact_email = models.EmailField('E-postadress kontaktperson', max_length=40)
 
     needs_generator = models.BooleanField('Behöver elverk')
-    size_type = models.CharField('Typ av bygge', choices=SIZE_TYPES, max_length=10, default=1)
+    size_type = models.CharField('Typ av bygge', choices=SIZE_CHOICES, max_length=10, default=1)
     materials = models.TextField('Material')
     color = models.TextField('Färg', blank=True)
     other = models.TextField('Övrigt', blank=True)

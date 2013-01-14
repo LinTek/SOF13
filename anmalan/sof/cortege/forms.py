@@ -1,8 +1,7 @@
 # encoding: utf-8
 from django import forms
-from django.core.exceptions import ValidationError
 
-from .models import CortegeContribution
+from .models import CortegeContribution, SIZE_TYPES
 
 
 class CortegeContributionForm(forms.ModelForm):
@@ -20,12 +19,20 @@ class CortegeContributionForm(forms.ModelForm):
 
     needs_generator = forms.TypedChoiceField(coerce=lambda x: bool(int(x)),
                                       choices=((0, 'Ja'), (1, 'Nej')),
-                                      label='Behöver elverk',
+                                      label='Behöver elverk (600 kr)',
                                       widget=forms.RadioSelect)
 
     def clean(self):
         cd = super(CortegeContributionForm, self).clean()
 
         if cd.get('tickets_count') > cd.get('participant_count'):
-            raise ValidationError('Antal biljetter får inte vara större än antalet deltagare.')
+            # Again, we use this quite ugly code since raising ValidationError
+            # would give an error on the whole form inseted of on the field.
+            self._errors['tickets_count'] = self.error_class(['Antal biljetter får inte vara större än antalet deltagare.'])
+            del cd['tickets_count']
+
+        if cd.get('participant_count') > SIZE_TYPES[cd.get('size_type')].max_count:
+            self._errors['participant_count'] = self.error_class(['Du har angett fler deltagare än tillåtet för denna typ av bygge.'])
+            del cd['participant_count']
+
         return cd
