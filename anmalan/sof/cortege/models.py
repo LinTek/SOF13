@@ -15,7 +15,7 @@ class Makro:
 
 
 SIZE_SET = (Micro, Makro)
-SIZE_TYPES = { c.value: c for c in SIZE_SET }
+SIZE_TYPES = dict((c.value, c) for c in SIZE_SET)
 SIZE_CHOICES = ((c.value, c.description) for c in SIZE_SET)
 
 
