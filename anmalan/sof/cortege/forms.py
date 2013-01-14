@@ -31,8 +31,9 @@ class CortegeContributionForm(forms.ModelForm):
             self._errors['tickets_count'] = self.error_class(['Antal biljetter får inte vara större än antalet deltagare.'])
             del cd['tickets_count']
 
-        if cd.get('participant_count') > SIZE_TYPES[cd.get('size_type')].max_count:
-            self._errors['participant_count'] = self.error_class(['Du har angett fler deltagare än tillåtet för denna typ av bygge.'])
-            del cd['participant_count']
+        if cd.get('size_type'):
+            if cd.get('participant_count') > SIZE_TYPES[cd.get('size_type')].max_count:
+                self._errors['participant_count'] = self.error_class(['Du har angett fler deltagare än tillåtet för denna typ av bygge.'])
+                del cd['participant_count']
 
         return cd
