@@ -22,7 +22,7 @@ from sof.conf.settings_orchestra import DEFAULT_FROM_EMAIL
 ## is the display_name used in forms (and django admin and stuff).
 
 # These are used for some questions. Using choices instead of BooleanFields
-# for Yes/Now questions to be consistent with yes/no/maybe-questions.
+# for yes/no questions to be consistent with yes/no/maybe-questions.
 YES = 'yes'
 NO = 'no'
 
@@ -227,6 +227,9 @@ class Member(models.Model):
 
     ticket_type = models.CharField("biljettyp", max_length=10, choices=TICKET_TYPES)
 
+    attends_10th_year = models.BooleanField("Jag deltar i SOF för 10:e året")
+    attends_25th_year = models.BooleanField("Jag deltar i SOF för 25:e året")
+
     plays_kartege = models.CharField("Kommer du att gå/spela/dansa i kårtegen?",
                                      choices=YESNO, max_length=5)
     allergies = models.CharField("Eventuella allergier",
@@ -264,3 +267,10 @@ class Member(models.Model):
                    ('yoyo', 'Jojo'),
                    ('beer_glass', 'Ölglas')]
         return ', '.join([name for attr, name in GADGETS if getattr(self, attr)])
+
+    def get_attends_display(self):
+        if self.attends_10th_year:
+            return '10:e året'
+        if self.attends_25th_year:
+            return '25:e året'
+        return ''

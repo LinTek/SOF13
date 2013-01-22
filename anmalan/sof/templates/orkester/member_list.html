@@ -11,6 +11,7 @@
             <th>Biljettyp</th>
             <th>Sittning</th>
             <th>Prylar</th>
+            <th></th>
         </tr>
     {% for member in members %}
         <tr>
@@ -18,6 +19,7 @@
             <td>{{ member.get_ticket_type_display }}</td>
             <td>{{ member.attend_sitting|boolify|yesno:"Ja,Nej" }}</td>
             <td>{{ member.get_gadgets_display }}</td>
+            <td><b>{{ member.get_attends_display }}</b></td>
         </tr>
     {% endfor %}
     </table>
