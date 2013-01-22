@@ -8,16 +8,16 @@
     <table class="table table-striped">
         <tr>
             <th>Namn</th>
-            <th>E-postadress</th>
             <th>Biljettyp</th>
             <th>Sittning</th>
+            <th>Prylar</th>
         </tr>
     {% for member in members %}
         <tr>
-            <td>{{ member }}</td>
-            <td>{{ member.email }}</td>
+            <td><a href="mailto:{{ member.email }}">{{ member }}</a></td>
             <td>{{ member.get_ticket_type_display }}</td>
             <td>{{ member.attend_sitting|boolify|yesno:"Ja,Nej" }}</td>
+            <td>{{ member.get_gadgets_display }}</td>
         </tr>
     {% endfor %}
     </table>

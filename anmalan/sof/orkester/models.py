@@ -254,3 +254,12 @@ class Member(models.Model):
         _mail('confirm_member',
               [self.email],
               {'member': self, 'orchestra': orchestra})
+
+    def get_gadgets_display(self):
+        GADGETS = [('badge_orchestra', 'Orkestermärke'),
+                   ('badge_visitor', 'Besökarmärke'),
+                   ('medal', 'Medalj'),
+                   ('bottle_opener', 'Kapsylöppnare'),
+                   ('yoyo', 'Jojo'),
+                   ('beer_glass', 'Ölglas')]
+        return ', '.join([name for attr, name in GADGETS if getattr(self, attr)])
