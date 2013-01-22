@@ -256,7 +256,8 @@ class Member(models.Model):
               {'member': self, 'orchestra': orchestra})
 
     def get_gadgets_display(self):
-        GADGETS = [('badge_orchestra', 'Orkestermärke'),
+        GADGETS = [('t_shirt', 'T-shirt'),
+                   ('badge_orchestra', 'Orkestermärke'),
                    ('badge_visitor', 'Besökarmärke'),
                    ('medal', 'Medalj'),
                    ('bottle_opener', 'Kapsylöppnare'),
