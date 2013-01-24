@@ -14,16 +14,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_form,
-                                member_form, member_list, add_member, home)
+                                member_form, member_list, add_member)
 
 
 urlpatterns = patterns('',
-    url(r'^$', home, name='home'),
+    url(r'^$', orchestra_form, name='home'),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^thanks/$', confirm_member, name='confirm_member'),
     url(r'^confirm/$', confirm_orchestra, name='confirm_orchestra'),
-    url(r'^create/$', orchestra_form, name='orchestra_form'),
+    url(r'^create/$', orchestra_form, name='orchestra_form'),  # backwards compability
 
     url(r'^register/(?P<token>\w+)/$', member_form, name='member_form'),
     url(r'^register/(?P<token>\w+)/add/$', add_member, name='add_member'),
