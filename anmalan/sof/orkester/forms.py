@@ -72,9 +72,6 @@ class MemberForm(forms.ModelForm):
             self._errors['t_shirt_size'] = self.error_class(['Välj en storlek på t-shirt'])
             del cd['t_shirt_size']
 
-        if cd.get('attends_10th_year') and cd.get('attends_25th_year'):
-            raise ValidationError('I år kan inte vara både det 10:e och 25:e året du deltar i SOF.')
-
         return cd
 
     # Override the standard charfield with a localflavor personnummer field
