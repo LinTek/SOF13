@@ -271,6 +271,6 @@ class Member(models.Model):
     def get_attends_display(self):
         if self.attends_10th_year:
             return '10:e året'
-        if self.attends_25th_year:
+        if self.attends_25th_time:
             return '25:e året'
         return ''
