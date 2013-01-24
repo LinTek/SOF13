@@ -11,13 +11,14 @@ bökigt för ett en så pass simpelt system.
 * ./static - vid deployment samlas alla statiska filer hit
 * ./sof - kod, templates och liknande
 
-Projektet har två settings-filer. En lokal settings-fil för t.ex. debugging
-och databas-inställningar, som inte finns i repot. Det finns dock en bra
-mall för hur denna kan se ut; settings-template.py.
+Projektet har ett gäng olika settings-filer, vilket främst beror på att orkester-
+och kårtege-apparna körs som två separata applikationer (på grund av dålig
+planering relaterad till URL-design). I ./sof/conf finns en lokal settings-fil,
+settings_local.py för t.ex. debugging och databas-inställningar, som inte
+finns i repot. Det finns dock en bra mall för hur denna kan se ut;
+./sof/conf/settings_template.py.
 
-Den globala settings-filen finns i sof/conf/settings.py, där man kan ändra
-sådant som man vill även ska ändras vid deployment och liknande.
-
+Läs mer om config-filer i ./sof/conf/README.md
 
 # Praktiska småsaker
 
@@ -46,8 +47,9 @@ Servern kör projektet med Apache + mod_wsgi. Undertecknad är mer van vid
 nginx + gunicorn, så om någon tycker att något är konstigt gjort så kan det
 mycket väl vara så. Nåväl. Det funkar iaf.
 
-Det finns en väldigt basic apache config-fil i /etc/apache2/sites-available/orkester.sof13.se
-Som framgår av denna ligger själva projektet i en home-mapp till den egna
+Det finns en väldigt basic apache config-fil i /etc/apache2/sites-available/orkester.sof13.se,
+samt en motsvarande för kårtegeanmälan (kartege.sof13.se).
+Som framgår av dessa ligger själva projektet i en home-mapp till den egna
 användaren django-sof13.
 
 Vill man göra saker är det lättast att bara su:a till användaren.
@@ -91,9 +93,14 @@ css men inte t.ex. templates är statiska filer) krävs även att man kör:
 ## Vad behöver jag?
 En dator med Linux/MacOS X är att föredra, Windows borde funka fint också
 men är otestat. Instruktionerna nedan förutsätter Linux. Som IDE brukar
-man i allmänhet bara köra en bra textaditor, såsom Sublime Text 2, samt en
+man i allmänhet bara köra en bra texteditor, såsom Sublime Text 2, samt en
 bra terminal. iTerm2 kan rekommenderas för mac.
 
+## Det här verkar ju jättekrångligt
+Vi har valt att använda virtualenv och virtualenvwrapper eftersom att det gör
+det möjligt att köra flera python-projekt på samma dator oberoende av varandra.
+Det går att skippa stora delar om man vill. Men annars är det bara att följa
+instruktionerna och köra på.
 
 ## System-dependencies
 
@@ -142,18 +149,20 @@ Man vill även aliasa django-admin.py till *dj* och workon till *wo*.
 
 Starta om skalet igen.
 
-Kopiera filen settings_template.py till settings.py. Modifiera sedan den nya
-filen så att den stämmer för dina databas-inställningar och liknande.
+Kopiera filen ./sof/conf/settings_template.py till ./sof/conf/settings_local.py.
+Modifiera sedan den nya filen så att den stämmer för dina databas-inställningar
+och liknande.
 
-    cp settings_template.py settings.py
+    cd /sof/conf
+    cp settings_template.py settings_local.py
 
 
 Skapa en mysql-databas, kör t.ex. mysql och sedan
 
     create database sof13;
 
-(man kan naturligtvis köra postgres istället om man vill, bara ändra den
-lokala settings-filen och installera *psycopg2* med pip)
+(man kan naturligtvis köra postgres istället om man vill, bara att ändra den
+lokala settings-filen samt installera *psycopg2* med pip)
 
 
 ## Sista stegen
@@ -172,3 +181,14 @@ Bygg databasstruktur
 Kör development-servern
 
     dj runserver
+
+
+## Växla mellan orkester och kårtegeanmälan
+
+Som sagt är dessa av en halvdum anledning två olika applikationer. I framtiden
+borde man nog slå ihop dessa, men tills vidare:
+
+Antingen kan man köra django-admin med flaggan --settings=sof.conf.orchesra_settings
+eller motsvarande. Detta blir dock bökigt, därför finns det en settings.py-fil som
+helt enkelt importerar någon av dessa settings-filer. Således, bara byt utkommenterad
+rad i ./settings.py för att byta projekt.
