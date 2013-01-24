@@ -269,8 +269,9 @@ class Member(models.Model):
         return ', '.join([name for attr, name in GADGETS if getattr(self, attr)])
 
     def get_attends_display(self):
+        result = []
         if self.attends_10th_year:
-            return '10:e året'
+            result.append('10:e året')
         if self.attends_25th_time:
-            return '25:e året'
-        return ''
+            result.append('25:e året')
+        return ', '.join(result)
