@@ -227,8 +227,8 @@ class Member(models.Model):
 
     ticket_type = models.CharField("biljettyp", max_length=10, choices=TICKET_TYPES)
 
-    attends_10th_year = models.BooleanField("Detta blir det 10:e året i rad jag besöker SOF")
-    attends_25th_time = models.BooleanField("Detta blir mitt 25:e besök på SOF")
+    attends_10th_year = models.BooleanField("Detta blir det 10:e året i rad jag besöker SOF/STORK")
+    attends_25th_time = models.BooleanField("Detta blir mitt 25:e besök på SOF/STORK")
 
     plays_kartege = models.CharField("Kommer du att gå/spela/dansa i kårtegen?",
                                      choices=YESNO, max_length=5)
