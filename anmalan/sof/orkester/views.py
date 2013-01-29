@@ -79,7 +79,7 @@ def member_list(request, token):
     orchestra = _orchestra_by_token(token)
     # member_set is a so-called backwards relation, which allows us to get
     # all the orchestra members which belongs to a certain orchestra.
-    members = orchestra.member_set.all()
+    members = orchestra.member_set.order_by('first_name', 'last_name')
 
     return render(request, 'orkester/member_list.html',
                     {'orchestra': orchestra, 'members': members})
