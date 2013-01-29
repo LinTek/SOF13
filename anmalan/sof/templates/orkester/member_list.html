@@ -2,7 +2,7 @@
 {% load utils %}
 
 {% block content %}
-    <h3>Anmälda personer i {{ orchestra }}</h3>
+    <h3>{{ orchestra }} <small> | <b>{{ members|length }}</b> personer anmälda</small></h3>
 
     {% if members %}
     <table class="table table-striped">
