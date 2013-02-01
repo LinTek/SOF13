@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load utils %}
+
+{% block content %}
+{% for orchestra in orchestras %}
+    <h3>{{ orchestra }}</h3>
+    {% for field in fields %}
+    <dl>
+        <dd>{{ field|verbose_name }}</dd>
+        <dd>{{ orchestra|getattr:field }}</dd>
+    </dl>
+    {% endfor %}
+
+{% endfor %}
+{% endblock content %}

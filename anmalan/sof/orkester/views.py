@@ -8,7 +8,9 @@ redirect. Views typically creates and saves form instances, fetches stuff
 from database or calls methods on models. Be careful not to do too much
 work in the views to maintain a somewhat good MVC-pattern.
 """
+from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 from forms import OrchestraForm, MemberForm, AddMemberForm
 from models import Orchestra, Member
@@ -85,6 +87,20 @@ def member_list(request, token):
                     {'orchestra': orchestra, 'members': members})
 
 
+@login_required
+def orchestra_list(request):
+    orchestras = Orchestra.objects.order_by('orchestra_name')
+    fields = ('orchestra_name', 'short_name', 'use_short_name', 'music_type',
+        'showpiece', 'departure_day', 'parking_lot_needed', 'parking_lot_type',
+        'estimated_instruments', 'play_thursday', 'play_friday', 'concerto_preludium',
+        'concerto_grosso', 'family_play', 'backline', 'amplifier_guitar', 'amplifier_bass',
+        'uses_drumset', 'will_bring_drumset', 'uses_piano', 'microphones', 'ballet_name',
+        'message', 'primary_contact_email', 'ballet_contact_email')
+
+    return render(request, 'orkester/orchestra_list.html',
+                    {'orchestras': orchestras, 'fields': fields})
+
+
 def add_member(request, token):
     orchestra = _orchestra_by_token(token)
 
@@ -111,7 +127,7 @@ def add_member(request, token):
 
 def _orchestra_by_token(token):
     """
-    Helper function which just fetches an orchestra from a token or returns
+    Helper function which just fetches an orchestra from a token or raises
     HTTP 404 is not found.
     """
     return get_object_or_404(Orchestra, token=token)

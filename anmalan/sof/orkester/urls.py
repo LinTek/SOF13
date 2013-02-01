@@ -14,7 +14,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_form,
-                                member_form, member_list, add_member)
+                                member_form, member_list, add_member, orchestra_list)
 
 
 urlpatterns = patterns('',
@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^register/(?P<token>\w+)/$', member_form, name='member_form'),
     url(r'^register/(?P<token>\w+)/add/$', add_member, name='add_member'),
 
+    url(r'^list/$', orchestra_list, name='orchestra_list'),
     url(r'^list/(?P<token>\w+)/$', member_list, name='member_list'),
 )
 
