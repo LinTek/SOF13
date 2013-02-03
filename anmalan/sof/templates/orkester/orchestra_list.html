@@ -3,12 +3,15 @@
 
 {% block content %}
 {% for orchestra in orchestras %}
+    <hr>
     <h3>{{ orchestra }}</h3>
     {% for field in fields %}
-    <dl>
-        <dd>{{ field|verbose_name }}</dd>
-        <dd>{{ orchestra|getattr:field }}</dd>
+    {% if orchestra|getattr:field %}
+    <dl class="dl-horizontal">
+        <dt>{{ field|verbose_name }}</dt>
+        <dd>{{ orchestra|getattr:field|linebreaksbr }}</dd>
     </dl>
+    {% endif %}
     {% endfor %}
 
 {% endfor %}

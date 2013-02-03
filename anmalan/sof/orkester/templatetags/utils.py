@@ -17,4 +17,11 @@ def _verbose_name(field):
 
 @register.filter(name='getattr')
 def _getattr(obj, name):
+    display_attr = 'get_%s_display' % name
+
+    # if a display-attribute (for choice fields) is available, use that
+    if hasattr(obj, display_attr):
+        # since the display-attribute is a function, we need to call it
+        return getattr(obj, display_attr)()
+
     return getattr(obj, name)

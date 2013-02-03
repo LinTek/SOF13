@@ -35,3 +35,11 @@ input[type="checkbox"] {
     margin-top: 0;
     margin-bottom: 20px;
 }
+
+.dl-horizontal dt {
+    width: 300px;
+}
+
+.dl-horizontal dd {
+    margin-left: 320px;
+}
