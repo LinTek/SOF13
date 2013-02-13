@@ -208,6 +208,14 @@ class Orchestra(models.Model):
     def generate_token(self):
         self.token = os.urandom(10).encode('hex')
 
+    def get_orchestra_image_display(self):
+        return render_to_string('orkester/partials/image_download.html',
+                                {'url': self.orchestra_image.url})
+
+    def get_logo_image_display(self):
+        return render_to_string('orkester/partials/image_download.html',
+                                {'url': self.logo_image.url})
+
 
 class Member(models.Model):
     """

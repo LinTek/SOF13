@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load utils %}
+
+{% block content %}
+<table class="table table-striped">
+    <tr>
+        <th>Orkester</th>
+        <th>Totalt</th>
+        <th>Sittning</th>
+        <th>Torsdag-Söndag</th>
+        <th>Fredag-Söndag</th>
+    </tr>
+
+{% for orchestra in orchestras %}
+
+{% endfor %}
+
+    <tfoot>
+        <tr>
+            <th></th>
+            <th> st</th>
+            <th> st</th>
+            <th> st</th>
+            <th> st</th>
+        </tr>
+    </tfoot>
+</table>
+{% endblock content %}

@@ -8,7 +8,7 @@ redirect. Views typically creates and saves form instances, fetches stuff
 from database or calls methods on models. Be careful not to do too much
 work in the views to maintain a somewhat good MVC-pattern.
 """
-from django.core import serializers
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -88,6 +88,19 @@ def member_list(request, token):
 
 
 @login_required
+def press_list(request):
+    orchestras = Orchestra.objects.order_by('orchestra_name')
+    fields = ('orchestra_name', 'sof_count', 'look_forward_to', 'music_type',
+              'best_memory', 'rituals', 'three_words', 'showpiece', 'best_with_sof',
+              'why_orchestra', 'craziest_thing', 'determines_repertory', 'what_do_you_do',
+              'uniform_description', 'dance', 'thing_to_bring', 'mottos', 'orchestra_image',
+              'logo_image')
+
+    return render(request, 'orkester/orchestra_list.html',
+                    {'orchestras': orchestras, 'fields': fields})
+
+
+@login_required
 def orchestra_list(request):
     orchestras = Orchestra.objects.order_by('orchestra_name')
     fields = ('orchestra_name', 'short_name', 'use_short_name', 'music_type',
@@ -99,6 +112,15 @@ def orchestra_list(request):
 
     return render(request, 'orkester/orchestra_list.html',
                     {'orchestras': orchestras, 'fields': fields})
+
+
+@login_required
+def stats(request):
+    orchestras = (Orchestra.objects.order_by('orchestra_name')
+                                   .annotate(member_count=Count('member_set')))
+
+    return render(request, 'orkester/stats.html',
+                    {'orchestras': orchestras})
 
 
 def add_member(request, token):
