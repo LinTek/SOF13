@@ -8,12 +8,14 @@ redirect. Views typically creates and saves form instances, fetches stuff
 from database or calls methods on models. Be careful not to do too much
 work in the views to maintain a somewhat good MVC-pattern.
 """
+from collections import defaultdict
+
 from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from forms import OrchestraForm, MemberForm, AddMemberForm
-from models import Orchestra, Member
+from models import Orchestra, Member, YES, TICKET_TYPES
 
 
 def home(request):
@@ -117,10 +119,31 @@ def orchestra_list(request):
 @login_required
 def stats(request):
     orchestras = (Orchestra.objects.order_by('orchestra_name')
-                                   .annotate(member_count=Count('member_set')))
+                                   .select_related('member')
+                                   .annotate(member_count=Count('member')))
+
+    for orchestra in orchestras:
+        members = orchestra.member_set.all()
+
+        orchestra.totals = defaultdict(int)
+        orchestra.totals['members'] = len(members)
+        orchestra.totals['sitting'] = len([1 for m in members if (m.attend_sitting == YES)])
+
+        for member in members:
+            orchestra.totals[member.ticket_type] += 1
+
+    # This is needed because we have no knowledge about members that belong to
+    # multiple orchestras, so we cannot just sum all the stuff above.
+    totals = {}
+    totals['members'] = Member.objects.count()
+    totals['sitting'] = Member.objects.filter(attend_sitting=YES).count()
+
+    for ttype, _ in TICKET_TYPES:
+        totals[ttype] = Member.objects.filter(ticket_type=ttype).count()
 
     return render(request, 'orkester/stats.html',
-                    {'orchestras': orchestras})
+                    {'orchestras': orchestras, 'totals': totals,
+                     'ticket_types': TICKET_TYPES})
 
 
 def add_member(request, token):

@@ -15,6 +15,11 @@ def _verbose_name(field):
     return Orchestra._meta.get_field(field).verbose_name
 
 
+@register.filter(name='get')
+def _get(dic, name):
+    return dic.get(name)
+
+
 @register.filter(name='getattr')
 def _getattr(obj, name):
     display_attr = 'get_%s_display' % name

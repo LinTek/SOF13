@@ -5,24 +5,37 @@
 <table class="table table-striped">
     <tr>
         <th>Orkester</th>
-        <th>Totalt</th>
+        <th>Anmälda</th>
         <th>Sittning</th>
-        <th>Torsdag-Söndag</th>
-        <th>Fredag-Söndag</th>
+
+        {% for ttype, name in ticket_types  %}
+            <th>{{ name }}</th>
+        {% endfor %}
     </tr>
 
 {% for orchestra in orchestras %}
+    <tr>
+        <td>{{ orchestra }}</td>
+        <td>{{ orchestra.totals.members }} st</td>
+        <td>{{ orchestra.totals.sitting }} st</td>
 
+        {% for ttype, name in ticket_types  %}
+            <td>{{ orchestra.totals|get:ttype|default_if_none:0 }} st</td>
+        {% endfor %}
+    </tr>
 {% endfor %}
 
     <tfoot>
         <tr>
-            <th></th>
-            <th> st</th>
-            <th> st</th>
-            <th> st</th>
-            <th> st</th>
+            <th>Totalt (unika personer)</th>
+            <th>{{ totals.members }} st</th>
+            <th>{{ totals.sitting }} st</th>
+
+            {% for ttype, name in ticket_types  %}
+                <th>{{ totals|get:ttype }} st</th>
+            {% endfor %}
         </tr>
     </tfoot>
 </table>
+
 {% endblock content %}
