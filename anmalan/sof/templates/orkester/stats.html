@@ -15,7 +15,7 @@
 
 {% for orchestra in orchestras %}
     <tr>
-        <td>{{ orchestra }}</td>
+        <td><a href="{% url member_list orchestra.token %}">{{ orchestra }}</a></td>
         <td>{{ orchestra.totals.members }} st</td>
         <td>{{ orchestra.totals.sitting }} st</td>
 
