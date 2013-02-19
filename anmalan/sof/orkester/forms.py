@@ -102,9 +102,7 @@ class MemberForm(forms.ModelForm):
 
         return cd
 
-
-    # Override the standard charfield with a localflavor personnummer field
-    # to get validation and stuff
+    accept = forms.BooleanField(required=True, label='Jag godkänner att SOF2013 lagrar mina uppgifter fram tills efter dess att festivalen genomförts')
     pid = BirthDateField(label='Personnummer')
 
 

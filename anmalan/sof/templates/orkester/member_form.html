@@ -12,10 +12,15 @@
         <a href="{% url add_member token=orchestra.token %}">Klicka här</a>
     </p>
 
-
     <form method="post" action="">
         {% csrf_token %}
         {{ form|crispy }}
+
+        <p>
+            Ditt personnummer behövs för att kunna identifiera dig på området,
+            samt för att kunna registrera samma person till olika orkestrar. <br>
+            Om du saknar ett svensk personnummer kan du ange ditt födelsenummer istället.
+        </p>
 
         <input type="submit" value="Skicka in" class="btn btn-primary btn-large">
     </form>
