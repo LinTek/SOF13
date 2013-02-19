@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Funktionär - SOF 2013</title>
+    <title>SOF 2013 Funktionär{% block title %} {% endblock %}</title>
     <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +16,12 @@
 <div class="container">
     <img src="{% static "images/tutputten-logo-small.png" %}">
     <h2>Funkis SOF 2013</h2>
+        {% if user.is_authenticated %}
+            <p>
+                Inloggad som {{ user.get_full_name }}
+                (<a href="{% url "logout" %}">Logga ut</a>)
+            </p>
+        {% endif %}
 
     {% block content %}{% endblock content %}
 </div>
