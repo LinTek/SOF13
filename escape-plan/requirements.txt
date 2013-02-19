@@ -1,4 +1,4 @@
-Django==1.4.3
+-e git://github.com/django/django.git@56e54727661bc34bd2b6f9fa6a75f5370149256e#egg=Django-dev
 MySQL-python==1.2.4c1
 PIL==1.1.7
 South==0.7.6
