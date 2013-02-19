@@ -6,11 +6,39 @@ Forms is Django's approach to handling - forms (surprisingly). Forms can
 be generated from models to easily create a new instance of a model, and
 is primarily responsible for validation of form input.
 """
+import re
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.localflavor.se.forms import SEPersonalIdentityNumberField
+from django.contrib.localflavor.se.utils import (validate_id_birthday,
+                                                 format_personal_id_number)
 
 from models import Orchestra, Member
+
+SWEDISH_BIRTH_DATE = re.compile(r'^(?P<century>\d{2})?(?P<year>\d{2})(?P<month>\d{2})(?P<day>\d{2})$')
+
+
+class BirthDateField(SEPersonalIdentityNumberField):
+    def clean(self, value):
+        try:
+            value = super(BirthDateField, self).clean(value)
+        except forms.ValidationError as e:
+            match = SWEDISH_BIRTH_DATE.match(value)
+            if not match:
+                raise e
+
+            gd = match.groupdict()
+            gd['sign'] = gd['serial'] = gd['checksum'] = ''
+
+            # check for valid birthday
+            try:
+                birth_day = validate_id_birthday(gd)
+            except ValueError:
+                raise forms.ValidationError(self.error_messages['invalid'])
+
+            return format_personal_id_number(birth_day, gd)
+        return value
 
 
 class OrchestraForm(forms.ModelForm):
@@ -74,9 +102,10 @@ class MemberForm(forms.ModelForm):
 
         return cd
 
+
     # Override the standard charfield with a localflavor personnummer field
     # to get validation and stuff
-    pid = SEPersonalIdentityNumberField(label='Personnummer')
+    pid = BirthDateField(label='Personnummer')
 
 
 class AddMemberForm(forms.Form):
