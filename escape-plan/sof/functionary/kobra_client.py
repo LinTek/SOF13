@@ -21,6 +21,6 @@ class KOBRAClient:
     def get_student_by_liu_id(self, liu):
         return self._get_student('liu_id:"{0}"'.format(liu))
 
-    def get_student_by_card(card_number):
-        attr = 'rfid_number' if len(card_number > 12) else 'barcode_number'
+    def get_student_by_card(self, card_number):
+        attr = 'rfid_number' if len(card_number) < 12 else 'barcode_number'
         return self._get_student('{0}:"{1}"'.format(attr, card_number))

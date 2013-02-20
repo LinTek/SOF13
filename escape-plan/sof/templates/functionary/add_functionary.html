@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}- Funktionärssläpp{% endblock %}
+
+{% block content %}
+    <form method="post" class="form form-horizontal">
+        {% csrf_token %}
+        {{ form|crispy}}
+
+        <button type="submit" class="btn">Nästa</button>
+    </form>
+{% endblock %}

@@ -8,9 +8,11 @@
         {{ shift.start|date:"l n F" }}
         {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
     {% endfor %}
+    {% comment %}
     {% if perms.functionary.add_shift %}
         <a href="#" class="btn btn-primary">Skapa jobbpass</a>
     {% endif %}
+    {% endcomment %}
     {% if perms.auth.add_user %}
         <a href="{% url "register" %}" class="btn btn-primary">Funktionärssläpp</a>
     {% endif %}

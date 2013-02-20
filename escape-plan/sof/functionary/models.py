@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User, AbstractUser
 
 
 class ShiftType(models.Model):
@@ -12,14 +12,11 @@ class ShiftType(models.Model):
 
 
 class Shift(models.Model):
-#    class Meta:
-#        permissions = (
-#        )
-
     start = models.DateTimeField(_('start date'))
     end = models.DateTimeField(_('end date'))
     max_workers = models.PositiveSmallIntegerField(_('max workers'))
-    job_type = models.ForeignKey('ShiftType')
+    shift_type = models.ForeignKey('ShiftType')
+    responsible_person = models.ForeignKey(User)
 
     def __unicode__(self):
         return '{0} {1}-{2}'.format(unicode(self.job_type), self.start, self.end)
