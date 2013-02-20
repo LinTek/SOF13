@@ -22,9 +22,9 @@ class Shift(models.Model):
     job_type = models.ForeignKey('ShiftType')
 
     def __unicode__(self):
-        return '{0} {1}'.format(unicode(self.job_type), self.date)
+        return '{0} {1}-{2}'.format(unicode(self.job_type), self.start, self.end)
 
 
 class Functionary(AbstractUser):
-    liu_id = models.CharField(_('LiU-id'), max_length=8, blank=True)
-    liu_card_no = models.CharField(_('LiU card number'), max_length=30, blank=True)
+    liu_id = models.CharField(_('LiU-ID'), max_length=8, blank=True)
+    liu_card_number = models.CharField(_('LiU card number'), max_length=30, blank=True)

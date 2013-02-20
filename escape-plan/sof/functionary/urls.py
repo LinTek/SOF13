@@ -14,6 +14,7 @@ urlpatterns = patterns('sof.functionary.views',
     url(r'^logout$', logout, {'next_page': '/'}, 'logout'),
 
     url(r'^shifts$', 'shifts', name='shifts'),
+    url(r'^register$', 'register', name='register'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

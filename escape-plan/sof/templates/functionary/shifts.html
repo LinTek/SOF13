@@ -1,17 +1,17 @@
 {% extends "base.html" %}
-{% load staticfiles %}
-{% load crispy_forms_tags %}
 
 {% block title %}- Visa pass{% endblock %}
 
 {% block content %}
     {% for shift in shifts %}
         {{ shift.job_type }}
+        {{ shift.start|date:"l n F" }}
+        {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
     {% endfor %}
     {% if perms.functionary.add_shift %}
         <a href="#" class="btn btn-primary">Skapa jobbpass</a>
     {% endif %}
     {% if perms.auth.add_user %}
-        <a href="#" class="btn btn-primary">Funktionärssläpp</a>
+        <a href="{% url "register" %}" class="btn btn-primary">Funktionärssläpp</a>
     {% endif %}
 {% endblock %}
