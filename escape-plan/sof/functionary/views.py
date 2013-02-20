@@ -1,4 +1,6 @@
 # encoding: utf-8
+from itertools import groupby
+
 from django.conf import settings
 from django.contrib.auth.views import login as auth_login
 
@@ -9,6 +11,10 @@ from .forms import NewFunctionaryForm, AddFunctionaryForm
 from .kobra_client import KOBRAClient
 
 
+def _group_by_type(lst):
+    return [(key, list(shifts)) for key, shifts in groupby(lst, key=lambda shift: shift.shift_type)]
+
+
 def login(request, **kwargs):
     if request.user.is_authenticated():
         return redirect('shifts')
@@ -17,9 +23,8 @@ def login(request, **kwargs):
 
 
 def shifts(request):
-    s = Shift.objects.all()
-
-    return render(request, 'functionary/shifts.html', {'shifts': s})
+    s = _group_by_type(list(Shift.objects.order_by('shift_type', 'start')))
+    return render(request, 'functionary/shifts.html', {'shift_list': s})
 
 
 def search(request):

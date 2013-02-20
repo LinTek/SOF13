@@ -19,7 +19,7 @@ class Shift(models.Model):
     responsible_person = models.ForeignKey(User)
 
     def __unicode__(self):
-        return '{0} {1}-{2}'.format(unicode(self.job_type), self.start, self.end)
+        return '{0} {1}-{2}'.format(unicode(self.shift_type), self.start, self.end)
 
 
 class Functionary(AbstractUser):

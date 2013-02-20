@@ -3,16 +3,33 @@
 {% block title %}- Visa pass{% endblock %}
 
 {% block content %}
-    {% for shift in shifts %}
-        {{ shift.job_type }}
-        {{ shift.start|date:"l n F" }}
-        {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
+
+<div class="accordion" id="shift_accordion">
+    {% for shift_type, shifts in shift_list %}
+    <div class="accordion-group">
+        <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" href="#c{{ forloop.counter }}">
+            {{ shift_type }}
+        </a>
+        </div>
+        <div id="c{{ forloop.counter }}" class="accordion-body collapse">
+        {% for shift in shifts %}
+            <div>
+            {{ shift.start|date:"l n F" }}
+            {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
     {% endfor %}
+</div>
+
     {% comment %}
     {% if perms.functionary.add_shift %}
         <a href="#" class="btn btn-primary">Skapa jobbpass</a>
     {% endif %}
     {% endcomment %}
+
     {% if perms.auth.add_user %}
         <a href="{% url "search" %}" class="btn btn-primary">Funktionärssläpp</a>
     {% endif %}
