@@ -72,6 +72,12 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/less', 'lessc {infile} {outfile}'),
 )
 
 # List of callables that know how to import templates from various sources.
@@ -112,6 +118,7 @@ INSTALLED_APPS = (
 
     'south',
     'crispy_forms',
+    'compressor',
 
     'sof.functionary',
 )

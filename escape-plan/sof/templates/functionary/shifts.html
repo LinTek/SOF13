@@ -4,24 +4,20 @@
 
 {% block content %}
 
-<div class="accordion" id="shift_accordion">
-    {% for shift_type, shifts in shift_list %}
-    <div class="accordion-group">
-        <div class="accordion-heading">
-        <a class="accordion-toggle" data-toggle="collapse" href="#c{{ forloop.counter }}">
-            {{ shift_type }}
-        </a>
-        </div>
-        <div id="c{{ forloop.counter }}" class="accordion-body collapse">
-        {% for shift in shifts %}
-            <div>
-            {{ shift.start|date:"l n F" }}
-            {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
-            </div>
-        {% endfor %}
-        </div>
-    </div>
+<h3>Mina pass</h3>
+<div>
+    {% for reg in registrations %}
+        {{ reg.shift }}
+    {% empty %}
+        Du är inte registrerad på några pass ännu!
     {% endfor %}
+</div>
+
+<div>
+    <h3>Alla pass</h3>
+    <p>Klicka på en kategori för att visa passen för denna kategori.</p>
+
+    {% include "functionary/partials/shifts_accordion.html" %}
 </div>
 
     {% comment %}

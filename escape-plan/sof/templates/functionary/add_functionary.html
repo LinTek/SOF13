@@ -8,6 +8,10 @@
         {% csrf_token %}
         {{ form|crispy}}
 
-        <button type="submit" class="btn">Nästa</button>
+{% comment %}
+        {% include "functionary/partials/shifts_accordion.html" %}
+{% endcomment %}
+
+        <button type="submit" class="btn">Spara</button>
     </form>
 {% endblock %}

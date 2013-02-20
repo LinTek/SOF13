@@ -25,3 +25,9 @@ class Shift(models.Model):
 class Functionary(AbstractUser):
     liu_id = models.CharField(_('LiU-ID'), max_length=8, blank=True)
     liu_card_number = models.CharField(_('LiU card number'), max_length=30, blank=True)
+
+
+class WorkerRegistration(models.Model):
+    worker = models.ForeignKey(User)
+    shift = models.ForeignKey(Shift)
+    approved = models.BooleanField(_('approved'), default=False)

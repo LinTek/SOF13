@@ -3,10 +3,11 @@ from itertools import groupby
 
 from django.conf import settings
 from django.contrib.auth.views import login as auth_login
+from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
 
-from .models import Shift
+from .models import Shift, WorkerRegistration
 from .forms import NewFunctionaryForm, AddFunctionaryForm
 from .kobra_client import KOBRAClient
 
@@ -23,8 +24,19 @@ def login(request, **kwargs):
 
 
 def shifts(request):
-    s = _group_by_type(list(Shift.objects.order_by('shift_type', 'start')))
-    return render(request, 'functionary/shifts.html', {'shift_list': s})
+    registrations = WorkerRegistration.objects.filter(worker=request.user)
+    all_shifts = _group_by_type(list(
+                        Shift.objects.order_by('shift_type', 'start')))
+    return render(request, 'functionary/shifts.html', {
+                                        'registrations': registrations,
+                                        'all_shifts': all_shifts})
+
+
+def add_worker(request):
+    WorkerRegistration(shift_id=int(request.POST.get('shift')),
+                       worker=request.user).save()
+
+    return HttpResponse('ok')
 
 
 def search(request):

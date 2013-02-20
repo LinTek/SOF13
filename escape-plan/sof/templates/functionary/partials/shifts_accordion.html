@@ -1,0 +1,21 @@
+<div class="accordion" id="shift_accordion">
+    {% for shift_type, shifts in all_shifts %}
+    <div class="accordion-group">
+        <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" href="#c{{ forloop.counter }}">
+            &#9662; {{ shift_type }}
+        </a>
+        </div>
+        <div id="c{{ forloop.counter }}" class="accordion-body collapse">
+        {% for shift in shifts %}
+            <div>
+                <a href="#" class="add_worker" data-shift="{{ shift.pk }}">
+                {{ shift.start|date:"l n F" }}
+                {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

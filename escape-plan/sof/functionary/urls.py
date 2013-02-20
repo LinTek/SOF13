@@ -15,6 +15,7 @@ urlpatterns = patterns('sof.functionary.views',
 
     url(r'^shifts$', 'shifts', name='shifts'),
     url(r'^search$', 'search', name='search'),
+    url(r'^add_worker$', 'add_worker', name='add_worker'),
 
     url(r'^admin/', include(admin.site.urls)),
 )
