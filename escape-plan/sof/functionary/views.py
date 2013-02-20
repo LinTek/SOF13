@@ -42,7 +42,6 @@ def search(request):
                 student = k.get_student_by_card(card_number)
 
         if student:
-            student['blocked'] = True
             if not student.get('blocked'):
                 form = AddFunctionaryForm(initial={
                     'first_name': student.get('first_name'),
