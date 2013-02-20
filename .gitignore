@@ -4,6 +4,7 @@
 settings_local.py
 anmalan/media
 anmalan/static
+escape-plan/static/CACHE
 
 *.db
 *.sublime-workspace
