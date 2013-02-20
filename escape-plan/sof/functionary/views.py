@@ -1,3 +1,4 @@
+# encoding: utf-8
 from django.conf import settings
 from django.contrib.auth.views import login as auth_login
 
@@ -23,12 +24,12 @@ def shifts(request):
 
 def search(request):
     form = NewFunctionaryForm(request.POST or None)
+    error = None
 
     if form.is_valid():
         k = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
         liu_id = form.cleaned_data.get('liu_id')
         student = None
-        is_blocked = False
 
         # TODO: Move all user and KOBRA-stuff to some other place...
         if liu_id:
@@ -41,6 +42,7 @@ def search(request):
                 student = k.get_student_by_card(card_number)
 
         if student:
+            student['blocked'] = True
             if not student.get('blocked'):
                 form = AddFunctionaryForm(initial={
                     'first_name': student.get('first_name'),
@@ -49,7 +51,7 @@ def search(request):
                     'email': student.get('email'),
                 })
                 return render(request, 'functionary/add_functionary.html', {'form': form})
-            is_blocked = True
+            error = 'Blocked user or LiU-card'
 
     return render(request, 'functionary/search.html',
-                    {'form': form, 'is_blocked': is_blocked})
+                    {'form': form, 'error': error})

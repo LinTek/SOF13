@@ -4,6 +4,13 @@
 {% block title %}- Funktionärssläpp{% endblock %}
 
 {% block content %}
+    {% if error %}
+        <div class="alert alert-error">
+            <h4>Ett fel uppstod!</h4>
+            {{ error }}
+        </div>
+    {% endif %}
+
     <form method="post" class="form form-horizontal">
         {% csrf_token %}
         {{ form|crispy}}
