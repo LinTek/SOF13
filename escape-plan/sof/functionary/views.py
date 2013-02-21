@@ -8,8 +8,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .models import Shift, WorkerRegistration
-from .forms import NewFunctionaryForm, AddFunctionaryForm
-from .kobra_client import KOBRAClient
+from .forms import SearchForm, AddFunctionaryForm
+from .kobra_client import KOBRAClient, StudentNotFound
 
 
 def _group_by_type(lst):
@@ -40,34 +40,37 @@ def add_worker(request):
 
 
 def search(request):
-    form = NewFunctionaryForm(request.POST or None)
+    def next(initial={}):
+        form = AddFunctionaryForm(initial=initial)
+        return render(request, 'functionary/add_functionary.html', {'form': form})
+
+    form = SearchForm(request.POST or None)
     error = None
 
     if form.is_valid():
         k = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
-        liu_id = form.cleaned_data.get('liu_id')
-        student = None
+        term = form.cleaned_data.get('term')
 
-        # TODO: Move all user and KOBRA-stuff to some other place...
-        if liu_id:
-            student = k.get_student_by_liu_id(liu_id)
+        if not term:
+            return next()
 
-        else:
-            card_number = form.cleaned_data.get('liu_card_number')
+        try:
+            student = k.get_student(term)
 
-            if card_number:
-                student = k.get_student_by_card(card_number)
+            if student.get('blocked'):
+                error = 'Blocked user or LiU-card'
 
-        if student:
-            if not student.get('blocked'):
-                form = AddFunctionaryForm(initial={
-                    'first_name': student.get('first_name'),
-                    'last_name': student.get('last_name'),
+            else:
+                return next({
+                    'first_name': student.get('first_name').title(),
+                    'last_name': student.get('last_name').title(),
                     'liu_id': student.get('liu_id'),
                     'email': student.get('email'),
+                    'lintek': student.get('union') == 'LinTek'
                 })
-                return render(request, 'functionary/add_functionary.html', {'form': form})
-            error = 'Blocked user or LiU-card'
+
+        except StudentNotFound:
+            error = 'Student was not found!'
 
     return render(request, 'functionary/search.html',
                     {'form': form, 'error': error})

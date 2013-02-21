@@ -11,10 +11,13 @@
         </div>
     {% endif %}
 
+    <h3>Sök person</h3>
     <form method="post" class="form form-horizontal">
         {% csrf_token %}
         {{ form|crispy}}
 
-        <button type="submit" class="btn">Nästa</button>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Nästa</button>
+        </div>
     </form>
 {% endblock %}

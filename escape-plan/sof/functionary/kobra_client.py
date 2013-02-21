@@ -4,6 +4,11 @@ import json
 HEADERS = {'Accept': 'application/json',
            'Content-Type': 'application/json; charset=UTF-8'}
 
+
+class StudentNotFound(Exception):
+    pass
+
+
 class KOBRAClient:
     """
     Quick and dirty KOBRA parser
@@ -14,9 +19,11 @@ class KOBRAClient:
         self.http.add_credentials(user, api_key)
 
     def _get_student(self, params):
-        res = self.http.request(self.url, 'POST', params, HEADERS)
-        # TODO: Error handling... hehe.. :)
-        return json.loads(res[1])
+        try:
+            status, result = self.http.request(self.url, 'POST', params, HEADERS)
+        except ValueError:
+            raise StudentNotFound()
+        return json.loads(result)
 
     def get_student_by_liu_id(self, liu):
         return self._get_student('liu_id:"{0}"'.format(liu))
@@ -24,3 +31,9 @@ class KOBRAClient:
     def get_student_by_card(self, card_number):
         attr = 'rfid_number' if len(card_number) < 12 else 'barcode_number'
         return self._get_student('{0}:"{1}"'.format(attr, card_number))
+
+    def get_student(self, id_or_card_number):
+        # LiU-ID is normally 8 chars long (or 5 chars for some employees)
+        if len(id_or_card_number) <= 8:
+            return self.get_student_by_liu_id(id_or_card_number)
+        return self.get_student_by_card(id_or_card_number)

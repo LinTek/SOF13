@@ -4,6 +4,8 @@
 {% block title %}- Funktionärssläpp{% endblock %}
 
 {% block content %}
+    <h3>Lägg till ny funkis</h3>
+
     <form method="post" class="form form-horizontal">
         {% csrf_token %}
         {{ form|crispy}}
@@ -12,6 +14,9 @@
         {% include "functionary/partials/shifts_accordion.html" %}
 {% endcomment %}
 
-        <button type="submit" class="btn">Spara</button>
+        <div class="form-actions">
+            <a href="{% url "search" %}" class="btn btn-danger">Avbryt</a>
+            <button type="submit" class="btn btn-success">Spara</button>
+        </div>
     </form>
 {% endblock %}
