@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Functionary
+from .models import Worker
 
 
 class SearchForm(forms.Form):
@@ -9,8 +9,8 @@ class SearchForm(forms.Form):
                            max_length=20, required=False)
 
 
-class AddFunctionaryForm(forms.ModelForm):
+class AddWorkerForm(forms.ModelForm):
     class Meta:
-        model = Functionary
+        model = Worker
         fields = ('first_name', 'last_name', 'liu_id', 'email')
     lintek = forms.BooleanField(label=_('LinTek member'))

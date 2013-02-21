@@ -22,7 +22,7 @@ class Shift(models.Model):
         return '{0} {1}-{2}'.format(unicode(self.shift_type), self.start, self.end)
 
 
-class Functionary(AbstractUser):
+class Worker(AbstractUser):
     liu_id = models.CharField(_('LiU-ID'), max_length=8, blank=True)
     liu_card_number = models.CharField(_('LiU card number'), max_length=30, blank=True)
 

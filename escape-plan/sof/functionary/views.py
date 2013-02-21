@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .models import Shift, WorkerRegistration
-from .forms import SearchForm, AddFunctionaryForm
+from .forms import SearchForm, AddWorkerForm
 from .kobra_client import KOBRAClient, StudentNotFound
 
 
@@ -41,7 +41,7 @@ def add_worker(request):
 
 def search(request):
     def next(initial={}):
-        form = AddFunctionaryForm(initial=initial)
+        form = AddWorkerForm(initial=initial)
         return render(request, 'functionary/add_functionary.html', {'form': form})
 
     form = SearchForm(request.POST or None)

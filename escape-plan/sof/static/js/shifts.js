@@ -12,4 +12,6 @@ $(function() {
         });
         return false;
     });
+
+    $("#id_term").focus();
 });

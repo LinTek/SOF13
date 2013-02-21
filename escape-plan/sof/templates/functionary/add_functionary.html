@@ -15,8 +15,10 @@
 {% endcomment %}
 
         <div class="form-actions">
+            <button type="submit" class="btn btn-large btn-success">Spara</button>
+            {% comment %}
             <a href="{% url "search" %}" class="btn btn-danger">Avbryt</a>
-            <button type="submit" class="btn btn-success">Spara</button>
+            {% endcomment %}
         </div>
     </form>
 {% endblock %}
