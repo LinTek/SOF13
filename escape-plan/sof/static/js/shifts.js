@@ -11,6 +11,9 @@ $(function() {
                 if (response.book_status == 'ok') {
                     element.parent().addClass('added');
                     element.html(response.html);
+                } else if (response.book_status == 'deleted') {
+                    element.parent().removeClass('added');
+                    element.html(response.html);
                 }
             }
         });

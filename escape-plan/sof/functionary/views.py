@@ -43,17 +43,25 @@ def add_worker(request):
     shift = get_object_or_404(Shift, pk=int(request.POST.get('shift')))
     worker = get_object_or_404(Worker, pk=int(request.POST.get('worker')))
 
-    if shift.workerregistration_set.count() >= shift.max_workers:
-        return HttpResponse(json.dumps({'book_status': 'occupied'}),
-                            content_type="application/json")
+    try:
+        worker = shift.workerregistration_set.get(worker_id=worker.pk)
+        worker.delete()
+        response = {'book_status': 'deleted'}
 
-    WorkerRegistration(shift=shift,
-                       worker=worker).save()
+    except WorkerRegistration.DoesNotExist:
+        if shift.workerregistration_set.count() >= shift.max_workers:
+            response = {'book_status': 'occupied'}
+            return HttpResponse(json.dumps(response), content_type="application/json")
+
+        WorkerRegistration(shift=shift,
+                           worker=worker).save()
+        response = {'book_status': 'ok'}
+
     shift.free_places = shift.max_workers - shift.workerregistration_set.count()
     html = render_to_string('functionary/partials/shift_title.html',
                             {'shift': shift, 'place_count': True})
-
-    return HttpResponse(json.dumps({'book_status': 'ok', 'html': html}),
+    response['html'] = html
+    return HttpResponse(json.dumps(response),
                         content_type="application/json")
 
 
