@@ -63,9 +63,13 @@ def register_worker(request):
     form = AddWorkerForm(request.POST)
 
     if form.is_valid():
-        worker = form.save(commit=False)
-        worker.username = worker.liu_id
-        worker.save()
+        try:
+            worker = Worker.objects.get(pid=form.cleaned_data.get('pid'))
+
+        except Worker.DoesNotExist:
+            worker = form.save(commit=False)
+            worker.username = worker.email
+            worker.save()
 
         return redirect('add_registrations', worker_id=worker.pk)
     return render(request, 'functionary/add_functionary.html', {'form': form})
@@ -108,9 +112,9 @@ def search(request):
                 return next({
                     'first_name': student.get('first_name').title(),
                     'last_name': student.get('last_name').title(),
-                    'liu_id': student.get('liu_id'),
                     'email': student.get('email'),
-                    'lintek': student.get('union') == 'LinTek'
+                    'lintek': student.get('union') == 'LinTek',
+                    'pid': student.get('personal_number'),
                 })
 
         except StudentNotFound:

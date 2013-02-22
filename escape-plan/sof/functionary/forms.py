@@ -1,3 +1,5 @@
+from django_localflavor_se.forms import SEPersonalIdentityNumberField
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -12,6 +14,7 @@ class SearchForm(forms.Form):
 class AddWorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
-        fields = ('first_name', 'last_name', 'liu_id', 'email')
+        fields = ('first_name', 'last_name', 'email', 'pid')
 
-    lintek = forms.BooleanField(label=_('LinTek member'))
+    lintek = forms.BooleanField(label=_('LinTek member'), required=False)
+    pid = SEPersonalIdentityNumberField(label=_('Personal identification number'))

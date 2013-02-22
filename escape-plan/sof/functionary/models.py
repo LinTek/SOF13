@@ -56,8 +56,7 @@ class Worker(AbstractUser):
         verbose_name = _('worker')
         verbose_name_plural = _('workers')
 
-    liu_id = models.CharField(_('LiU-ID'), max_length=8, blank=True)
-    liu_card_number = models.CharField(_('LiU card number'), max_length=30, blank=True)
+    pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
 
 
 class WorkerRegistration(models.Model):
@@ -65,7 +64,7 @@ class WorkerRegistration(models.Model):
         verbose_name = _('worker registration')
         verbose_name_plural = _('worker registrations')
 
-    worker = models.ForeignKey(User)
+    worker = models.ForeignKey(Worker)
     shift = models.ForeignKey(Shift)
     approved = models.BooleanField(_('approved'), default=False)
 
