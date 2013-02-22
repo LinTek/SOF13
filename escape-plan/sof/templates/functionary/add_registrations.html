@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}- Funktionärssläpp{% endblock %}
+
+{% block content %}
+    <h3>Anmälan till funkispass: {{ worker }}</h3>
+
+    {% include "functionary/partials/shifts_accordion.html" %}
+
+     <a href="{% url "search" %}" class="btn">Tillbaka</a>
+{% endblock %}

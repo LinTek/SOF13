@@ -13,4 +13,5 @@ class AddWorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
         fields = ('first_name', 'last_name', 'liu_id', 'email')
+
     lintek = forms.BooleanField(label=_('LinTek member'))

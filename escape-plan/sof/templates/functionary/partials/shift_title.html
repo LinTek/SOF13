@@ -1,0 +1,4 @@
+{{ shift.start|date:"l n F" }}
+{{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
+
+{% if place_count %} ({{ shift.free_places }} platser){% endif %}

@@ -1,3 +1,4 @@
+{% load shift_extras %}
 <div class="accordion" id="shift_accordion">
     {% for shift_type, shifts in all_shifts %}
     <div class="accordion-group">
@@ -10,12 +11,13 @@
         {% for shift in shifts %}
             <div>
                 <a href="#" class="add_worker" data-shift="{{ shift.pk }}">
-                {{ shift.start|date:"l n F" }}
-                {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
+                    {% shift_title shift 'place_count' %}
                 </a>
             </div>
         {% endfor %}
         </div>
     </div>
+    {% empty %}
+        Det finns inga lediga pass!
     {% endfor %}
 </div>

@@ -1,21 +1,28 @@
 {% extends "base.html" %}
+{% load shift_extras %}
 
 {% block title %}- Visa pass{% endblock %}
 
 {% block content %}
 
+{% if perms.auth.add_user %}
+    <a href="{% url "search" %}" class="btn btn-primary">Funktionärssläpp</a>
+{% endif %}
+
 <h3>Mina pass</h3>
 <div>
+    <ul>
     {% for reg in registrations %}
-        {{ reg.shift }}
+        <li>{% shift_title reg.shift %}</li>
     {% empty %}
         Du är inte registrerad på några pass ännu!
     {% endfor %}
+    </ul>
 </div>
 
 <div>
     <h3>Alla pass</h3>
-    <p>Klicka på en kategori för att visa passen för denna kategori.</p>
+    <p>Klicka på en kategori för att visa passen för denna kategori. Dubbelklicka på ett pass för att anmäla dig.</p>
 
     {% include "functionary/partials/shifts_accordion.html" %}
 </div>
@@ -25,8 +32,4 @@
         <a href="#" class="btn btn-primary">Skapa jobbpass</a>
     {% endif %}
     {% endcomment %}
-
-    {% if perms.auth.add_user %}
-        <a href="{% url "search" %}" class="btn btn-primary">Funktionärssläpp</a>
-    {% endif %}
 {% endblock %}

@@ -21,6 +21,10 @@ class KOBRAClient:
     def _get_student(self, params):
         try:
             status, result = self.http.request(self.url, 'POST', params, HEADERS)
+
+            if status.get('status') == '404' or not result.strip():
+                raise StudentNotFound()
+
         except ValueError:
             raise StudentNotFound()
         return json.loads(result)
