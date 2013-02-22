@@ -20,12 +20,14 @@
     </ul>
 </div>
 
+{% comment %}
 <div>
     <h3>Alla pass</h3>
     <p>Klicka på en kategori för att visa passen för denna kategori. Dubbelklicka på ett pass för att anmäla dig.</p>
 
     {% include "functionary/partials/shifts_accordion.html" %}
 </div>
+{% endcomment %}
 
     {% comment %}
     {% if perms.functionary.add_shift %}

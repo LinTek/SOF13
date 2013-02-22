@@ -35,6 +35,10 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+LOCALE_PATHS = (
+    os.path.join(PROJECT_ROOT, 'conf/locale'),
+)
+
 LOGIN_URL = '/admin/'
 
 ROOT_URLCONF = 'sof.functionary.urls'

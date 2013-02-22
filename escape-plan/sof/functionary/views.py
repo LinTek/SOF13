@@ -1,4 +1,5 @@
 # encoding: utf-8
+import json
 from itertools import groupby
 
 from django.conf import settings
@@ -7,7 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
-
+from django.template.loader import render_to_string
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Shift, WorkerRegistration, Worker
@@ -40,14 +41,20 @@ def shifts(request):
 @permission_required('auth.add_user')
 def add_worker(request):
     shift = get_object_or_404(Shift, pk=int(request.POST.get('shift')))
+    worker = get_object_or_404(Worker, pk=int(request.POST.get('worker')))
 
     if shift.workerregistration_set.count() >= shift.max_workers:
-        return HttpResponse('occupied')
+        return HttpResponse(json.dumps({'book_status': 'occupied'}),
+                            content_type="application/json")
 
     WorkerRegistration(shift=shift,
-                       worker=request.user).save()
+                       worker=worker).save()
+    shift.free_places = shift.max_workers - shift.workerregistration_set.count()
+    html = render_to_string('functionary/partials/shift_title.html',
+                            {'shift': shift, 'place_count': True})
 
-    return HttpResponse('ok')
+    return HttpResponse(json.dumps({'book_status': 'ok', 'html': html}),
+                        content_type="application/json")
 
 
 @login_required

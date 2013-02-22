@@ -1,5 +1,5 @@
 {% load shift_extras %}
-<div class="accordion" id="shift_accordion">
+<div class="accordion" id="shift_accordion" data-worker="{{ worker.pk }}">
     {% for shift_type, shifts in all_shifts %}
     <div class="accordion-group">
         <div class="accordion-heading">
@@ -9,11 +9,13 @@
         </div>
         <div id="c{{ forloop.counter }}" class="accordion-body collapse">
         {% for shift in shifts %}
-            <div>
+            <ul>
+                <li class="shift">
                 <a href="#" class="add_worker" data-shift="{{ shift.pk }}">
                     {% shift_title shift 'place_count' %}
                 </a>
-            </div>
+                </li>
+            </ul>
         {% endfor %}
         </div>
     </div>

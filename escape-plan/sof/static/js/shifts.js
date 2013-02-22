@@ -1,18 +1,20 @@
 $(function() {
-    $(".add_worker").dblclick(
-    function() {
-        var e = $(this);
+    $(".add_worker").click(
+    function(e) {
+        var element = $(this);
         $.ajax({
             url: URL.add_worker,
             type: 'POST',
-            data: {'shift': e.data('shift')},
+            data: {'shift': element.data('shift'),
+                   'worker': $('#shift_accordion').data('worker')},
             success: function(response) {
-                if (response === 'ok') {
-                    e.addClass('added');
+                if (response.book_status == 'ok') {
+                    element.parent().addClass('added');
+                    element.html(response.html);
                 }
             }
         });
-        return false;
+        e.preventDefault();
     });
 
     $("#id_term").focus();

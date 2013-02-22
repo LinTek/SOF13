@@ -1,0 +1,98 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-22 12:54+0100\n"
+"PO-Revision-Date: 2013-02-22 12:56+0100\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: functionary/admin.py:19
+msgid "Additional info"
+msgstr "Övrig info"
+
+#: functionary/forms.py:8
+msgid "LiU-ID or card number"
+msgstr "LiU-ID eller kortnummer"
+
+#: functionary/forms.py:17
+msgid "LinTek member"
+msgstr "LinTek-medlem"
+
+#: functionary/models.py:11
+msgid "shift type"
+msgstr "passtyp"
+
+#: functionary/models.py:12
+msgid "shift types"
+msgstr "passtyper"
+
+#: functionary/models.py:38
+msgid "shift"
+msgstr "arbetspass"
+
+#: functionary/models.py:39
+msgid "shifts"
+msgstr "arbetspass"
+
+#: functionary/models.py:43
+msgid "start date"
+msgstr "starttid"
+
+#: functionary/models.py:44
+msgid "end date"
+msgstr "sluttid"
+
+#: functionary/models.py:45
+msgid "max workers"
+msgstr "max antal funkisar"
+
+#: functionary/models.py:56
+msgid "worker"
+msgstr "funkis"
+
+#: functionary/models.py:57
+msgid "workers"
+msgstr "funkisar"
+
+#: functionary/models.py:59
+msgid "LiU-ID"
+msgstr "LiU-ID"
+
+#: functionary/models.py:60
+msgid "LiU card number"
+msgstr "LiU-kortnummer"
+
+#: functionary/models.py:65
+msgid "worker registration"
+msgstr "funkisregistrering"
+
+#: functionary/models.py:66
+msgid "worker registrations"
+msgstr "funkisregistreringar"
+
+#: functionary/models.py:70
+msgid "approved"
+msgstr "närvarande"
+
+#: functionary/views.py:98
+msgid "Blocked user or LiU-card"
+msgstr "Spärrad användare eller LiU-kort"
+
+#: functionary/views.py:110
+msgid "Student was not found"
+msgstr "Personen hittades inte"
+
+#: functionary/views.py:113
+msgid "Could not get the result"
+msgstr "Kunde inte hämta sökresultat"
+
