@@ -3,7 +3,7 @@ $(function() {
     function(e) {
         var element = $(this);
         $.ajax({
-            url: URL.add_worker,
+            url: URL.add_registration,
             type: 'POST',
             data: {'shift': element.data('shift'),
                    'worker': $('#shift_accordion').data('worker')},

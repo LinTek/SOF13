@@ -2,11 +2,12 @@
 import json
 from itertools import groupby
 
+from django.db import transaction
 from django.conf import settings
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.decorators import login_required, permission_required
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect, get_object_or_404
@@ -39,13 +40,18 @@ def shifts(request):
 
 @login_required
 @permission_required('auth.add_user')
-def add_worker(request):
-    shift = get_object_or_404(Shift, pk=int(request.POST.get('shift')))
-    worker = get_object_or_404(Worker, pk=int(request.POST.get('worker')))
+@transaction.commit_on_success
+def add_registration(request):
+    try:
+        worker = Worker.objects.get(pk=int(request.POST.get('worker')))
+        shift = Shift.objects.select_for_update().get(pk=int(request.POST.get('shift')))
+
+    except Shift.DoesNotExist, Worker.DoesNotExist:
+        raise Http404
 
     try:
-        worker = shift.workerregistration_set.get(worker_id=worker.pk)
-        worker.delete()
+        worker_registration = shift.workerregistration_set.get(worker_id=worker.pk)
+        worker_registration.delete()
         response = {'book_status': 'deleted'}
 
     except WorkerRegistration.DoesNotExist:
@@ -67,19 +73,15 @@ def add_worker(request):
 
 @login_required
 @permission_required('auth.add_user')
-def register_worker(request):
+def create_worker(request):
     form = AddWorkerForm(request.POST)
 
     if form.is_valid():
-        try:
-            worker = Worker.objects.get(pid=form.cleaned_data.get('pid'))
-
-        except Worker.DoesNotExist:
-            worker = form.save(commit=False)
-            worker.username = worker.email
-            worker.save()
-
+        worker = form.save(commit=False)
+        worker.username = worker.email
+        worker.save()
         return redirect('add_registrations', worker_id=worker.pk)
+
     return render(request, 'functionary/add_functionary.html', {'form': form})
 
 
@@ -96,7 +98,7 @@ def add_registrations(request, worker_id):
 @login_required
 @permission_required('auth.add_user')
 def search(request):
-    def next(initial={}):
+    def render_worker_form(initial={}):
         form = AddWorkerForm(initial=initial)
         return render(request, 'functionary/add_functionary.html', {'form': form})
 
@@ -108,7 +110,7 @@ def search(request):
         term = form.cleaned_data.get('term')
 
         if not term:
-            return next()
+            return render_worker_form()
 
         try:
             student = k.get_student(term)
@@ -117,7 +119,7 @@ def search(request):
                 error = _('Blocked user or LiU-card')
 
             else:
-                return next({
+                return render_worker_form({
                     'first_name': student.get('first_name').title(),
                     'last_name': student.get('last_name').title(),
                     'email': student.get('email'),

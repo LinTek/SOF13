@@ -6,7 +6,7 @@
 {% block content %}
     <h3>Lägg till ny funkis</h3>
 
-    <form method="post" class="form form-horizontal" action="{% url "register_worker" %}">
+    <form method="post" class="form form-horizontal" action="{% url "create_worker" %}">
         {% csrf_token %}
         {{ form|crispy}}
 
