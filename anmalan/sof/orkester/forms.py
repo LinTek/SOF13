@@ -33,7 +33,7 @@ class BirthDateField(SEPersonalIdentityNumberField):
 
             # check for valid birthday
             try:
-                birth_day = validate_id_birthday(gd)
+                birth_day = validate_id_birthday(gd, fix_coordination_number_day=False)
             except ValueError:
                 raise forms.ValidationError(self.error_messages['invalid'])
 
