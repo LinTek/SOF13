@@ -1,4 +1,4 @@
-from sof.conf.settings import *
+from sof.conf.settings_global import *
 
 DATABASES = {
     'default': {
@@ -23,6 +23,3 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-ROOT_URLCONF = 'sof.cortege.urls'
-# ROOT_URLCONF = 'sof.orkester.urls'
