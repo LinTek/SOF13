@@ -1,7 +1,9 @@
 -e git://github.com/django/django.git@56e54727661bc34bd2b6f9fa6a75f5370149256e#egg=Django-dev
 MySQL-python==1.2.4c1
-PIL==1.1.7
+psycopg2==2.4.6
 South==0.7.6
 django-crispy-forms==1.2.3
 django-compressor==1.2
 httplib2==0.7.7
+django-debug-toolbar==0.9.4
+-e git://github.com/django/django-localflavor-se.git@d2f3a8ac873becede4a5be961a813b01236fe138#egg=django_localflavor_se-dev
