@@ -18,14 +18,24 @@ class ShiftType(models.Model):
 
 
 class ShiftManager(models.Manager):
-    def with_free_places(self):
+    def with_free_places(self, worker):
         res = []
         shifts = (self.order_by('shift_type', 'start')
+                      .select_related('shift_type')
+                      .prefetch_related('workerregistration_set')
                       .annotate(worker_count=Count('workerregistration')))
+
+        try:
+            registrations = set(worker.workerregistration_set.all())
+        except AttributeError:
+            registrations = None
 
         # There is unfortunately no good way to do this without using raw SQL...
         for shift in shifts:
             free_places = shift.max_workers - shift.worker_count
+            if registrations:
+                shift.worker_is_signed_up = bool(
+                    registrations.intersection(set(shift.workerregistration_set.all())))
 
             if free_places > 0:
                 shift.free_places = free_places

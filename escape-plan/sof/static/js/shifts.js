@@ -9,12 +9,11 @@ $(function() {
                    'worker': $('#shift_accordion').data('worker')},
             success: function(response) {
                 if (response.book_status == 'ok') {
-                    element.parent().addClass('added');
-                    element.html(response.html);
+                    element.parent().addClass('signed-up');
                 } else if (response.book_status == 'deleted') {
-                    element.parent().removeClass('added');
-                    element.html(response.html);
+                    element.parent().removeClass('signed-up');
                 }
+                element.html(response.html);
             }
         });
         e.preventDefault();

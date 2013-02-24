@@ -31,7 +31,7 @@ def login(request, **kwargs):
 @login_required
 def shifts(request):
     registrations = WorkerRegistration.objects.filter(worker=request.user)
-    all_shifts = _group_by_type(list(Shift.objects.with_free_places()))
+    all_shifts = _group_by_type(list(Shift.objects.with_free_places(worker=request.user)))
 
     return render(request, 'functionary/shifts.html', {
                                         'registrations': registrations,
@@ -89,7 +89,7 @@ def create_worker(request):
 @permission_required('auth.add_user')
 def add_registrations(request, worker_id):
     worker = get_object_or_404(Worker, pk=worker_id)
-    all_shifts = _group_by_type(list(Shift.objects.with_free_places()))
+    all_shifts = _group_by_type(list(Shift.objects.with_free_places(worker)))
 
     return render(request, 'functionary/add_registrations.html',
                             {'worker': worker, 'all_shifts': all_shifts})

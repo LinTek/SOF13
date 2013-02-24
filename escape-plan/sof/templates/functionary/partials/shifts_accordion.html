@@ -10,7 +10,7 @@
         <div id="c{{ forloop.counter }}" class="accordion-body collapse">
         {% for shift in shifts %}
             <ul>
-                <li class="shift">
+                <li class="shift{% if shift.worker_is_signed_up %} signed-up{% endif %}" >
                 <a href="#" class="add_worker" data-shift="{{ shift.pk }}">
                     {% shift_title shift 'place_count' %}
                 </a>
