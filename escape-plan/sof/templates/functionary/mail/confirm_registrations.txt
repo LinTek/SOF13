@@ -1,0 +1,13 @@
+{% load shift_extras %}
+Hej {{ worker.first_name }}!
+
+Roligt att du har valt att jobba som funktionär under SOF 2013!
+Det här är bara en bekräftelse på din anmälan, vi kommer att
+återkomma med mer information senare.
+
+Du är anmäld till följande pass:
+----------------------------------{% for r in registrations %}
+{{ r.shift.shift_type }} - {% shift_title r.shift %}
+{% endfor %}
+Med vänliga hälsningar,
+SOF-organisationen

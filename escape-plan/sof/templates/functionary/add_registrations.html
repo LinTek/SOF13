@@ -8,7 +8,7 @@
 
     {% include "functionary/partials/shifts_accordion.html" %}
 
-     <a href="{% url "search" %}" class="btn">Tillbaka</a>
+     <a href="{% url "send_confirmation" worker.pk %}" class="btn btn-primary">Skicka bekräftelse</a>
 
      <p>
         <a href="http://www.sof13.se/funktionar" target="_blank">Info om funkispassen</a>

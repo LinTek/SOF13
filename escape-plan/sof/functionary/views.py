@@ -97,6 +97,15 @@ def add_registrations(request, worker_id):
 
 @login_required
 @permission_required('auth.add_user')
+def send_confirmation(request, worker_id):
+    worker = get_object_or_404(Worker, pk=worker_id)
+    worker.send_registration_email()
+
+    return redirect('search')
+
+
+@login_required
+@permission_required('auth.add_user')
 def search(request):
     def render_worker_form(initial={}):
         form = AddWorkerForm(initial=initial)

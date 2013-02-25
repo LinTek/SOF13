@@ -1,9 +1,11 @@
 # encoding: utf-8
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
 from django.contrib.auth.models import User, AbstractUser
-from django.db.models import Count
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.shortcuts import redirect
 
 
 class ShiftType(models.Model):
@@ -23,7 +25,7 @@ class ShiftManager(models.Manager):
         shifts = (self.order_by('shift_type', 'start')
                       .select_related('shift_type')
                       .prefetch_related('workerregistration_set')
-                      .annotate(worker_count=Count('workerregistration')))
+                      .annotate(worker_count=models.Count('workerregistration')))
 
         try:
             registrations = set(worker.workerregistration_set.all())
@@ -58,7 +60,7 @@ class Shift(models.Model):
 
     def __unicode__(self):
         return '%s | %s - %s' % (unicode(self.shift_type),
-                                 format_dt(self.start), format_dt(self.end))
+                                 format_dt(self.start), format_time(self.end))
 
 
 class Worker(AbstractUser):
@@ -67,6 +69,12 @@ class Worker(AbstractUser):
         verbose_name_plural = _('workers')
 
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
+
+    def send_registration_email(self):
+        _mail('confirm_registrations', [self.email],
+                {'registrations': self.workerregistration_set.select_related('shift').all(),
+                 'worker': self})
+        return redirect('search')
 
     def __unicode__(self):
         return unicode(self.get_full_name())
@@ -86,4 +94,16 @@ class WorkerRegistration(models.Model):
 
 
 def format_dt(dt):
-    return dt.strftime('%d %b %H:%M')
+    return dt.strftime('%d %b, kl %H:%M')
+
+
+def format_time(dt):
+    return dt.strftime('kl %H:%M')
+
+
+def _mail(template_name, to, template_params):
+    send_mail(subject=render_to_string('functionary/mail/%s_subject.txt' % template_name,
+                                       template_params).replace('\n', ''),
+              message=render_to_string('functionary/mail/%s.txt' % template_name,
+                                       template_params),
+              from_email=settings.DEFAULT_FROM_EMAIL, recipient_list=to)

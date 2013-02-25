@@ -21,6 +21,8 @@ urlpatterns = patterns('sof.functionary.views',
     url(r'^add-registrations/(?P<worker_id>\d+)$',
             'add_registrations', name='add_registrations'),
 
+    url(r'^send-confirmation/(?P<worker_id>\d+)$', 'send_confirmation', name='send_confirmation'),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 

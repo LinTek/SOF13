@@ -10,6 +10,8 @@ ADMINS = (
     ('Niclas Olofsson', 'n@niclasolofsson.se'),
 )
 
+DEFAULT_FROM_EMAIL = 'SOF 2013 <noreply@sof13.se>'
+
 MANAGERS = ADMINS
 
 # Local time zone for this installation. Choices can be found here:
