@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserChangeForm
 
 from django.utils.translation import ugettext_lazy as _
 
-from .models import ShiftType, Shift, Worker, WorkerRegistration
+from .models import ShiftType, ShiftSubType, Shift, Worker, WorkerRegistration
 
 
 class WorkerChangeForm(UserChangeForm):
@@ -24,4 +24,5 @@ class WorkerUserAdmin(UserAdmin):
 admin.site.register(Worker, WorkerUserAdmin)
 admin.site.register(WorkerRegistration)
 admin.site.register(ShiftType)
+admin.site.register(ShiftSubType)
 admin.site.register(Shift)

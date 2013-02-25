@@ -8,17 +8,6 @@ from django.template.loader import render_to_string
 from django.shortcuts import redirect
 
 
-class ShiftType(models.Model):
-    class Meta:
-        verbose_name = _('shift type')
-        verbose_name_plural = _('shift types')
-
-    name = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return unicode(self.name)
-
-
 class ShiftManager(models.Manager):
     def with_free_places(self, worker):
         res = []
@@ -45,6 +34,28 @@ class ShiftManager(models.Manager):
         return res
 
 
+class ShiftType(models.Model):
+    class Meta:
+        verbose_name = _('shift type')
+        verbose_name_plural = _('shift types')
+
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+
+class ShiftSubType(models.Model):
+    class Meta:
+        verbose_name = _('shift subtype')
+        verbose_name_plural = _('shift subtypes')
+
+    name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+
 class Shift(models.Model):
     class Meta:
         verbose_name = _('shift')
@@ -56,10 +67,11 @@ class Shift(models.Model):
     end = models.DateTimeField(_('end date'))
     max_workers = models.PositiveSmallIntegerField(_('max workers'))
     shift_type = models.ForeignKey('ShiftType')
+    shift_sub_type = models.ForeignKey('ShiftSubType', null=True, blank=True)
     responsible_person = models.ForeignKey(User, null=True, blank=True)
 
     def __unicode__(self):
-        return '%s | %s - %s' % (unicode(self.shift_type),
+        return '%s | %s - %s' % (unicode(self.shift_sub_type),
                                  format_dt(self.start), format_time(self.end))
 
 
