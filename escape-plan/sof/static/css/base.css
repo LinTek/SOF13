@@ -7,7 +7,7 @@
     background: #D4FFBF;
 }
 
-.accordion-heading > a.accordion-toggle, .accordion-heading > a.accordion-toggle:hover {
+.accordion-heading > .accordion-toggle:focus {
     outline: 0;
     text-decoration: none;
 }
