@@ -1,32 +1,37 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Niclas Olofsson <n@niclasolofsson.se>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-22 12:54+0100\n"
-"PO-Revision-Date: 2013-02-22 12:56+0100\n"
-"Last-Translator: \n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2013-02-25 13:48+0100\n"
+"PO-Revision-Date: 2013-02-25 13:14+0100\n"
+"Last-Translator: Niclas Olofsson <n@niclasolofsson.se>\n"
+"Language-Team: Swedish <>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: functionary/admin.py:19
+#: functionary/admin.py:20
 msgid "Additional info"
 msgstr "Övrig info"
 
-#: functionary/forms.py:8
+#: functionary/forms.py:41
 msgid "LiU-ID or card number"
 msgstr "LiU-ID eller kortnummer"
 
-#: functionary/forms.py:17
+#: functionary/forms.py:50
 msgid "LinTek member"
 msgstr "LinTek-medlem"
+
+#: functionary/forms.py:51
+msgid "Personal identification number"
+msgstr "Personnummer"
 
 #: functionary/models.py:11
 msgid "shift type"
@@ -36,63 +41,64 @@ msgstr "passtyp"
 msgid "shift types"
 msgstr "passtyper"
 
-#: functionary/models.py:38
+#: functionary/models.py:48
 msgid "shift"
-msgstr "arbetspass"
+msgstr "funkispass"
 
-#: functionary/models.py:39
+#: functionary/models.py:49
 msgid "shifts"
-msgstr "arbetspass"
+msgstr "funkispass"
 
-#: functionary/models.py:43
+#: functionary/models.py:53
 msgid "start date"
 msgstr "starttid"
 
-#: functionary/models.py:44
+#: functionary/models.py:54
 msgid "end date"
 msgstr "sluttid"
 
-#: functionary/models.py:45
+#: functionary/models.py:55
 msgid "max workers"
 msgstr "max antal funkisar"
 
-#: functionary/models.py:56
+#: functionary/models.py:66
 msgid "worker"
 msgstr "funkis"
 
-#: functionary/models.py:57
+#: functionary/models.py:67
 msgid "workers"
 msgstr "funkisar"
 
-#: functionary/models.py:59
-msgid "LiU-ID"
-msgstr "LiU-ID"
+#: functionary/models.py:69
+msgid "personal identification number"
+msgstr "personnummer"
 
-#: functionary/models.py:60
-msgid "LiU card number"
-msgstr "LiU-kortnummer"
-
-#: functionary/models.py:65
+#: functionary/models.py:77
 msgid "worker registration"
 msgstr "funkisregistrering"
 
-#: functionary/models.py:66
+#: functionary/models.py:78
 msgid "worker registrations"
 msgstr "funkisregistreringar"
 
-#: functionary/models.py:70
+#: functionary/models.py:82
 msgid "approved"
 msgstr "närvarande"
 
-#: functionary/views.py:98
+#: functionary/views.py:119
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:110
+#: functionary/views.py:131
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:113
+#: functionary/views.py:134
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
 
+#~ msgid "LiU-ID"
+#~ msgstr "LiU-ID"
+
+#~ msgid "LiU card number"
+#~ msgstr "LiU-kortnummer"
