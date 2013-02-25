@@ -1,0 +1,201 @@
+6/5
+bygg 08.00-20.00 10 -
+
+7/5
+bygg 08.00-20.00 10 -
+
+8/5
+bygg 08.00-20.00 20 -
+
+
+
+
+
+9/5
+bygg 08.00-14.30 10 -
+event 17.30-00.00 6 -
+event 23.00-05.00 6 -
+
+servering 17.30-00.00 4 Barchef-ass
+servering 23.00-05.00 4 Barchef-ass
+
+logi 16.30-22.30 1 Alkoholgarderob
+logi 21.30-03.30 1 Alkoholgarderob
+logi 02.30-08.30 1 Alkoholgarderob
+
+logi 17.00-23.00 2 Incheck
+logi 22.00-04.00 2 Incheck
+
+säk 16.30-22.30 2 4väg
+säk 21.30-03.30 2 4väg
+
+insats 17.30-23.00 4 -
+insats 22.00-03.30 4 -
+
+säk 16.30-23.00 6 Entrevakt
+säk 22.00-04.00 8 Entrevakt
+
+säk 16.30-23.00 1 VIP-vakt
+säk 22.00-04.00 1 VIP-vakt
+
+säk 16.30-23.00 9 Staketvakt
+säk 22.00-04.00 9 Staketvakt
+
+instrument 14.30-21.30 1 Instrumentförvarning
+instrument 20.30-03.30 1 Instrumentförvarning
+instrument 14.30-21.30 1 Muddrare
+
+scen 09.00-17.00 2 Rigg/scenvärd
+scen 16.00-23.00 3 Rigg/scenvärd
+scen 22.00-04.30 3 Rigg/scenvärd
+
+logi 15.00-22.00 2 Boende
+logi 21.00-03.30 2 Boende
+
+
+
+
+
+
+
+10/5
+event 23.00-05.00 6 -
+event 17.30-00.00 6 -
+
+servering 17.30-00.00 4 Barchef-ass
+servering 23.00-05.00 4 Barchef-ass
+
+servering 05.30-11.30 2 Frukost
+
+logi 07.30-15.00 1 Alkoholgarderob
+logi 14.00-22.00 1 Alkoholgarderob
+logi 21.00-03.30 1 Alkoholgarderob
+logi 02.30-08.30 1 Alkoholgarderob
+logi 17.00-23.00 2 Incheck
+logi 22.00-04.00 2 Incheck
+
+säk 16.30-22.30 2 4väg
+säk 21.30-03.30 2 4väg
+
+insats 17.30-23.00 4 -
+insats 22.00-03.30 4 -
+
+säk 16.30-23.00 8 Entrevakt
+säk 22.00-04.00 10 Entrevakt
+
+säk 16.30-23.00 1 VIP-vakt
+säk 22.00-04.00 1 VIP-vakt
+
+säk 16.30-23.00 9 Staketvakt
+säk 22.00-04.00 9 Staketvakt
+
+instrument 08.30-16.00 2 Instrumentförvaring
+instrument 12.30-20.00 2 Instrumentförvaring
+instrument 19.00-01.00 2 Instrumentförvaring
+instrument 00.00-05.00 2 Instrumentförvaring
+
+instrument 15.30-21.30 3 Muddrare
+
+scen 09.00-17.00 2 Rigg/scenvärd
+scen 16.00-23.00 4 Rigg/scenvärd
+scen 22.00-04.30 4 Rigg/scenvärd
+
+scen 21.00-03.30 1 Backstage
+
+logi 09.00-17.00 2 Boende
+logi 16.00-23.00 2 Boende
+logi 22.00-04.00 2 Boende
+logi 03.00-10.00 2 Boende
+
+
+
+11/5
+event 14.30-20.00 6 -
+event 19.00-01.00 6 -
+event 00.00-05.00 6 -
+
+servering 14.30-20.00 4 Barchef-ass
+servering 19.00-01.00 4 Barchef-ass
+servering 00.00-05.00 4 Barchef-ass
+
+servering 05.30-11.30 2 Frukost
+
+servering 14.30-21.00 4 Sittning
+servering 20.00-01.30 4 Sittning
+
+logi 07.30-14.30 1 Alkoholgarderob
+logi 13.30-20.30 1 Alkoholgarderob
+logi 19.30-02.30 1 Alkoholgarderob
+logi 01.30-08.30 1 Alkoholgarderob
+
+logi 14.30-20.00 1 Incheck
+logi 19.00-01.00 1 Incheck
+
+instrument 09.00-15.00 2 Avlastningsvakt
+
+säk 16.00-22.30 2 4väg
+säk 21.30-03.30 2 4väg
+
+insats 17.30-23.00 4 -
+insats 22.00-03.30 4 -
+
+kårtege 10.00-17.00 5 Pålastning/riv/områdesstäd
+flagg 11.00-18.00 10 -
+kårtege 15.30-21.30 5 Avlast-Kårtege
+kårtege 12.30-18.30 2 Städ-Kårtege
+kårtege 12.00-18.00 2 Tidning
+kårtege 12.30-18.30 2 Vattenstation
+
+säk 13.30-20.00 8 Entrevakt
+säk 19.00-01.00 8 Entrevakt
+säk 00.00-05.00 8 Entrevakt
+
+säk 13.30-20.00 1 VIP-vakt
+säk 19.00-01.00 1 VIP-vakt
+säk 00.00-05.00 1 VIP-vakt
+
+säk 13.30-20.00 9 Staketvakt
+säk 19.00-01.00 9 Staketvakt
+säk 00.00-05.00 9 Staketvakt
+
+instrument 07.30-15.00 3 Instrumentförvaring
+instrument 14.00-20.00 2 Instrumentförvaring
+instrument 19.00-01.00 2 Instrumentförvaring
+instrument 00.00-05.00 2 Instrumentförvaring
+
+instrument 16.00-22.00 5 Muddrare
+
+scen 07.30-15.00 6 Rigg/scenvärd
+scen 13.30-20.30 4 Rigg/scenvärd
+scen 19.30-00.30 4 Rigg/scenvärd
+scen 23.30-04.30 4 Rigg/scenvärd
+scen 03.30-08.30 4 Rigg/scenvärd
+
+scen 19.00-01.00 1 Backstage
+scen 00.00-06.30 1 Backstage
+
+
+logi 09.00-16.00 2 Boende
+logi 15.00-22.00 2 Boende
+logi 21.00-04.00 2 Boende
+logi 03.00-10.00 2 Boende
+
+
+
+
+
+
+12/5
+bygg 08.00-18.00 3 El
+
+bygg 06.00-14.00 60 -
+bygg 13.00-00.00 30 -
+
+servering 05.30-11.30 2 Frukost
+logi 07.30-14.00 1 Alkoholgarderob
+
+instrument 10.30-17.00 2 Instrumentförvaring
+instrument 16.00-02.00 2 Instrumentförvaring
+
+logi 09.00-15.00 4 Boende
+
