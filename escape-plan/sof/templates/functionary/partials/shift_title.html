@@ -1,5 +1,4 @@
 {% spaceless %}
-{{ shift.start|date:"l n F" }} {{ shift.shift_sub_type }} {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}
-
-{% if place_count %} ({{ shift.free_places }} platser){% endif %}
+{{ shift.start|date:"l j F" }} {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }} <b>{{ shift.shift_sub_type|default:'' }}</b>
+{% if place_count %} ({{ shift.free_places }} plats{{ shift.free_places|pluralize:"er" }}){% endif %}
 {% endspaceless %}

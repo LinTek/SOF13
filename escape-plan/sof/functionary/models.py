@@ -12,7 +12,7 @@ class ShiftManager(models.Manager):
     def with_free_places(self, worker):
         res = []
         shifts = (self.order_by('shift_type', 'start')
-                      .select_related('shift_type')
+                      .select_related('shift_type', 'shift_sub_type')
                       .prefetch_related('workerregistration_set')
                       .annotate(worker_count=models.Count('workerregistration')))
 
@@ -71,8 +71,8 @@ class Shift(models.Model):
     responsible_person = models.ForeignKey(User, null=True, blank=True)
 
     def __unicode__(self):
-        return '%s | %s - %s' % (unicode(self.shift_sub_type),
-                                 format_dt(self.start), format_time(self.end))
+        return '%s - %s (%d st) | %s - %s' % (unicode(self.shift_type), unicode(self.shift_sub_type or ''), self.max_workers,
+                                              format_dt(self.start), format_time(self.end))
 
 
 class Worker(AbstractUser):

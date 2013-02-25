@@ -21,8 +21,12 @@ class WorkerUserAdmin(UserAdmin):
     )
 
 
+class ShiftAdmin(admin.ModelAdmin):
+    list_select_related = True
+
+
 admin.site.register(Worker, WorkerUserAdmin)
 admin.site.register(WorkerRegistration)
 admin.site.register(ShiftType)
 admin.site.register(ShiftSubType)
-admin.site.register(Shift)
+admin.site.register(Shift, ShiftAdmin)

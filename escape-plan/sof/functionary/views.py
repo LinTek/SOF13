@@ -57,13 +57,14 @@ def add_registration(request):
     except WorkerRegistration.DoesNotExist:
         if shift.workerregistration_set.count() >= shift.max_workers:
             response = {'book_status': 'occupied'}
-            return HttpResponse(json.dumps(response), content_type="application/json")
 
-        WorkerRegistration(shift=shift,
-                           worker=worker).save()
-        response = {'book_status': 'ok'}
+        else:
+            wr = WorkerRegistration(shift=shift,
+                                    worker=worker)
+            wr.save()
+            response = {'book_status': 'ok'}
 
-    shift.free_places = shift.max_workers - shift.workerregistration_set.count()
+    shift.free_places = max(0, shift.max_workers - shift.workerregistration_set.count())
     html = render_to_string('functionary/partials/shift_title.html',
                             {'shift': shift, 'place_count': True})
     response['html'] = html

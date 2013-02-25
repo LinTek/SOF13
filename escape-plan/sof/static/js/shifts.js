@@ -10,8 +10,13 @@ $(function() {
             success: function(response) {
                 if (response.book_status == 'ok') {
                     element.parent().addClass('signed-up');
+
                 } else if (response.book_status == 'deleted') {
                     element.parent().removeClass('signed-up');
+
+                } else if (response.book_status == 'occupied') {
+                    element.parent().remove();
+                    alert('Passet var redan fullt! Det har INTE bokats!');
                 }
                 element.html(response.html);
             }

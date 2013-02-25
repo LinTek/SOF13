@@ -7,6 +7,11 @@
     background: #D4FFBF;
 }
 
+.accordion-heading {
+    font-weight: bold;
+    background-color: #eee;
+}
+
 .accordion-heading > .accordion-toggle:focus {
     outline: 0;
     text-decoration: none;
@@ -14,4 +19,9 @@
 
 .accordion-group {
     margin-top: 10px;
+}
+
+ul {
+    list-style-type: none;
+    margin-bottom: 0;
 }

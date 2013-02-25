@@ -2,12 +2,11 @@
 Hej {{ worker.first_name }}!
 
 Roligt att du har valt att jobba som funktionär under SOF 2013!
-Det här är bara en bekräftelse på din anmälan, vi kommer att
-återkomma med mer information senare.
+Det här är bara en bekräftelse på din anmälan, vi kommer att återkomma med mer information senare.
 {% if registrations %}
 Du är anmäld till följande pass:
-----------------------------------{% for r in registrations %}
-{{ r.shift.shift_type }} - {% shift_title r.shift %}
-{% endfor %}{% endif %}
+-----------------------------------------{% for r in registrations %}
+{{ r.shift.shift_type }} {{ r.shift.shift_sub_type|default:'' }} - {{ r.shift.start|date:"l j F" }} -  {{ r.shift.start|date:"H:i" }}-{{ r.shift.end|date:"H:i" }}{% endfor %}
+{% endif %}
 Med vänliga hälsningar,
-SOF-organisationen
+Funktionärsansvarig SOF13
