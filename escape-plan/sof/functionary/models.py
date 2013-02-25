@@ -68,6 +68,9 @@ class Worker(AbstractUser):
 
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
 
+    def __unicode__(self):
+        return unicode(self.get_full_name())
+
 
 class WorkerRegistration(models.Model):
     class Meta:

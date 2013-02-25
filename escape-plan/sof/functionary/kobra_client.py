@@ -1,3 +1,4 @@
+# encoding: utf-8
 import httplib2
 import json
 
@@ -30,11 +31,11 @@ class KOBRAClient:
         return json.loads(result)
 
     def get_student_by_liu_id(self, liu):
-        return self._get_student('liu_id:"{0}"'.format(liu))
+        return self._get_student('liu_id:"%s"' % liu)
 
     def get_student_by_card(self, card_number):
-        attr = 'rfid_number' if len(card_number) < 12 else 'barcode_number'
-        return self._get_student('{0}:"{1}"'.format(attr, card_number))
+        attr = 'rfid_number' if len(card_number) <= 10 else 'barcode_number'
+        return self._get_student('%s:"%s"' % (attr, card_number))
 
     def get_student(self, id_or_card_number):
         # LiU-ID is normally 8 chars long (or 5 chars for some employees)
