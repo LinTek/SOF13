@@ -56,7 +56,7 @@ class Shift(models.Model):
     end = models.DateTimeField(_('end date'))
     max_workers = models.PositiveSmallIntegerField(_('max workers'))
     shift_type = models.ForeignKey('ShiftType')
-    responsible_person = models.ForeignKey(User)
+    responsible_person = models.ForeignKey(User, null=True, blank=True)
 
     def __unicode__(self):
         return '%s | %s - %s' % (unicode(self.shift_type),
