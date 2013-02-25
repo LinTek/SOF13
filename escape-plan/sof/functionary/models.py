@@ -84,7 +84,7 @@ class Worker(AbstractUser):
 
     def send_registration_email(self):
         _mail('confirm_registrations', [self.email],
-                {'registrations': self.workerregistration_set.select_related('shift').all(),
+                {'registrations': self.workerregistration_set.select_related('shift').order_by('shift__start'),
                  'worker': self})
         return redirect('search')
 

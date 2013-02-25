@@ -6,7 +6,7 @@ Det här är bara en bekräftelse på din anmälan, vi kommer att återkomma med
 {% if registrations %}
 Du är anmäld till följande pass:
 -----------------------------------------{% for r in registrations %}
-{{ r.shift.shift_type }} {{ r.shift.shift_sub_type|default:'' }} - {{ r.shift.start|date:"l j F" }} -  {{ r.shift.start|date:"H:i" }}-{{ r.shift.end|date:"H:i" }}{% endfor %}
+{{ r.shift.start|date:"l j F" }} {{ r.shift.start|date:"H:i" }}-{{ r.shift.end|date:"H:i" }} - {{ r.shift.shift_type }}{% if r.shift.shift_sub_type %}, {{ r.shift.shift_sub_type }}{% endif %}{% endfor %}
 {% endif %}
 Med vänliga hälsningar,
 Funktionärsansvarig SOF13
