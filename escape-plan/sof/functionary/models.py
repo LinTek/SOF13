@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.dateformat import format
 from django.contrib.auth.models import User, AbstractUser
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -106,11 +107,11 @@ class WorkerRegistration(models.Model):
 
 
 def format_dt(dt):
-    return dt.strftime('%d %b, kl %H:%M')
+    return format(dt, 'd F H:i')
 
 
 def format_time(dt):
-    return dt.strftime('kl %H:%M')
+    return format(dt, 'H:i')
 
 
 def _mail(template_name, to, template_params):
