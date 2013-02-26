@@ -123,6 +123,13 @@ def search(request):
             return render_worker_form()
 
         try:
+            w = Worker.objects.get(username__startswith=term)
+            return redirect('add_registrations', worker_id=w.pk)
+
+        except Worker.DoesNotExist:
+            pass
+
+        try:
             student = k.get_student(term)
 
             if student.get('blocked'):
