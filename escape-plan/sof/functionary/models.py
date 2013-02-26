@@ -1,4 +1,6 @@
 # encoding: utf-8
+from pytz import timezone
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -7,6 +9,8 @@ from django.contrib.auth.models import User, AbstractUser
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.shortcuts import redirect
+
+sthlm = timezone('Europe/Stockholm')
 
 
 class ShiftManager(models.Manager):
@@ -39,6 +43,7 @@ class ShiftType(models.Model):
     class Meta:
         verbose_name = _('shift type')
         verbose_name_plural = _('shift types')
+        ordering = ('name',)
 
     name = models.CharField(max_length=100)
 
@@ -50,6 +55,7 @@ class ShiftSubType(models.Model):
     class Meta:
         verbose_name = _('shift subtype')
         verbose_name_plural = _('shift subtypes')
+        ordering = ('name',)
 
     name = models.CharField(max_length=100)
 
@@ -72,14 +78,14 @@ class Shift(models.Model):
     responsible_person = models.ForeignKey(User, null=True, blank=True)
 
     def __unicode__(self):
-        return '%s - %s (%d st) | %s - %s' % (unicode(self.shift_type), unicode(self.shift_sub_type or ''), self.max_workers,
-                                              format_dt(self.start), format_time(self.end))
+        return '%s, %s-%s' % (unicode(self.shift_type), format_dt(self.start), format_time(self.end))
 
 
 class Worker(AbstractUser):
     class Meta:
         verbose_name = _('worker')
         verbose_name_plural = _('workers')
+        ordering = ('first_name', 'last_name')
 
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
 
@@ -107,11 +113,11 @@ class WorkerRegistration(models.Model):
 
 
 def format_dt(dt):
-    return format(dt, 'd F H:i')
+    return format(dt.astimezone(sthlm), 'l d F H:i')
 
 
 def format_time(dt):
-    return format(dt, 'H:i')
+    return format(dt.astimezone(sthlm), 'H:i')
 
 
 def _mail(template_name, to, template_params):
