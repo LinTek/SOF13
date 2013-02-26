@@ -2,7 +2,7 @@ import re
 
 from django_localflavor_se.forms import SEPersonalIdentityNumberField
 from django_localflavor_se.utils import (validate_id_birthday,
-                                                 format_personal_id_number)
+                                         format_personal_id_number)
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _

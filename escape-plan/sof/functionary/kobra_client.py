@@ -33,12 +33,18 @@ class KOBRAClient:
     def get_student_by_liu_id(self, liu):
         return self._get_student('liu_id:"%s"' % liu)
 
+    def get_student_by_pid(self, pid):
+        return self._get_student('personal_number:"%s"' % pid)
+
     def get_student_by_card(self, card_number):
         attr = 'rfid_number' if len(card_number) <= 10 else 'barcode_number'
         return self._get_student('%s:"%s"' % (attr, card_number))
 
     def get_student(self, id_or_card_number):
         # LiU-ID is normally 8 chars long (or 5 chars for some employees)
+        if '-' in id_or_card_number:
+            return self.get_student_by_pid(id_or_card_number)
+
         if len(id_or_card_number) <= 8:
             return self.get_student_by_liu_id(id_or_card_number)
         return self.get_student_by_card(id_or_card_number)
