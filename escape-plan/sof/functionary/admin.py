@@ -20,6 +20,8 @@ class WorkerUserAdmin(UserAdmin):
         (_('Additional info'), {'fields': ('pid',)}),
     )
 
+class WorkerRegistrationAdmin(ModelAdmin):
+    pass
 
 class ShiftAdmin(admin.ModelAdmin):
     list_select_related = True
