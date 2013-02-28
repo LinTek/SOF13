@@ -50,10 +50,10 @@ def shifts(request):
 @transaction.commit_on_success
 def add_registration(request):
     try:
-        worker = Worker.objects.get(pk=int(request.POST.get('worker')))
-        shift = Shift.objects.select_for_update().get(pk=int(request.POST.get('shift')))
+        worker = Worker.objects.get(pk=int(request.POST.get('worker') or 0))
+        shift = Shift.objects.select_for_update().get(pk=int(request.POST.get('shift') or 0))
 
-    except Shift.DoesNotExist, Worker.DoesNotExist:
+    except (Shift.DoesNotExist, Worker.DoesNotExist):
         raise Http404
 
     try:
