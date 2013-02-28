@@ -14,7 +14,7 @@ sthlm = timezone('Europe/Stockholm')
 
 
 class ShiftManager(models.Manager):
-    def with_free_places(self, worker):
+    def with_free_places(self, worker=None):
         res = []
         shifts = (self.order_by('shift_type', 'start')
                       .select_related('shift_type', 'shift_sub_type')

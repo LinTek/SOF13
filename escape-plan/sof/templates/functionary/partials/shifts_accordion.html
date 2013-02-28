@@ -11,9 +11,9 @@
         {% for shift in shifts %}
             <ul>
                 <li class="shift{% if shift.worker_is_signed_up %} signed-up{% endif %}" >
-                <a href="#" class="add_worker" data-shift="{{ shift.pk }}">
+                {% if perms.auth.add_user %}<a href="#" class="add_worker" data-shift="{{ shift.pk }}">{% endif %}
                     {% shift_title shift 'place_count' %}
-                </a>
+                {% if perms.auth.add_user %}</a>{% endif %}
                 </li>
             </ul>
         {% endfor %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load shift_extras %}
+
+{% block title %}- Lediga pass{% endblock %}
+
+{% block content %}
+
+<div>
+    <h3>Alla lediga pass</h3>
+    <p>Klicka på en kategori för att visa passen för denna kategori.</p>
+
+    {% include "functionary/partials/shifts_accordion.html" %}
+</div>
+
+{% endblock %}

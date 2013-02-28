@@ -28,6 +28,13 @@ def login(request, **kwargs):
         return auth_login(request, **kwargs)
 
 
+def public_shift_list(request):
+    all_shifts = _group_by_type(list(Shift.objects.with_free_places()))
+
+    return render(request, 'functionary/public_shift_list.html', {
+                                        'all_shifts': all_shifts})
+
+
 @login_required
 def shifts(request):
     registrations = WorkerRegistration.objects.filter(worker=request.user)

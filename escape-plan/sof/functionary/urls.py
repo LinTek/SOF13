@@ -12,6 +12,7 @@ from .views import login
 urlpatterns = patterns('sof.functionary.views',
     url(r'^$', login, {'template_name': 'functionary/login.html'}, 'login'),
     url(r'^logout$', logout, {'next_page': '/'}, 'logout'),
+    url(r'^list/$', 'public_shift_list', name='public_shift_list'),
 
     url(r'^shifts$', 'shifts', name='shifts'),
     url(r'^search$', 'search', name='search'),
