@@ -76,6 +76,7 @@ class Shift(models.Model):
     shift_type = models.ForeignKey('ShiftType')
     shift_sub_type = models.ForeignKey('ShiftSubType', null=True, blank=True)
     responsible_person = models.ForeignKey(User, null=True, blank=True)
+    is_dummy = models.BooleanField(_('dummy shift'), default=False, blank=True)
 
     def __unicode__(self):
         return '%s, %s-%s' % (unicode(self.shift_type), format_dt(self.start), format_time(self.end))

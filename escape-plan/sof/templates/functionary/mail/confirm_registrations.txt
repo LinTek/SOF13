@@ -4,9 +4,9 @@ Hej {{ worker.first_name }}!
 Roligt att du har valt att jobba som funktionär under SOF 2013!
 Det här är bara en bekräftelse på din anmälan, vi kommer att återkomma med mer information senare.
 {% if registrations %}
-Du är anmäld till följande pass:
------------------------------------------{% for r in registrations %}
-{{ r.shift.start|date:"l j F" }} {{ r.shift.start|date:"H:i" }}-{{ r.shift.end|date:"H:i" }} - {{ r.shift.shift_type }}{% endfor %}
-{% endif %}
+Du är anmäld till följande pass eller funktionärstyper:
+-----------------------------------------{% for r in registrations %}{% if r.shift.is_dummy %}{{ r.shift.shift_type }} (under hela festivalen){% else %}
+{{ r.shift.start|date:"l j F" }} {{ r.shift.start|date:"H:i" }}-{{ r.shift.end|date:"H:i" }} - {{ r.shift.shift_type }}{% endif %}
+{% endfor %}{% endif %}
 Med vänliga hälsningar,
 Funktionärsansvarig SOF13
