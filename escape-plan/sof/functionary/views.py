@@ -98,9 +98,12 @@ def create_worker(request):
 def add_registrations(request, worker_id):
     worker = get_object_or_404(Worker, pk=worker_id)
     all_shifts = _group_by_type(list(Shift.objects.with_free_places(worker)))
+    worker_shifts = worker.workerregistration_set.select_related('shift')
 
     return render(request, 'functionary/add_registrations.html',
-                            {'worker': worker, 'all_shifts': all_shifts})
+                            {'worker': worker,
+                             'all_shifts': all_shifts,
+                             'worker_shifts': worker_shifts})
 
 
 @login_required

@@ -1,11 +1,20 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load shift_extras %}
 
 {% block title %}- Funktionärssläpp{% endblock %}
 
 {% block content %}
     <h3>Anmälan till funkispass <small>| {{ worker }}</small></h3>
     Lägg till ett pass genom att klicka på det. Registreringen sparas direkt. För att ta bort registreringen, klicka på passet igen.
+
+    <p>
+    {% for r in worker_shifts %}
+        <a href="#" class="add_worker" data-shift="{{ r.shift.pk }}">
+            {% shift_title r.shift '' 'sub_type' %}
+        </a>
+    {% endfor %}
+    </p>
 
     {% include "functionary/partials/shifts_accordion.html" %}
 
