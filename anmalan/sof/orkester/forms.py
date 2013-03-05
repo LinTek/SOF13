@@ -83,7 +83,7 @@ class MemberForm(forms.ModelForm):
     """
     class Meta:
         model = Member
-        exclude = ('orchestras')
+        exclude = ('orchestras', 'late_registration')
 
     def clean(self):
         """

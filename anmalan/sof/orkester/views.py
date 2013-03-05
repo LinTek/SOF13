@@ -67,6 +67,7 @@ def member_form(request, token):
         if form.is_valid():
             member = form.save()
             member.orchestras.add(orchestra)
+            member.late_registration = True
             member.save()
 
             member.send_confirm_email(orchestra)
@@ -198,6 +199,9 @@ def add_member(request, token):
             member = Member.objects.get(pid=pid)
             # add the orchestra to the set of the member's orchestras
             member.orchestras.add(orchestra)
+
+            member.late_registration = True
+            member.save()
 
             member.send_confirm_email(orchestra)
 

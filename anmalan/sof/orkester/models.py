@@ -260,6 +260,9 @@ class Member(models.Model):
                                         (om det blir tillräckligt stort intresse så kommer denna sittning att hållas)""",
                                       choices=YESNO, max_length=5)
 
+    late_registration = models.BooleanField("Sen registrering",
+                                            default=False, blank=True)
+
     t_shirt = models.BooleanField("T-shirt (100 kr)")
     t_shirt_size = models.CharField("Storlek T-shirt",
                                     choices=TSHIRT_SIZES, max_length=5,
