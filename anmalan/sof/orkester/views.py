@@ -152,7 +152,9 @@ def stats(request):
 
         orchestra.totals = defaultdict(int)
         orchestra.totals['members'] = len(members)
-        orchestra.totals['sitting'] = len([1 for m in members if (m.attend_sitting == YES)])
+        orchestra.totals['sitting'] = len([True for m in members if (m.attend_sitting == YES)])
+        orchestra.totals['bed'] = len([True for m in members if (m.needs_bed == YES)])
+        orchestra.totals['kartege'] = len([True for m in members if (m.plays_kartege == YES)])
 
         for member in members:
             orchestra.totals[member.ticket_type] += 1
@@ -166,6 +168,8 @@ def stats(request):
     totals = {}
     totals['members'] = Member.objects.count()
     totals['sitting'] = Member.objects.filter(attend_sitting=YES).count()
+    totals['bed'] = Member.objects.filter(needs_bed=YES).count()
+    totals['kartege'] = Member.objects.filter(plays_kartege=YES).count()
 
     for ttype, _ in TICKET_TYPES:
         totals[ttype] = Member.objects.filter(ticket_type=ttype).count()

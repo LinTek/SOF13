@@ -9,6 +9,8 @@
         <th>Orkester</th>
         <th>Anmälda</th>
         <th>Sittning</th>
+        <th>Boende</th>
+        <th>Kårtege</th>
 
         {% for ttype, name in ticket_types  %}
             <th>{{ name }}</th>
@@ -20,6 +22,8 @@
         <td><a href="{% url member_list orchestra.token %}">{{ orchestra }}</a></td>
         <td>{% if orchestra.totals.members %}{{ orchestra.totals.members }} st{% endif %}</td>
         <td>{% if orchestra.totals.sitting %}{{ orchestra.totals.sitting }} st{% endif %}</td>
+        <td>{% if orchestra.totals.bed %}{{ orchestra.totals.bed }} st{% endif %}</td>
+        <td>{% if orchestra.totals.kartege %}{{ orchestra.totals.kartege }} st{% endif %}</td>
 
         {% for ttype, name in ticket_types  %}
             <td>
@@ -36,6 +40,8 @@
             <th>Totalt (unika personer)</th>
             <th>{{ totals.members }} st</th>
             <th>{{ totals.sitting }} st</th>
+            <th>{{ totals.bed }} st</th>
+            <th>{{ totals.kartege }} st</th>
 
             {% for ttype, name in ticket_types  %}
                 <th>{{ totals|get:ttype }} st</th>
