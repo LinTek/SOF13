@@ -33,8 +33,11 @@ YESNO_NOT_NEEDED = [(YES, 'Ja'), ('maybe', 'Klarar oss utan om det kniper'), (NO
 # Days and ticket types
 ARRIVAL_DAYS = [('thursday', 'Torsdag'), ('friday', 'Fredag')]
 
-TICKET_TYPES = [('thursday', 'Torsdag - Söndag (625 kr)'),
-                ('friday',   'Fredag - Söndag (575 kr)')]
+TICKET_TYPES = [('thursday',       'Torsdag - Söndag (625 kr)'),
+                ('friday',         'Fredag - Söndag (575 kr)'),
+                ('thursday-cheap', 'Torsdag - Söndag, utan mat och boende (415 kr)'),
+                ('friday-cheap',   'Fredag - Söndag, utan mat och boende (375 kr)'),
+                ('saturday',       'Lördagsbiljett (250 kr)')]
 
 # Each choice must be a two-tuple. In this case we want the same value in
 # DB as in the forms, so generate tuples for all items in the list
