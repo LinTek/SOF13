@@ -144,40 +144,33 @@ def food_list(request):
 
 @login_required
 def stats(request):
+    all_total_fields = ['members', 'sitting', 'bed', 'kartege'] + [t for t, _ in TICKET_TYPES] + [t for t, _ in GADGETS_TSHIRT]
     orchestras = (Orchestra.objects.order_by('orchestra_name')
                                    .select_related('member')
                                    .annotate(member_count=Count('member')))
 
-    for orchestra in orchestras:
-        members = orchestra.member_set.all()
+    sums = defaultdict(lambda: defaultdict(int))
 
-        orchestra.totals = defaultdict(int)
-        orchestra.totals['members'] = len(members)
-        orchestra.totals['sitting'] = len([True for m in members if (m.attend_sitting == YES)])
-        orchestra.totals['bed'] = len([True for m in members if (m.needs_bed == YES)])
-        orchestra.totals['kartege'] = len([True for m in members if (m.plays_kartege == YES)])
+    for member in Member.objects.select_related('orchestras'):
+        orchestra = member.orchestras.order_by('id').all()[0]
 
-        for member in members:
-            orchestra.totals[member.ticket_type] += 1
+        sums[orchestra.pk]['members'] += 1
+        sums[orchestra.pk][member.ticket_type] += 1
+        # The summation below is actually quite obscure and based on the fact that
+        # True and False is evaluated as 1 and 0 respectively.
+        sums[orchestra.pk]['sitting'] += member.attend_sitting == YES
+        sums[orchestra.pk]['bed'] += member.needs_bed == YES
+        sums[orchestra.pk]['kartege'] += member.plays_kartege == YES
 
         for gtype, _ in GADGETS_TSHIRT:
-            # Python magic FTW!
-            orchestra.totals[gtype] = members.filter(**{gtype: True}).count()
+            sums[orchestra.pk][gtype] += getattr(member, gtype)
 
-    # This is needed because we have no knowledge about members that belong to
-    # multiple orchestras, so we cannot just sum all the stuff above.
-    totals = {}
-    totals['members'] = Member.objects.count()
-    totals['sitting'] = Member.objects.filter(attend_sitting=YES).count()
-    totals['bed'] = Member.objects.filter(needs_bed=YES).count()
-    totals['kartege'] = Member.objects.filter(plays_kartege=YES).count()
+    totals = defaultdict(int)
+    for orchestra in orchestras:
+        orchestra.totals = sums[orchestra.pk]
 
-    for ttype, _ in TICKET_TYPES:
-        totals[ttype] = Member.objects.filter(ticket_type=ttype).count()
-
-    for gtype, _ in GADGETS_TSHIRT:
-        # Python magic FTW!
-        totals[gtype] = Member.objects.filter(**{gtype: True}).count()
+        for e in all_total_fields:
+                totals[e] += orchestra.totals[e]
 
     return render(request, 'orkester/stats.html',
                   {'orchestras': orchestras,
