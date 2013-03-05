@@ -243,7 +243,7 @@ class Member(models.Model):
     pid = models.CharField("personnummer", max_length=20, unique=True)
     email = models.EmailField("e-postadress")
 
-    ticket_type = models.CharField("biljettyp", max_length=10, choices=TICKET_TYPES)
+    ticket_type = models.CharField("biljettyp", max_length=20, choices=TICKET_TYPES)
 
     attends_10th_year = models.BooleanField("Detta blir det 10:e året i rad jag besöker SOF/STORK")
     attends_25th_time = models.BooleanField("Detta blir mitt 25:e besök på SOF/STORK")
