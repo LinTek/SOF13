@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from forms import OrchestraForm, MemberForm, AddMemberForm
-from models import Orchestra, Member, YES, TICKET_TYPES, GADGETS_TSHIRT
+from models import Orchestra, Member, YES, TICKET_TYPES, GADGETS, TSHIRT_SIZES
 
 
 def home(request):
@@ -144,7 +144,12 @@ def food_list(request):
 
 @login_required
 def stats(request):
-    all_total_fields = ['members', 'sitting', 'bed', 'kartege'] + [t for t, _ in TICKET_TYPES] + [t for t, _ in GADGETS_TSHIRT]
+    T_SHIRTS = [('t_shirt_%s' % s, 'T-shirt (%s)' % s) for s, s in TSHIRT_SIZES]
+
+    all_total_fields = (['members', 'sitting', 'bed', 'kartege'] +
+                        [t for t, _ in T_SHIRTS] +
+                        [t for t, _ in TICKET_TYPES] +
+                        [t for t, _ in GADGETS])
     orchestras = (Orchestra.objects.order_by('orchestra_name')
                                    .select_related('member')
                                    .annotate(member_count=Count('member')))
@@ -162,8 +167,11 @@ def stats(request):
         sums[orchestra.pk]['bed'] += member.needs_bed == YES
         sums[orchestra.pk]['kartege'] += member.plays_kartege == YES
 
-        for gtype, _ in GADGETS_TSHIRT:
+        for gtype, _ in GADGETS:
             sums[orchestra.pk][gtype] += getattr(member, gtype)
+
+        if member.t_shirt:
+            sums[orchestra.pk]['t_shirt_%s' % member.t_shirt_size] += 1
 
     totals = defaultdict(int)
     for orchestra in orchestras:
@@ -176,7 +184,7 @@ def stats(request):
                   {'orchestras': orchestras,
                    'totals': totals,
                    'ticket_types': TICKET_TYPES,
-                   'gadget_types': GADGETS_TSHIRT})
+                   'gadget_types': GADGETS + T_SHIRTS})
 
 
 def add_member(request, token):

@@ -50,8 +50,6 @@ GADGETS = [('badge_orchestra', 'Orkestermärke'),
            ('yoyo', 'Jojo'),
            ('beer_glass', 'Ölglas')]
 
-GADGETS_TSHIRT = GADGETS + [('t_shirt', 'T-shirt')]
-
 
 def boolify(value):
     if value == YES:
