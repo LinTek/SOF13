@@ -2,6 +2,8 @@
 {% load utils %}
 
 {% block content %}
+<h3>Biljetter</h3>
+
 <table class="table table-striped table-hover">
     <tr>
         <th>Orkester</th>
@@ -16,11 +18,15 @@
 {% for orchestra in orchestras %}
     <tr>
         <td><a href="{% url member_list orchestra.token %}">{{ orchestra }}</a></td>
-        <td>{{ orchestra.totals.members }} st</td>
-        <td>{{ orchestra.totals.sitting }} st</td>
+        <td>{% if orchestra.totals.members %}{{ orchestra.totals.members }} st{% endif %}</td>
+        <td>{% if orchestra.totals.sitting %}{{ orchestra.totals.sitting }} st{% endif %}</td>
 
         {% for ttype, name in ticket_types  %}
-            <td>{{ orchestra.totals|get:ttype|default_if_none:0 }} st</td>
+            <td>
+                {% if orchestra.totals|get:ttype %}
+                {{ orchestra.totals|get:ttype }} st
+                {% endif %}
+            </td>
         {% endfor %}
     </tr>
 {% endfor %}
@@ -36,6 +42,38 @@
             {% endfor %}
         </tr>
     </tfoot>
+</table>
+
+
+<h3>Prylar</h3>
+{% for orchestra in orchestras %}
+    <h4>{{ orchestra }} <small> <a href="{% url member_list orchestra.token %}">Visa</a></small></h4>
+    <table class="table table-striped table-hover" style="max-width: 300px">
+        <tr>
+            <th>Pryl</th>
+            <th>Antal</th>
+        </tr>
+
+    {% for gtype, name in gadget_types  %}
+        {% if orchestra.totals|get:gtype %}
+        <tr>
+            <td>{{ name }}</td>
+            <td>{{ orchestra.totals|get:gtype }} st</td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+
+    </table>
+{% endfor %}
+
+<h4>Totalt</h4>
+<table class="table table-striped table-hover" style="max-width: 300px">
+{% for gtype, name in gadget_types  %}
+    <tr>
+        <td>{{ name }}</td>
+        <td>{{ totals|get:gtype }} st</td>
+    </tr>
+{% endfor %}
 </table>
 
 {% endblock content %}

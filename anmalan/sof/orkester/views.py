@@ -10,12 +10,12 @@ work in the views to maintain a somewhat good MVC-pattern.
 """
 from collections import defaultdict
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from forms import OrchestraForm, MemberForm, AddMemberForm
-from models import Orchestra, Member, YES, TICKET_TYPES
+from models import Orchestra, Member, YES, TICKET_TYPES, GADGETS_TSHIRT
 
 
 def home(request):
@@ -76,7 +76,7 @@ def member_form(request, token):
         form = MemberForm()
 
     return render(request, 'orkester/member_form.html',
-                    {'form': form, 'orchestra': orchestra})
+                  {'form': form, 'orchestra': orchestra})
 
 
 def member_list(request, token):
@@ -86,7 +86,7 @@ def member_list(request, token):
     members = orchestra.member_set.order_by('first_name', 'last_name')
 
     return render(request, 'orkester/member_list.html',
-                    {'orchestra': orchestra, 'members': members})
+                  {'orchestra': orchestra, 'members': members})
 
 
 @login_required
@@ -99,13 +99,14 @@ def press_list(request):
               'logo_image')
 
     return render(request, 'orkester/orchestra_list.html',
-                    {'orchestras': orchestras, 'fields': fields})
+                  {'orchestras': orchestras, 'fields': fields})
 
 
 @login_required
 def orchestra_list(request):
     orchestras = Orchestra.objects.order_by('orchestra_name')
-    fields = ('orchestra_name', 'short_name', 'use_short_name', 'music_type',
+    fields = (
+        'orchestra_name', 'short_name', 'use_short_name', 'music_type',
         'showpiece', 'departure_day', 'parking_lot_needed', 'parking_lot_type',
         'estimated_instruments', 'play_thursday', 'play_friday', 'concerto_preludium',
         'concerto_grosso', 'family_play', 'backline', 'amplifier_guitar', 'amplifier_bass',
@@ -113,7 +114,31 @@ def orchestra_list(request):
         'message', 'primary_contact_email', 'ballet_contact_email')
 
     return render(request, 'orkester/orchestra_list.html',
-                    {'orchestras': orchestras, 'fields': fields})
+                  {'orchestras': orchestras, 'fields': fields})
+
+
+@login_required
+def attends_10_25_list(request):
+    members = (Member.objects
+               .filter(Q(attends_10th_year=True) | Q(attends_25th_time=True))
+               .order_by('first_name', 'last_name'))
+
+    return render(request, 'orkester/attends_10_25_list.html',
+                  {'members': members})
+
+
+@login_required
+def food_list(request):
+    days = {'thursday': ('thursday',),
+            'friday': ('thursday', 'friday'),
+            'saturday': ('thursday', 'friday', 'saturday'),
+            'sunday': ('thursday', 'friday')}
+
+    for day in days:
+        pass
+
+    return render(request, 'orkester/food_list.html',
+                  {'days': days})
 
 
 @login_required
@@ -132,6 +157,10 @@ def stats(request):
         for member in members:
             orchestra.totals[member.ticket_type] += 1
 
+        for gtype, _ in GADGETS_TSHIRT:
+            # Python magic FTW!
+            orchestra.totals[gtype] = members.filter(**{gtype: True}).count()
+
     # This is needed because we have no knowledge about members that belong to
     # multiple orchestras, so we cannot just sum all the stuff above.
     totals = {}
@@ -141,9 +170,15 @@ def stats(request):
     for ttype, _ in TICKET_TYPES:
         totals[ttype] = Member.objects.filter(ticket_type=ttype).count()
 
+    for gtype, _ in GADGETS_TSHIRT:
+        # Python magic FTW!
+        totals[gtype] = Member.objects.filter(**{gtype: True}).count()
+
     return render(request, 'orkester/stats.html',
-                    {'orchestras': orchestras, 'totals': totals,
-                     'ticket_types': TICKET_TYPES})
+                  {'orchestras': orchestras,
+                   'totals': totals,
+                   'ticket_types': TICKET_TYPES,
+                   'gadget_types': GADGETS_TSHIRT})
 
 
 def add_member(request, token):
@@ -167,7 +202,7 @@ def add_member(request, token):
         form = AddMemberForm()
 
     return render(request, 'orkester/add_member_form.html',
-                    {'form': form, 'orchestra': orchestra})
+                  {'form': form, 'orchestra': orchestra})
 
 
 def _orchestra_by_token(token):

@@ -37,11 +37,20 @@ TICKET_TYPES = [('thursday',       'Torsdag - Söndag (625 kr)'),
                 ('friday',         'Fredag - Söndag (575 kr)'),
                 ('thursday-cheap', 'Torsdag - Söndag, utan mat och boende (415 kr)'),
                 ('friday-cheap',   'Fredag - Söndag, utan mat och boende (375 kr)'),
-                ('saturday',       'Lördagsbiljett (250 kr)')]
+                ('saturday',       'Lördag med mat, utan boende (250 kr)')]
 
 # Each choice must be a two-tuple. In this case we want the same value in
 # DB as in the forms, so generate tuples for all items in the list
 TSHIRT_SIZES = [(s, s) for s in ('XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL')]
+
+GADGETS = [('badge_orchestra', 'Orkestermärke'),
+           ('badge_visitor', 'Besökarmärke'),
+           ('medal', 'Medalj'),
+           ('bottle_opener', 'Kapsylöppnare'),
+           ('yoyo', 'Jojo'),
+           ('beer_glass', 'Ölglas')]
+
+GADGETS_TSHIRT = GADGETS + [('t_shirt', 'T-shirt')]
 
 
 def boolify(value):
@@ -139,7 +148,7 @@ class Orchestra(models.Model):
     orchestra_image = models.ImageField("Ladda upp en högupplöst bild på er orkester",
                                         upload_to=image_filename)
     logo_image = models.ImageField("Ladda upp en högupplöst bild på er logga",
-                                    upload_to=logo_filename)
+                                   upload_to=logo_filename)
 
     # Under SOF
     departure_day = models.CharField("Ankomstdag", choices=ARRIVAL_DAYS,
@@ -148,7 +157,7 @@ class Orchestra(models.Model):
     parking_lot_needed = models.CharField("Behöver ni parkeringsplats?",
                                           choices=YESNO, max_length=5)
     parking_lot_type = models.TextField("Om så är fallet, hur många och vilken typ av fordon?",
-                                         blank=True)
+                                        blank=True)
 
     estimated_instruments = models.CharField("Uppskattat antal pallar instrument",
                                              choices=numeric_choice(0, 3), max_length=5)
@@ -157,7 +166,7 @@ class Orchestra(models.Model):
     play_thursday = models.CharField("Har möjlighet att spela på torsdagen?",
                                      choices=YESNO_MAYBE, max_length=5)
     play_friday = models.CharField("Antal önskade spelningar, fre (räknat utan Conserto Preludium)",
-                                     choices=numeric_choice(1, 2), max_length=5)
+                                   choices=numeric_choice(1, 2), max_length=5)
 
     concerto_preludium = models.CharField("Vill ni spela under Conserto Preludium på fredagen?",
                                           choices=YESNO, max_length=5)
@@ -249,7 +258,7 @@ class Member(models.Model):
                                  choices=YESNO, max_length=5)
     attend_sitting = models.CharField("""Önskar att få möjligheten att gå på sittningen på torsdagen (pris 125 kr)
                                         (om det blir tillräckligt stort intresse så kommer denna sittning att hållas)""",
-                                        choices=YESNO, max_length=5)
+                                      choices=YESNO, max_length=5)
 
     t_shirt = models.BooleanField("T-shirt (100 kr)")
     t_shirt_size = models.CharField("Storlek T-shirt",
@@ -270,19 +279,16 @@ class Member(models.Model):
               {'member': self, 'orchestra': orchestra})
 
     def get_gadgets_display(self):
-        GADGETS = [('t_shirt', 'T-shirt ({0})'.format(self.get_t_shirt_size_display())),
-                   ('badge_orchestra', 'Orkestermärke'),
-                   ('badge_visitor', 'Besökarmärke'),
-                   ('medal', 'Medalj'),
-                   ('bottle_opener', 'Kapsylöppnare'),
-                   ('yoyo', 'Jojo'),
-                   ('beer_glass', 'Ölglas')]
-        return ', '.join([name for attr, name in GADGETS if getattr(self, attr)])
+        gadgets = [('t_shirt', 'T-shirt ({0})'.format(self.get_t_shirt_size_display()))] + GADGETS
+        return ', '.join([name for attr, name in gadgets if getattr(self, attr)])
+
+    def get_orchestras_display(self):
+        return ', '.join([o.short_name for o in self.orchestras.all()])
 
     def get_attends_display(self):
         result = []
         if self.attends_10th_year:
             result.append('10:e året')
         if self.attends_25th_time:
-            result.append('25:e året')
+            result.append('25:e gången')
         return ', '.join(result)

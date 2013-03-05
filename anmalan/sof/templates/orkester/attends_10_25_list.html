@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Personer som gör sitt 10:e år/25:e gång</h3>
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Namn</th>
+        <th>Allergier</th>
+        <th>Orkester</th>
+        <th></th>
+    </tr>
+    {% for member in members %}
+    <tr>
+        <td>{{ member }}</td>
+        <td>{{ member.allergies }}</td>
+        <td>{{ member.get_orchestras_display }}</td>
+        <td>{{ member.get_attends_display }}</td>
+    </tr>
+    {% endfor %}
+
+    <tfoot>
+        <tr>
+            <td colspan="4"><b>Total {{ members|length }} st</b></td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock content %}
