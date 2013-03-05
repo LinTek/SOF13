@@ -8,14 +8,20 @@
     <h3>Anmälan till funkispass <small>| {{ worker }}</small></h3>
     Lägg till ett pass genom att klicka på det. Registreringen sparas direkt. För att ta bort registreringen, klicka på passet igen.
 
-    <p>
+    {% if worker_shifts %}
+    <h4>Befintliga registreringar</h4>
+    <ul>
     {% for r in worker_shifts %}
+        <li class="shift signed-up">
         <a href="#" class="add_worker" data-shift="{{ r.shift.pk }}">
             {% shift_title r.shift '' 'sub_type' %}
         </a>
+        </li>
     {% endfor %}
-    </p>
+    </ul>
+    {% endif %}
 
+    <h4>Lediga pass</h4>
     {% include "functionary/partials/shifts_accordion.html" %}
 
      <a href="{% url "send_confirmation" worker.pk %}" class="btn btn-primary">Skicka bekräftelse</a>
