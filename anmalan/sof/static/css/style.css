@@ -49,3 +49,9 @@ input[type="checkbox"] {
     margin-bottom: 20px;
 }
 
+@media print {
+  a[href]:after {
+    content: none;
+  }
+}
+
