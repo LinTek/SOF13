@@ -101,9 +101,9 @@ def add_registrations(request, worker_id):
     worker_shifts = worker.workerregistration_set.select_related('shift')
 
     return render(request, 'functionary/add_registrations.html',
-                            {'worker': worker,
-                             'all_shifts': all_shifts,
-                             'worker_shifts': worker_shifts})
+                  {'worker': worker,
+                   'all_shifts': all_shifts,
+                   'worker_shifts': worker_shifts})
 
 
 @login_required
@@ -111,6 +111,12 @@ def add_registrations(request, worker_id):
 def send_confirmation(request, worker_id):
     worker = get_object_or_404(Worker, pk=worker_id)
     worker.send_registration_email()
+
+    if not worker.welcome_email_sent:
+        worker.send_welcome_email()
+
+        worker.welcome_email_sent = True
+        worker.save()
 
     return redirect('search')
 

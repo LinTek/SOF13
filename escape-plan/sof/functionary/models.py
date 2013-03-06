@@ -8,7 +8,6 @@ from django.utils.dateformat import format
 from django.contrib.auth.models import User, AbstractUser
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.shortcuts import redirect
 
 sthlm = timezone('Europe/Stockholm')
 
@@ -89,12 +88,15 @@ class Worker(AbstractUser):
         ordering = ('first_name', 'last_name')
 
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
+    welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
 
     def send_registration_email(self):
         _mail('confirm_registrations', [self.email],
-                {'registrations': self.workerregistration_set.select_related('shift').order_by('shift__start'),
-                 'worker': self})
-        return redirect('search')
+              {'registrations': self.workerregistration_set.select_related('shift').order_by('shift__start'),
+              'worker': self})
+
+    def send_welcome_email(self):
+        _mail('welcome', [self.email], {})
 
     def __unicode__(self):
         return unicode(self.get_full_name())

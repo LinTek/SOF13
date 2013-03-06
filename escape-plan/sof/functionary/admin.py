@@ -17,7 +17,7 @@ class WorkerUserAdmin(UserAdmin):
     form = WorkerChangeForm
 
     fieldsets = UserAdmin.fieldsets + (
-        (_('Additional info'), {'fields': ('pid',)}),
+        (_('Additional info'), {'fields': ('pid', 'welcome_email_sent')}),
     )
 
 
