@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load utils %}
+
+{% block content %}
+<h2>Middag <small>{{ day_name }}</small></h2>
+<div>
+<a href="{% url food "thursday" %}">Torsdag</a> |
+<a href="{% url food "friday" %}">Fredag</a> |
+<a href="{% url food "saturday" %}">Lördag</a> |
+<a href="{% url food "sunday" %}">Söndag</a>
+</div>
+{% if total %}
+Totalt antal personer med middag denna dag: <b>{{ total }} st</b>
+{% endif %}
+
+{% for orchestra in orchestras %}
+{% if orchestra.total %}
+    <h3>{{ orchestra }} <small>| <b>{{ orchestra.total }}</b> personer</small></h3>
+    <b>{{ orchestra.total }}</b> personer totalt, nedan listas de personer som har specialkost.
+
+    {% if orchestra.allergies %}
+    <dl class="dl-horizontal">
+    {% for member in orchestra.allergies %}
+        <dt>{{ member }}</dt>
+        <dd>{{ member.allergies }}</dd>
+    {% endfor %}
+    </dl>
+    {% else %}
+    <p>
+        <i>Ingen person med specialkost!</i>
+    </p>
+    {% endif %}
+    <hr>
+{% endif %}
+{% endfor %}
+{% endblock content %}

@@ -9,6 +9,7 @@ from database or calls methods on models. Be careful not to do too much
 work in the views to maintain a somewhat good MVC-pattern.
 """
 from collections import defaultdict
+from itertools import groupby
 
 from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
@@ -128,18 +129,46 @@ def attends_10_25_list(request):
                   {'members': members})
 
 
+def _group(lst, f):
+    return [(group, list(members)) for group, members in groupby(lst, key=f)]
+
+
 @login_required
-def food_list(request):
+def food_list(request, day=None):
+    if not day:
+        return render(request, 'orkester/food_list.html')
+
+    day_name = {'thursday': 'torsdag', 'friday': 'fredag', 'saturday': 'lördag', 'sunday': 'söndag'}[day]
+
     days = {'thursday': ('thursday',),
             'friday': ('thursday', 'friday'),
             'saturday': ('thursday', 'friday', 'saturday'),
             'sunday': ('thursday', 'friday')}
 
-    for day in days:
-        pass
+    types = days[day]
+
+    orchestras = Orchestra.objects.order_by('orchestra_name')
+    member_list = defaultdict(lambda: defaultdict(int))
+
+    for member in Member.objects.select_related('orchestras').order_by('first_name', 'last_name'):
+        if member.ticket_type in types:
+            orchestra = member.orchestras.order_by('id').all()[0]
+            member_list[orchestra.pk]['total'] += 1
+
+            if member.allergies:
+                if not member_list[orchestra.pk]['allergies']:
+                    member_list[orchestra.pk]['allergies'] = []
+
+                member_list[orchestra.pk]['allergies'].append(member)
+
+    total = 0
+    for orchestra in orchestras:
+        orchestra.total = member_list[orchestra.pk]['total']
+        orchestra.allergies = member_list[orchestra.pk]['allergies']
+        total += orchestra.total
 
     return render(request, 'orkester/food_list.html',
-                  {'days': days})
+                  {'orchestras': orchestras, 'day_name': day_name, 'total': total})
 
 
 @login_required
@@ -178,7 +207,7 @@ def stats(request):
         orchestra.totals = sums[orchestra.pk]
 
         for e in all_total_fields:
-                totals[e] += orchestra.totals[e]
+            totals[e] += orchestra.totals[e]
 
     return render(request, 'orkester/stats.html',
                   {'orchestras': orchestras,
