@@ -23,7 +23,6 @@ types = {
 
 with open('pass.txt') as f:
     date = None
-    res = []
 
     for line in f:
         subtype = None
@@ -51,16 +50,27 @@ with open('pass.txt') as f:
             starttime = datetime.datetime.strptime(start, '%H.%M')
             stoptime = datetime.datetime.strptime(stop, '%H.%M')
 
-            enddate = datetime.datetime.combine(
+            end_date = datetime.datetime.combine(
                 date + datetime.timedelta(days=1 if stoptime < starttime else 0),
                 stoptime.time())
+            end_date = sthlm.localize(end_date)
 
-            s = Shift(shift_type_id=types[t],
-                      start=sthlm.localize(datetime.datetime.combine(date, starttime.time())),
-                      end=sthlm.localize(enddate),
-                      max_workers=int(workers), shift_sub_type=subtype)
-            s.save()
-            res.append(s)
+            start_date = sthlm.localize(datetime.datetime.combine(date, starttime.time()))
 
-for r in res:
-    print r
+            s = Shift.objects.filter(shift_type_id=types[t],
+                                     start=start_date,
+                                     end=end_date)
+            if len(s) == 1:
+                s[0].max_workers += int(workers)
+                print(u"Changed workers on %s" % unicode(s[0]))
+                s[0].save()
+
+            else:
+                s = Shift(shift_type_id=types[t],
+                          start=start_date,
+                          end=end_date,
+                          max_workers=int(workers),
+                          shift_sub_type=subtype)
+                print(u"Saved new %s" % unicode(s))
+
+                s.save()
