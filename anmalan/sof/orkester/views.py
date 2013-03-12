@@ -120,13 +120,23 @@ def orchestra_list(request):
 
 
 @login_required
-def attends_10_25_list(request):
-    members = (Member.objects
-               .filter(Q(attends_10th_year=True) | Q(attends_25th_time=True))
-               .order_by('first_name', 'last_name'))
+def sitting_list(request, sitting):
+    SITTINGS = {'aniversary': 'Personer som gör sitt 10:e år/25:e gång',
+                'thursday':   'Orkestersittning, torsdag'}
 
-    return render(request, 'orkester/attends_10_25_list.html',
-                  {'members': members})
+    if not sitting or not sitting in SITTINGS:
+        return render(request, 'orkester/sitting_list.html')
+
+    if sitting == 'aniversary':
+        members = Member.objects.filter(Q(attends_10th_year=True) |
+                                        Q(attends_25th_time=True))
+    else:
+        members = Member.objects.filter(attend_sitting=YES)
+
+    members = members.order_by('first_name', 'last_name')
+
+    return render(request, 'orkester/sitting_list.html',
+                  {'members': members, 'sitting_name': SITTINGS[sitting]})
 
 
 def _group(lst, f):
@@ -135,17 +145,15 @@ def _group(lst, f):
 
 @login_required
 def food_list(request, day=None):
-    if not day:
+    DAYS = {'thursday': 'torsdag', 'friday': 'fredag', 'saturday': 'lördag', 'sunday': 'söndag'}
+
+    if not day or not day in DAYS:
         return render(request, 'orkester/food_list.html')
 
-    day_name = {'thursday': 'torsdag', 'friday': 'fredag', 'saturday': 'lördag', 'sunday': 'söndag'}[day]
-
-    days = {'thursday': ('thursday',),
-            'friday': ('thursday', 'friday'),
-            'saturday': ('thursday', 'friday', 'saturday'),
-            'sunday': ('thursday', 'friday')}
-
-    types = days[day]
+    types = {'thursday': ('thursday',),
+             'friday': ('thursday', 'friday'),
+             'saturday': ('thursday', 'friday', 'saturday'),
+             'sunday': ('thursday', 'friday')}
 
     orchestras = Orchestra.objects.order_by('orchestra_name')
     member_list = defaultdict(lambda: defaultdict(int))
@@ -168,7 +176,7 @@ def food_list(request, day=None):
         total += orchestra.total
 
     return render(request, 'orkester/food_list.html',
-                  {'orchestras': orchestras, 'day_name': day_name, 'total': total})
+                  {'orchestras': orchestras, 'day_name': DAYS[day], 'total': total})
 
 
 @login_required

@@ -1,8 +1,15 @@
 {% extends "base.html" %}
+{% load utils %}
 
 {% block content %}
-<h3>Personer som gör sitt 10:e år/25:e gång</h3>
+<h2>Sittning <small>{{ sitting_name }}</small></h2>
 
+<div>
+<a href="{% url sitting "thursday" %}">Orkestersittning, torsdag</a><br>
+<a href="{% url sitting "aniversary" %}">Personer som gör sitt 10:e år/25:e gång</a>
+</div>
+
+{% if members %}
 <table class="table table-striped table-hover">
     <tr>
         <th>Namn</th>
@@ -14,7 +21,7 @@
     <tr>
         <td>{{ member }}</td>
         <td>{{ member.allergies }}</td>
-        <td>{{ member.get_orchestras_display }}</td>
+        <td>{% orchestra_names member %}</td>
         <td>{{ member.get_attends_display }}</td>
     </tr>
     {% endfor %}
@@ -25,4 +32,5 @@
         </tr>
     </tfoot>
 </table>
+{% endif %}
 {% endblock content %}

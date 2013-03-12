@@ -283,9 +283,6 @@ class Member(models.Model):
         gadgets = [('t_shirt', 'T-shirt ({0})'.format(self.get_t_shirt_size_display()))] + GADGETS
         return ', '.join([name for attr, name in gadgets if getattr(self, attr)])
 
-    def get_orchestras_display(self):
-        return ', '.join([o.short_name for o in self.orchestras.all()])
-
     def get_attends_display(self):
         result = []
         if self.attends_10th_year:

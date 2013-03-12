@@ -1,0 +1,4 @@
+{% for o in orchestras %}
+<abbr title="{{ o.orchestra_name }}">{{ o.short_name }}</abbr>
+{% if not forloop.last %},{% endif %}
+{% endfor %}

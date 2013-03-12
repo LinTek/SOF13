@@ -30,3 +30,8 @@ def _getattr(obj, name):
         return getattr(obj, display_attr)()
 
     return getattr(obj, name)
+
+
+@register.inclusion_tag('orkester/partials/orchestra_name.html')
+def orchestra_names(member):
+    return {'orchestras': member.orchestras.all()}
