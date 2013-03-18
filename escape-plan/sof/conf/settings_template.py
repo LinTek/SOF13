@@ -19,6 +19,15 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 
+DEFAULT_FROM_EMAIL = 'SOF Funktionärsansvarig <mailer@sof13.se>'
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
