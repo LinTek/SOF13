@@ -183,7 +183,7 @@ def food_list(request, day=None):
 def stats(request):
     T_SHIRTS = [('t_shirt_%s' % s, 'T-shirt (%s)' % s) for s, s in TSHIRT_SIZES]
 
-    all_total_fields = (['members', 'sitting', 'bed', 'kartege'] +
+    all_total_fields = (['members', 'late_members', 'sitting', 'bed', 'kartege'] +
                         [t for t, _ in T_SHIRTS] +
                         [t for t, _ in TICKET_TYPES] +
                         [t for t, _ in GADGETS])
@@ -198,8 +198,9 @@ def stats(request):
 
         sums[orchestra.pk]['members'] += 1
         sums[orchestra.pk][member.ticket_type] += 1
-        # The summation below is actually quite obscure and based on the fact that
+        # The summation below is quite obscure and based on the fact that
         # True and False is evaluated as 1 and 0 respectively.
+        sums[orchestra.pk]['late_members'] += member.late_registration
         sums[orchestra.pk]['sitting'] += member.attend_sitting == YES
         sums[orchestra.pk]['bed'] += member.needs_bed == YES
         sums[orchestra.pk]['kartege'] += member.plays_kartege == YES
