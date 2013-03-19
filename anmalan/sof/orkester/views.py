@@ -180,13 +180,43 @@ def food_list(request, day=None):
 
 
 @login_required
-def stats(request):
+def gadgets(request):
     T_SHIRTS = [('t_shirt_%s' % s, 'T-shirt (%s)' % s) for s, s in TSHIRT_SIZES]
 
-    all_total_fields = (['members', 'late_members', 'sitting', 'bed', 'kartege'] +
-                        [t for t, _ in T_SHIRTS] +
-                        [t for t, _ in TICKET_TYPES] +
+    all_total_fields = ([t for t, _ in T_SHIRTS] +
                         [t for t, _ in GADGETS])
+    orchestras = (Orchestra.objects.order_by('orchestra_name')
+                                   .select_related('member'))
+
+    sums = defaultdict(lambda: defaultdict(int))
+
+    for member in Member.objects.select_related('orchestras'):
+        orchestra = member.orchestras.order_by('id').all()[0]
+
+        for gtype, _ in GADGETS:
+            sums[orchestra.pk][gtype] += getattr(member, gtype)
+
+        if member.t_shirt:
+            sums[orchestra.pk]['t_shirt_%s' % member.t_shirt_size] += 1
+
+    totals = defaultdict(int)
+    for orchestra in orchestras:
+        orchestra.totals = sums[orchestra.pk]
+
+        for e in all_total_fields:
+            totals[e] += orchestra.totals[e]
+
+    return render(request, 'orkester/gadgets.html',
+                  {'orchestras': orchestras,
+                   'totals': totals,
+                   'ticket_types': TICKET_TYPES,
+                   'gadget_types': GADGETS + T_SHIRTS})
+
+
+@login_required
+def stats(request):
+    all_total_fields = (['members', 'late_members', 'sitting', 'bed', 'kartege']
+                        + [t for t, _ in TICKET_TYPES])
     orchestras = (Orchestra.objects.order_by('orchestra_name')
                                    .select_related('member')
                                    .annotate(member_count=Count('member')))
@@ -205,12 +235,6 @@ def stats(request):
         sums[orchestra.pk]['bed'] += member.needs_bed == YES
         sums[orchestra.pk]['kartege'] += member.plays_kartege == YES
 
-        for gtype, _ in GADGETS:
-            sums[orchestra.pk][gtype] += getattr(member, gtype)
-
-        if member.t_shirt:
-            sums[orchestra.pk]['t_shirt_%s' % member.t_shirt_size] += 1
-
     totals = defaultdict(int)
     for orchestra in orchestras:
         orchestra.totals = sums[orchestra.pk]
@@ -221,8 +245,7 @@ def stats(request):
     return render(request, 'orkester/stats.html',
                   {'orchestras': orchestras,
                    'totals': totals,
-                   'ticket_types': TICKET_TYPES,
-                   'gadget_types': GADGETS + T_SHIRTS})
+                   'ticket_types': TICKET_TYPES})
 
 
 def add_member(request, token):

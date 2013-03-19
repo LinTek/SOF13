@@ -15,7 +15,7 @@ admin.autodiscover()
 
 from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_form,
                                 member_form, member_list, add_member, orchestra_list,
-                                stats, press_list, sitting_list, food_list)
+                                stats, press_list, sitting_list, food_list, gadgets)
 
 
 urlpatterns = patterns('',
@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^register/(?P<token>\w+)/add/$', add_member, name='add_member'),
 
     url(r'^stats/$', stats, name='statistics'),
+    url(r'^gadgets/$', gadgets, name='gadgets'),
     url(r'^sitting/(?P<sitting>\w+)?$', sitting_list, name='sitting'),
     url(r'^press/$', press_list, name='press'),
     url(r'^food/(?P<day>\w+)?$', food_list, name='food'),
