@@ -14,6 +14,29 @@
 <body>
 
 <div class="container">
+    {% if user.is_authenticated %}
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+    </style>
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <a class="brand" href="{% url admin_home %}">Orkesteradmin</a>
+                <li><a href="{% url statistics %}">Statistik och biljetter</a></li>
+                <li><a href="{% url orchestra_list %}">Orkestrar</a></li>
+                <li><a href="{% url gadgets %}">Prylar</a></li>
+                <li><a href="{% url sitting %}">Sittningar</a></li>
+                <li><a href="{% url food %}">Middag</a></li>
+                <li><a href="{% url press %}">Tidningsfrågor</a></li>
+                <li><a href="{% url admin:index %}">Django-admin</a></li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
     <img src="{% static "images/tutputten-logo-small.png" %}">
     <h2>SOF 2013</h2>
 

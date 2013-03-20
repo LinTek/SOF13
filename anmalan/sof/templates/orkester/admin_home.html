@@ -3,12 +3,14 @@
 {% block content %}
 <h3>Orkesteradmin</h3>
 
-<a href="{% url statistics %}">Statistik och biljetter</a>
-<a href="{% url orchestra_list %}">Orkestrar</a>
-<a href="{% url gadgets %}">Prylar</a>
-<a href="{% url sitting %}">Sittningar</a>
-<a href="{% url food %}">Middag</a>
-<a href="{% url press %}">Tidningsfrågor</a>
-<a href="{% url admin:index %}">Django-admin</a>
+<ul>
+    <li><a href="{% url statistics %}">Statistik och biljetter</a></li>
+    <li><a href="{% url orchestra_list %}">Orkestrar</a></li>
+    <li><a href="{% url gadgets %}">Prylar</a></li>
+    <li><a href="{% url sitting %}">Sittningar</a></li>
+    <li><a href="{% url food %}">Middag</a></li>
+    <li><a href="{% url press %}">Tidningsfrågor</a></li>
+    <li><a href="{% url admin:index %}">Django-admin</a></li>
+</ul>
 
 {% endblock content %}
