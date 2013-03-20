@@ -11,15 +11,18 @@ urls in templates.
 from django.conf.urls import patterns, url, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
+from django.contrib.auth.views import login, logout
+
 admin.autodiscover()
 
-from sof.orkester.views import (confirm_orchestra, confirm_member, orchestra_form,
+from sof.orkester.views import (confirm_orchestra, confirm_member, home,
                                 member_form, member_list, add_member, orchestra_list,
-                                stats, press_list, sitting_list, food_list, gadgets)
+                                stats, press_list, sitting_list, food_list, gadgets,
+                                admin_home, orchestra_form)
 
 
 urlpatterns = patterns('',
-    url(r'^$', orchestra_form, name='home'),
+    url(r'^$', home, name='home'),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^thanks/$', confirm_member, name='confirm_member'),
@@ -37,6 +40,11 @@ urlpatterns = patterns('',
 
     url(r'^list/$', orchestra_list, name='orchestra_list'),
     url(r'^list/(?P<token>\w+)/$', member_list, name='member_list'),
+
+    url(r'^login$', login, {'template_name': 'login.html'}, 'login'),
+    url(r'^logout$', logout, {'next_page': '/'}, 'logout'),
+
+    url(r'^admin-home$', admin_home, name='admin_home'),
 )
 
 # Serve static and media files when using development server

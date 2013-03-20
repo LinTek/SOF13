@@ -20,7 +20,13 @@ from models import Orchestra, Member, YES, TICKET_TYPES, GADGETS, TSHIRT_SIZES
 
 
 def home(request):
+    if request.user.is_authenticated():
+        return redirect('admin_home')
     return redirect('orchestra_form')
+
+
+def admin_home(request):
+    return render(request, 'orkester/admin_home.html')
 
 
 def confirm_member(request):
