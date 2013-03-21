@@ -1,4 +1,4 @@
 {% spaceless %}
-{{ shift.start|date:"l j F" }} {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}{% if sub_type %} <b>{{ shift.shift_sub_type|default:'' }}</b>{% endif %}
-{% if place_count %} ({{ shift.free_places }} plats{{ shift.free_places|pluralize:"er" }}){% endif %}
+{% if shift.is_dummy %}Hela festivalen{% else %}{{ shift.start|date:"l j F" }} {{ shift.start|date:"H:i" }}-{{ shift.end|date:"H:i" }}{% endif %}{% if admin %} <b>{{ shift.shift_sub_type|default:'' }}</b>{% endif %}
+{% if place_count %} {% if admin %}({{ shift.free_places }} plats{{ shift.free_places|pluralize:"er" }}){% else %}{% if shift.free_places < 3 %}(ett fåtal platser kvar){% endif %}{% endif %}{% endif %}
 {% endspaceless %}
