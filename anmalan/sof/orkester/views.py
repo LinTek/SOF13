@@ -156,10 +156,11 @@ def food_list(request, day=None):
     if not day or not day in DAYS:
         return render(request, 'orkester/food_list.html')
 
-    types = {'thursday': ('thursday',),
-             'friday': ('thursday', 'friday'),
-             'saturday': ('thursday', 'friday', 'saturday'),
-             'sunday': ('thursday', 'friday')}
+    ALL_TYPES = {'thursday': ('thursday',),
+                 'friday': ('thursday', 'friday'),
+                 'saturday': ('thursday', 'friday', 'saturday'),
+                 'sunday': ('thursday', 'friday')}
+    types = ALL_TYPES[day]
 
     orchestras = Orchestra.objects.order_by('orchestra_name')
     member_list = defaultdict(lambda: defaultdict(int))
