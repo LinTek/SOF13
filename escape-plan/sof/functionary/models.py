@@ -85,6 +85,8 @@ class Worker(AbstractUser):
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
 
+    contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
+
     def send_registration_email(self):
         send_mail('functionary/mail/confirm_registrations', [self.email],
                   {'registrations': self.workerregistration_set.select_related('shift').order_by('shift__start'),

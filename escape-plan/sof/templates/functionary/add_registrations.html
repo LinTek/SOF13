@@ -5,7 +5,23 @@
 {% block title %}- Funktionärssläpp{% endblock %}
 
 {% block content %}
-    <h3>Anmälan till funkispass <small>| {{ worker }}</small></h3>
+    <h2>{{ worker }}</h2>
+
+    {% if worker.contract_approved %}
+    <div class="alert alert-success">
+        <h4>Avtal inlämnat</h4>
+        Personen har lämnat in ett påskrivet funktionärsavtal.
+    </div>
+    {% else %}
+    <div class="alert alert-block alert-warning">
+        <h4>Avtal ej inlämnat!</h4>
+        Personen har inte lämnat in något funktionärsavtal ännu.
+
+        <div><a href="{% url "approve_contract" worker.id %}" class="btn btn-success">Markera som inlämnat</a></div>
+    </div>
+    {% endif %}
+
+    <h3>Funktionärspass</h3>
     Lägg till ett pass genom att klicka på det. Registreringen sparas direkt. För att ta bort registreringen, klicka på passet igen.
 
     {% if worker_shifts %}
@@ -24,7 +40,10 @@
     <h4>Lediga pass</h4>
     {% include "functionary/partials/shifts_accordion.html" %}
 
-     <p><a href="{% url "send_confirmation" worker.pk %}" class="btn btn-primary">Skicka bekräftelse</a></p>
+    <p>
+        <a href="{% url "search" %}" class="btn">Tillbaka</a>
+        <a href="{% url "send_confirmation" worker.pk %}" class="btn btn-primary">Skicka bekräftelse</a>
+    </p>
      Om personen inte redan fått ett välkomstbrev kommer personen även att få detta.
      <p>
         <a href="http://www.sof13.se/funktionar" target="_blank">Info om funkispassen</a>

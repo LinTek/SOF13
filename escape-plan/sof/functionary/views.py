@@ -82,6 +82,16 @@ def add_registration(request):
 
 @login_required
 @permission_required('auth.add_user')
+def approve_contract(request, worker_id):
+    worker = get_object_or_404(Worker, pk=worker_id)
+    worker.contract_approved = True
+    worker.save()
+
+    return redirect('add_registrations', worker_id=worker_id)
+
+
+@login_required
+@permission_required('auth.add_user')
 def create_worker(request):
     form = AddWorkerForm(request.POST)
 

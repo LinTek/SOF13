@@ -9,7 +9,9 @@ admin.autodiscover()
 from .views import login
 
 
-urlpatterns = patterns('sof.functionary.views',
+urlpatterns = patterns(
+    'sof.functionary.views',
+
     url(r'^$', login, {'template_name': 'functionary/login.html'}, 'login'),
     url(r'^logout$', logout, {'next_page': '/'}, 'logout'),
     url(r'^list/$', 'public_shift_list', name='public_shift_list'),
@@ -18,11 +20,16 @@ urlpatterns = patterns('sof.functionary.views',
     url(r'^search$', 'search', name='search'),
     url(r'^create-worker$', 'create_worker', name='create_worker'),
 
-    url(r'^add-registration$', 'add_registration', name='add_registration'),
-    url(r'^add-registrations/(?P<worker_id>\d+)$',
-            'add_registrations', name='add_registrations'),
+    url(r'^add-registrations/(?P<worker_id>\d+)$', 'add_registrations',
+        name='add_registrations'),
+    url(r'^approve-contract/(?P<worker_id>\d+)$', 'approve_contract',
+        name='approve_contract'),
+    url(r'^add-registration$', 'add_registration',
+        name='add_registration'),
 
-    url(r'^send-confirmation/(?P<worker_id>\d+)$', 'send_confirmation', name='send_confirmation'),
+
+    url(r'^send-confirmation/(?P<worker_id>\d+)$', 'send_confirmation',
+        name='send_confirmation'),
 
     url(r'^admin/', include(admin.site.urls)),
 )
