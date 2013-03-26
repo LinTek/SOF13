@@ -74,7 +74,7 @@ def add_registration(request):
 
     shift.free_places = max(0, shift.max_workers - shift.workerregistration_set.count())
     html = render_to_string('functionary/partials/shift_title.html',
-                            {'shift': shift, 'place_count': True})
+                            {'shift': shift, 'place_count': True, 'admin': True})
     response['html'] = html
     return HttpResponse(json.dumps(response),
                         content_type="application/json")
