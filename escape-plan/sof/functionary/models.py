@@ -1,15 +1,10 @@
 # encoding: utf-8
-from pytz import timezone
-
-from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.utils.dateformat import format
 from django.contrib.auth.models import User, AbstractUser
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
 
-sthlm = timezone('Europe/Stockholm')
+from sof.utils.datetime_utils import format_dt, format_time
+from sof.utils.email import send_mail
 
 
 class ShiftManager(models.Manager):
@@ -91,12 +86,12 @@ class Worker(AbstractUser):
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
 
     def send_registration_email(self):
-        _mail('confirm_registrations', [self.email],
-              {'registrations': self.workerregistration_set.select_related('shift').order_by('shift__start'),
-              'worker': self})
+        send_mail('functionary/mail/confirm_registrations', [self.email],
+                  {'registrations': self.workerregistration_set.select_related('shift').order_by('shift__start'),
+                   'worker': self})
 
     def send_welcome_email(self):
-        _mail('welcome', [self.email], {})
+        send_mail('functionary/mail/welcome', [self.email], {})
 
     def __unicode__(self):
         return unicode(self.get_full_name())
@@ -113,19 +108,3 @@ class WorkerRegistration(models.Model):
 
     def __unicode__(self):
         return '%s @ %s' % (unicode(self.worker), unicode(self.shift))
-
-
-def format_dt(dt):
-    return format(dt.astimezone(sthlm), 'l d F H:i')
-
-
-def format_time(dt):
-    return format(dt.astimezone(sthlm), 'H:i')
-
-
-def _mail(template_name, to, template_params):
-    send_mail(subject=render_to_string('functionary/mail/%s_subject.txt' % template_name,
-                                       template_params).replace('\n', ''),
-              message=render_to_string('functionary/mail/%s.txt' % template_name,
-                                       template_params),
-              from_email=settings.DEFAULT_FROM_EMAIL, recipient_list=to)

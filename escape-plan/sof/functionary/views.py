@@ -12,9 +12,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect, get_object_or_404
 
+from sof.utils.kobra_client import KOBRAClient, StudentNotFound
+
 from .models import Shift, WorkerRegistration, Worker
 from .forms import SearchForm, AddWorkerForm
-from .kobra_client import KOBRAClient, StudentNotFound
 
 
 def _group_by_type(lst):

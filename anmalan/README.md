@@ -135,7 +135,7 @@ Installera dependencies:
     sudo pip install -r requirements.txt
 
 
-Se till att du står i mappen orkester i SOF13-repositoryt.
+Se till att du står i mappen anmalan i SOF13-repositoryt.
 Gör ett par roliga saker med pythonpath för att slippa manage.py
 
     echo "export DJANGO_SETTINGS_MODULE=settings" >> ~/.virtualenvs/sof/bin/postactivate
