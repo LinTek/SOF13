@@ -76,14 +76,16 @@ class Shift(models.Model):
         return '%s, %s-%s' % (unicode(self.shift_type), format_dt(self.start), format_time(self.end))
 
 
-class Worker(AbstractUser):
+class Person(models.Model):
+    pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
+    lintek_member = models.BooleanField(blank=True, default=False)
+
+
+class Worker(AbstractUser, Person):
     class Meta:
         verbose_name = _('worker')
         verbose_name_plural = _('workers')
         ordering = ('first_name', 'last_name')
-
-    pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
-    lintek_member = models.BooleanField(blank=True, default=False)
 
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
