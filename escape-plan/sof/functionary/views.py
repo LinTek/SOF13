@@ -41,7 +41,7 @@ def shifts(request):
     registrations = WorkerRegistration.objects.filter(worker=request.user)
     all_shifts = _group_by_type(list(Shift.objects.with_free_places(worker=request.user)))
 
-    return render(request, 'functionary/shifts.html',
+    return render(request, 'logged_in.html',
                   {'registrations': registrations,
                    'all_shifts': all_shifts})
 
