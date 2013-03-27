@@ -2,7 +2,21 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from sof.tickets.models import Ticket
+from sof.functionary.models import Person
+
+
+class Invoice(models.Model):
+    class Meta:
+        verbose_name = _('invoice')
+        verbose_name_plural = _('invoices')
+
+    # is_verified is True if the user has clicked the confirmation link
+    is_verified = models.BooleanField(default=False, blank=True)
+    token = models.CharField(max_length=20)
+
+    due_date = models.DateField()
+    ocr = models.CharField(max_length=20, unique=True)
+    person = models.ForeignKey(Person)
 
 
 class Payment(models.Model):
@@ -12,12 +26,4 @@ class Payment(models.Model):
 
     date = models.DateTimeField(_('date'))
     amount = models.DecimalField(_('amount'), decimal_places=2, max_digits=8)
-
-
-class Invoice(models.Model):
-    class Meta:
-        verbose_name = _('invoice')
-        verbose_name_plural = _('invoices')
-
-    tickets = models.ManyToManyField(Ticket)
-    payments = models.ManyToManyField(Payment)
+    invoice = models.ForeignKey(Invoice)

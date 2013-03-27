@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding model 'Visitor'
         db.create_table(u'tickets_visitor', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            (u'person_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['functionary.Person'], unique=True, primary_key=True)),
             ('password', self.gf('django.db.models.fields.CharField')(max_length=128)),
             ('last_login', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('is_superuser', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -21,8 +21,6 @@ class Migration(SchemaMigration):
             ('is_staff', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('date_joined', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('pid', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20)),
-            ('lintek_member', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'tickets', ['Visitor'])
 
@@ -54,6 +52,7 @@ class Migration(SchemaMigration):
         db.create_table(u'tickets_ticket', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('ticket_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['tickets.TicketType'])),
+            ('invoice', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['invoices.Invoice'])),
             ('opening_date', self.gf('django.db.models.fields.DateTimeField')()),
             ('opening_date_public', self.gf('django.db.models.fields.DateTimeField')()),
         ))
@@ -98,9 +97,25 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'functionary.person': {
+            'Meta': {'object_name': 'Person'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'lintek_member': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'})
+        },
+        u'invoices.invoice': {
+            'Meta': {'object_name': 'Invoice'},
+            'due_date': ('django.db.models.fields.DateField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_verified': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'ocr': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['functionary.Person']"}),
+            'token': ('django.db.models.fields.CharField', [], {'max_length': '20'})
+        },
         u'tickets.ticket': {
             'Meta': {'object_name': 'Ticket'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'invoice': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['invoices.Invoice']"}),
             'opening_date': ('django.db.models.fields.DateTimeField', [], {}),
             'opening_date_public': ('django.db.models.fields.DateTimeField', [], {}),
             'ticket_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tickets.TicketType']"})
@@ -112,20 +127,18 @@ class Migration(SchemaMigration):
             'price': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'})
         },
         u'tickets.visitor': {
-            'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Visitor'},
+            'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Visitor', '_ormbases': [u'functionary.Person']},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'lintek_member': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            u'person_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['functionary.Person']", 'unique': 'True', 'primary_key': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         }
