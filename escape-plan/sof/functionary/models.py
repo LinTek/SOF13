@@ -83,8 +83,9 @@ class Worker(AbstractUser):
         ordering = ('first_name', 'last_name')
 
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
-    welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
+    lintek_member = models.BooleanField(blank=True, default=False)
 
+    welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
 
     def send_registration_email(self):
