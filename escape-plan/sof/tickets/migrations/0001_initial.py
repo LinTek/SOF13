@@ -45,6 +45,8 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('price', self.gf('django.db.models.fields.DecimalField')(max_digits=8, decimal_places=2)),
+            ('opening_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('opening_date_public', self.gf('django.db.models.fields.DateTimeField')()),
         ))
         db.send_create_signal(u'tickets', ['TicketType'])
 
@@ -53,8 +55,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('ticket_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['tickets.TicketType'])),
             ('invoice', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['invoices.Invoice'])),
-            ('opening_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('opening_date_public', self.gf('django.db.models.fields.DateTimeField')()),
+            ('is_handed_out', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'tickets', ['Ticket'])
 
@@ -116,14 +117,15 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Ticket'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'invoice': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['invoices.Invoice']"}),
-            'opening_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'opening_date_public': ('django.db.models.fields.DateTimeField', [], {}),
+            'is_handed_out': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'ticket_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tickets.TicketType']"})
         },
         u'tickets.tickettype': {
             'Meta': {'object_name': 'TicketType'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'opening_date': ('django.db.models.fields.DateTimeField', [], {}),
+            'opening_date_public': ('django.db.models.fields.DateTimeField', [], {}),
             'price': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '2'})
         },
         u'tickets.visitor': {
