@@ -9,6 +9,10 @@
     <a href="{% url "search" %}" class="btn btn-primary btn-large">Funktionärssläpp</a>
 {% endif %}
 
+{% if perms.tickets.add_ticket %}
+    <a href="{% url "ticket_add" %}" class="btn btn-primary btn-large">Biljettsläpp</a>
+{% endif %}
+
 <h3>Mina pass</h3>
 <div>
     <ul>
