@@ -41,7 +41,7 @@ LOCALE_PATHS = (
 
 LOGIN_URL = '/admin/'
 
-ROOT_URLCONF = 'sof.functionary.urls'
+ROOT_URLCONF = 'sof.conf.urls'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"

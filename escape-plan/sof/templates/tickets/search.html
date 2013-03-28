@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}- Biljettsläpp{% endblock %}
+
+{% block content %}
+
+    {% if error %}
+        <div class="alert alert-error">
+            <h4>Ett fel uppstod!</h4>
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <ul class="nav nav-tabs">
+        <li><a href="#turbo" data-toggle="tab">Turbosläpp</a></li>
+        <li><a href="#detailed" data-toggle="tab">Detaljerad</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="turbo">
+            <h3>Turbosläpp</h3>
+            <form method="post" class="form form-horizontal">
+                {% csrf_token %}
+                {{ form|crispy}}
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Nästa</button>
+                </div>
+            </form>
+        </div>
+        <div class="tab-pane" id="detailed">
+
+        </div>
+    </div>
+
+{% endblock %}
