@@ -80,6 +80,15 @@ class Person(models.Model):
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
     lintek_member = models.BooleanField(blank=True, default=False)
 
+    def get_instance(self):
+        try:
+            return self.worker
+        except Worker.DoesNotExists:
+            return self.visitor
+
+    def __unicode__(self):
+        return unicode(self.get_instance())
+
 
 class Worker(AbstractUser, Person):
     class Meta:
