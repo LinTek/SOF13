@@ -13,13 +13,21 @@
     {% endif %}
 
     <ul class="nav nav-tabs">
-        <li><a href="#turbo" data-toggle="tab">Turbosläpp</a></li>
-        <li><a href="#detailed" data-toggle="tab">Detaljerad</a></li>
+        <li class="active">
+            <a href="#turbo" data-toggle="tab">Turbosläpp</a>
+        </li>
+        <li>
+            <a href="#detailed" data-toggle="tab">Detaljerad</a>
+        </li>
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane active" id="turbo">
             <h3>Turbosläpp</h3>
+
+            {% for ticket_type in ticket_types %}
+                {{ ticket_type.name }}
+            {% endfor %}
             <form method="post" class="form form-horizontal">
                 {% csrf_token %}
                 {{ form|crispy}}

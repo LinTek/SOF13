@@ -5,6 +5,7 @@ from django.utils.dateformat import format
 
 sthlm = timezone('Europe/Stockholm')
 
+
 def format_dt(dt):
     return format(dt.astimezone(sthlm), 'l d F H:i')
 
