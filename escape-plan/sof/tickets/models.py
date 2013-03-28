@@ -24,6 +24,7 @@ class TicketType(models.Model):
 
     name = models.CharField(_('name'), max_length=50)
     price = models.DecimalField(_('price'), decimal_places=2, max_digits=8)
+    max_amount = models.PositiveIntegerField(_('max amount'))
     opening_date = models.DateTimeField(_('opening date'))
     opening_date_public = models.DateTimeField(_('opening date for public selling'))
 
