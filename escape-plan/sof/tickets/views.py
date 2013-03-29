@@ -15,7 +15,7 @@ from .forms import TurboTicketForm
 @login_required
 @permission_required('tickets.add_ticket')
 @transaction.commit_on_success
-def ticket_search(request):
+def sell(request):
     error = None
     turbo_form = TurboTicketForm(request.POST or None)
     tickets = Ticket.objects.order_by('-sell_date')[:10]
@@ -48,7 +48,7 @@ def ticket_search(request):
         except ValueError:
             error = _('Could not get the result')
 
-    return render(request, 'tickets/search.html',
+    return render(request, 'tickets/sell.html',
                   {'turbo_form': turbo_form,
                    'latest_tickets': tickets,
                    'ticket_stats': stats,
