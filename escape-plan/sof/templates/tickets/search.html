@@ -37,17 +37,21 @@
     <div>
         <h4>Senast sålda biljetter</h4>
 
+        <ul>
         {% for ticket in latest_tickets %}
-            {{ ticket }} - <b>{{ ticket.invoice.person }}</b>
+            <li>{{ ticket }} - <b>{{ ticket.invoice.person }}</b></li>
         {% endfor %}
+        </ul>
     </div>
 
     <div>
         <h4>Statistik</h4>
+        <ul>
         {% for ticket_type in ticket_stats %}
-            <b>{{ ticket_type }}</b> -
-            {{ ticket_type.sold }} / {{ ticket_type.max_amount }}
+            <li><b>{{ ticket_type }}</b> -
+            {{ ticket_type.sold }} / {{ ticket_type.max_amount }}</li>
         {% endfor %}
+        </ul>
     </div>
 
 

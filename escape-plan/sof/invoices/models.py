@@ -1,4 +1,7 @@
 # encoding: utf-8
+import os
+import datetime
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -12,11 +15,19 @@ class Invoice(models.Model):
 
     # is_verified is True if the user has clicked the confirmation link
     is_verified = models.BooleanField(_('is verified'), default=False, blank=True)
-    token = models.CharField(max_length=20)
 
+    token = models.CharField(max_length=50)
     due_date = models.DateField(_('due date'))
     ocr = models.CharField(_('OCR number'), max_length=20, unique=True)
     person = models.ForeignKey(Person)
+
+    def generate_data(self):
+        self.token = os.urandom(20).encode('hex')
+        self.due_date = datetime.date.today() + datetime.timedelta(days=7)
+        self.ocr = '507012345'
+
+    def send_as_email(self):
+        pass
 
     def __unicode__(self):
         return unicode(self.ocr)

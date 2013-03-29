@@ -83,7 +83,7 @@ class Person(models.Model):
     def get_instance(self):
         try:
             return self.worker
-        except Worker.DoesNotExists:
+        except Worker.DoesNotExist:
             return self.visitor
 
     def __unicode__(self):
