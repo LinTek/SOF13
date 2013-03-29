@@ -7,10 +7,15 @@ from .models import TicketType, Visitor
 
 
 class TicketTypeForm(forms.Form):
-    ticket_type = forms.ModelChoiceField(queryset=TicketType.objects.active(),
-                                         widget=forms.RadioSelect,
-                                         required=True,
-                                         empty_label=None)
+    # ModelChoiceFields are slightly retarded and get even more retarded with
+    # radio select widgets and Django crispy forms...
+    def __init__(self, *args, **kwargs):
+        super(TicketTypeForm, self).__init__(*args, **kwargs)
+        self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
+                                              for choice in TicketType.objects.active()]
+
+    ticket_type = forms.ChoiceField(widget=forms.RadioSelect,
+                                    required=True)
 
 
 class TurboTicketForm(forms.Form):
