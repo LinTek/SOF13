@@ -57,3 +57,8 @@ def get_kwargs(student):
             'email': student.get('email'),
             'lintek_member': student.get('union') == 'LinTek',
             'pid': student.get('personal_number')}
+
+
+def get_pid_with_sequel(student):
+    from .forms import ForgivingPIDField
+    return ForgivingPIDField.clean(student.get('personal_number'))

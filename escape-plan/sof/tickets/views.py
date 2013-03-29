@@ -5,7 +5,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext_lazy as _
 
-from sof.utils.kobra_client import KOBRAClient, StudentNotFound, get_kwargs
+from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs,
+                                    get_pid_with_sequel)
+from sof.functionary.models import Worker
 from sof.invoices.models import Invoice
 
 from .models import Ticket, TicketType, Visitor
@@ -33,13 +35,21 @@ def sell(request):
         term = turbo_form.cleaned_data.get('term')
 
         try:
-            visitor = Visitor(**get_kwargs(client.get_student(term))).save()
-            invoice = create_invoice(visitor)
+            student = client.get_student(term)
 
+            try:
+                visitor = Worker.objects.get(pid=get_pid_with_sequel(student))
+
+            except Worker.DoesNotExist():
+                visitor = Visitor(**get_kwargs(student))
+                visitor.username = visitor.email
+                visitor.save()
+
+            invoice = create_invoice(visitor)
             Ticket(ticket_type=ticket_type_form.cleaned_data.get('ticket_type'),
                    invoice=invoice).save()
 
-            return redirect('ticket_search')
+            return redirect('ticket_sell')
 
         except StudentNotFound:
             error = _('Student was not found')
@@ -48,13 +58,14 @@ def sell(request):
             error = _('Could not get the result')
 
     elif visitor_form.is_valid() and ticket_type_form.is_valid():
-        visitor = visitor_form.save()
+        visitor = visitor_form.save(commit=False)
+        visitor.username = visitor.email
         create_invoice(visitor)
 
         Ticket(ticket_type=ticket_type_form.cleaned_data.get('ticket_type'),
                invoice=invoice).save()
 
-        return redirect('ticket_search')
+        return redirect('ticket_sell')
 
     return render(request, 'tickets/sell.html',
                   {'ticket_type_form': ticket_type_form,
