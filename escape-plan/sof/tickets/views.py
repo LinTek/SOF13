@@ -9,7 +9,7 @@ from sof.utils.kobra_client import KOBRAClient, StudentNotFound, get_kwargs
 from sof.invoices.models import Invoice
 
 from .models import Ticket, TicketType, Visitor
-from .forms import TurboTicketForm
+from .forms import TicketTypeForm, TurboTicketForm, VisitorForm
 
 
 @login_required
@@ -17,27 +17,26 @@ from .forms import TurboTicketForm
 @transaction.commit_on_success
 def sell(request):
     error = None
+
+    ticket_type_form = TicketTypeForm(request.POST or None)
     turbo_form = TurboTicketForm(request.POST or None)
+    visitor_form = VisitorForm(request.POST or None)
+
     tickets = Ticket.objects.order_by('-sell_date')[:10]
 
     stats = TicketType.objects.active()
     for ticket_type in stats:
         ticket_type.sold = ticket_type.ticket_set.count()
 
-    if turbo_form.is_valid():
+    if turbo_form.is_valid() and ticket_type_form.is_valid():
         client = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
         term = turbo_form.cleaned_data.get('term')
 
         try:
-            visitor = Visitor(**get_kwargs(client.get_student(term)))
-            visitor.save()
+            visitor = Visitor(**get_kwargs(client.get_student(term))).save()
+            invoice = create_invoice(visitor)
 
-            invoice = Invoice(person=visitor)
-            invoice.generate_data()
-            invoice.send_as_email()
-            invoice.save()
-
-            Ticket(ticket_type=turbo_form.cleaned_data.get('ticket_type'),
+            Ticket(ticket_type=ticket_type_form.cleaned_data.get('ticket_type'),
                    invoice=invoice).save()
 
             return redirect('ticket_search')
@@ -48,8 +47,27 @@ def sell(request):
         except ValueError:
             error = _('Could not get the result')
 
+    elif visitor_form.is_valid() and ticket_type_form.is_valid():
+        visitor = visitor_form.save()
+        create_invoice(visitor)
+
+        Ticket(ticket_type=ticket_type_form.cleaned_data.get('ticket_type'),
+               invoice=invoice).save()
+
+        return redirect('ticket_search')
+
     return render(request, 'tickets/sell.html',
-                  {'turbo_form': turbo_form,
+                  {'ticket_type_form': ticket_type_form,
+                   'turbo_form': turbo_form,
+                   'visitor_form': visitor_form,
                    'latest_tickets': tickets,
                    'ticket_stats': stats,
                    'error': error})
+
+
+def create_invoice(person):
+    invoice = Invoice(person=person)
+    invoice.generate_data()
+    invoice.send_as_email()
+    invoice.save()
+    return invoice

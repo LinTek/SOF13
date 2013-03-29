@@ -1,10 +1,8 @@
 {% load crispy_forms_tags %}
 
-{% for ticket_type in ticket_types %}
-    {{ ticket_type.name }}
-{% endfor %}
 <form method="post" class="form form-horizontal">
     {% csrf_token %}
+    {{ ticket_type_form|crispy}}
     {{ turbo_form|crispy}}
 
     <div class="form-actions">

@@ -22,7 +22,7 @@ class Invoice(models.Model):
     person = models.ForeignKey(Person)
 
     def generate_data(self):
-        self.token = os.urandom(20).encode('hex')
+#        self.token = os.urandom(20).encode('hex')
         self.due_date = datetime.date.today() + datetime.timedelta(days=7)
         self.ocr = '507012345'
 
