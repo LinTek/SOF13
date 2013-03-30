@@ -110,6 +110,9 @@ class Person(models.Model):
     def get_rebate_percent(self):
         return self.get_instance().get_rebate_percent()
 
+    def has_rebate(self):
+        return self.lintek_member
+
     def __unicode__(self):
         return unicode(self.get_instance())
 

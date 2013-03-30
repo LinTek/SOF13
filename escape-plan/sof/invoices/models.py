@@ -41,6 +41,8 @@ class Invoice(models.Model):
         return all([ticket.is_handed_out for ticket in self.ticket_set.all()])
 
     def get_total_ticket_sum(self):
+        if self.person.has_rebate():
+            return sum([ticket.ticket_type.price_rebate for ticket in self.ticket_set.all()])
         return sum([ticket.ticket_type.price for ticket in self.ticket_set.all()])
 
     def get_total_rebate(self):
