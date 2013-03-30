@@ -23,6 +23,10 @@ class TurboTicketForm(forms.Form):
                            max_length=20, required=True)
 
 
+class SearchForm(forms.Form):
+    q = forms.CharField(label=_('Search query'), max_length=20, required=True)
+
+
 class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor

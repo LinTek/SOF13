@@ -1,0 +1,12 @@
+{% load crispy_forms_tags %}
+<h3>Sök befintlig person</h3>
+
+<form method="get" class="form form-horizontal">
+    {% csrf_token %}
+    {{ search_form|crispy}}
+    Du kan söka efter LiU-ID, RFID/steckkodsnummer eller personnummer.
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Sök</button>
+    </div>
+</form>

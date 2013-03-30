@@ -14,23 +14,27 @@
 
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#turbo" data-toggle="tab">Turbosläpp</a>
+            <a href="#turbo" data-toggle="tab">Turbosälj</a>
         </li>
         <li>
-            <a href="#detailed" data-toggle="tab">Detaljerad</a>
+            <a href="#detailed" data-toggle="tab">Manuell besökare</a>
+        </li>
+        <li>
+            <a href="#existing" data-toggle="tab">Befintlig person</a>
         </li>
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane active" id="turbo">
-            <h3>Turbosläpp</h3>
             {% include "tickets/partials/turbo.html" %}
         </div>
 
-
         <div class="tab-pane" id="detailed">
-            <h3>Detaljerat</h3>
             {% include "tickets/partials/detailed.html" %}
+        </div>
+
+        <div class="tab-pane" id="existing">
+            {% include "tickets/partials/existing.html" %}
         </div>
     </div>
 
@@ -53,6 +57,5 @@
         {% endfor %}
         </ul>
     </div>
-
 
 {% endblock %}

@@ -4,14 +4,18 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import DetailView
 
-from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs,
-                                    get_pid_with_sequel)
-from sof.functionary.models import Worker
+from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs)
+from sof.functionary.models import Person
 from sof.invoices.models import Invoice
 
 from .models import Ticket, TicketType, Visitor
-from .forms import TicketTypeForm, TurboTicketForm, VisitorForm
+from .forms import TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm
+
+
+class InvoiceExists():
+    pass
 
 
 @login_required
@@ -19,10 +23,12 @@ from .forms import TicketTypeForm, TurboTicketForm, VisitorForm
 @transaction.commit_on_success
 def sell(request):
     error = None
+    person = None
 
     ticket_type_form = TicketTypeForm(request.POST or None)
     turbo_form = TurboTicketForm(request.POST or None)
     visitor_form = VisitorForm(request.POST or None)
+    search_form = SearchForm(request.GET or None)
 
     tickets = Ticket.objects.order_by('-sell_date')[:10]
 
@@ -35,24 +41,35 @@ def sell(request):
         term = turbo_form.cleaned_data.get('term')
 
         try:
-            student = client.get_student(term)
-
             try:
-                visitor = Worker.objects.get(pid=get_pid_with_sequel(student))
+                # The person already exists, it may be a Worker or a "double-blipp"
+                person = Person.objects.search(term)
 
-            except Worker.DoesNotExist():
-                visitor = Visitor(**get_kwargs(student))
-                visitor.username = visitor.email
-                visitor.save()
+                # However, it must not have an invoice yet for this form
+                if Invoice.objects.filter(person=person).exists():
+                    raise InvoiceExists()
 
-            invoice = create_invoice(visitor)
-            Ticket(ticket_type=ticket_type_form.cleaned_data.get('ticket_type'),
+            except Person.DoesNotExist:
+                # Otherwise, fetch the person from KOBRA
+                student = client.get_student(term)
+
+                person = Visitor(**get_kwargs(student))
+                person.username = person.email
+                person.save()
+
+            invoice = create_invoice(person)
+            ticket_type_id = ticket_type_form.cleaned_data.get('ticket_type')
+
+            Ticket(ticket_type_id=ticket_type_id,
                    invoice=invoice).save()
 
             return redirect('ticket_sell')
 
         except StudentNotFound:
             error = _('Student was not found')
+
+        except InvoiceExists:
+            error = _('An invoice already exist for this person')
 
         except ValueError:
             error = _('Could not get the result')
@@ -67,13 +84,28 @@ def sell(request):
 
         return redirect('ticket_sell')
 
+    elif search_form.is_valid():
+        try:
+            person = Person.objects.search(search_form.cleaned_data.get('q'))
+
+            return redirect('person_details', pk=person.pk)
+
+        except Person.DoesNotExist:
+            error = _('The person was not found')
+
     return render(request, 'tickets/sell.html',
                   {'ticket_type_form': ticket_type_form,
                    'turbo_form': turbo_form,
                    'visitor_form': visitor_form,
+                   'search_form': search_form,
                    'latest_tickets': tickets,
                    'ticket_stats': stats,
                    'error': error})
+
+
+class PersonDetailView(DetailView):
+    model = Person
+    template_name = 'tickets/person_details.html'
 
 
 def create_invoice(person):

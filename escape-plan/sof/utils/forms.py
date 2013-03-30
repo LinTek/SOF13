@@ -1,6 +1,7 @@
 import re
 
 from django import forms
+from django.core.exceptions import ValidationError
 
 from django_localflavor_se.forms import SEPersonalIdentityNumberField
 from django_localflavor_se.utils import (validate_id_birthday,
@@ -35,3 +36,17 @@ class ForgivingPIDField(SEPersonalIdentityNumberField):
 
             return format_personal_id_number(birth_day, gd)
         return value
+
+
+def format_kobra_pid(value):
+    value = value[2:]
+    return "%s-%s" % (value[0:6], value[6:10])
+
+
+def format_pid(value):
+    from .forms import ForgivingPIDField
+
+    try:
+        return ForgivingPIDField().clean(value)
+    except ValidationError:
+        return None

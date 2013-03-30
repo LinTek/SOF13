@@ -1,5 +1,4 @@
 # encoding: utf-8
-import os
 import datetime
 
 from django.db import models
@@ -24,7 +23,7 @@ class Invoice(models.Model):
     def generate_data(self):
 #        self.token = os.urandom(20).encode('hex')
         self.due_date = datetime.date.today() + datetime.timedelta(days=7)
-        self.ocr = '507012345'
+        self.ocr = '5070%s' % self.person.pid  # TODO
 
     def send_as_email(self):
         pass

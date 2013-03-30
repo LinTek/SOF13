@@ -1,10 +1,12 @@
 # encoding: utf-8
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, AbstractUser
 
 from sof.utils.datetime_utils import format_dt, format_time
 from sof.utils.email import send_mail
+from sof.utils.forms import format_pid
 
 
 class ShiftManager(models.Manager):
@@ -76,9 +78,22 @@ class Shift(models.Model):
         return '%s, %s-%s' % (unicode(self.shift_type), format_dt(self.start), format_time(self.end))
 
 
+class PersonManager(models.Manager):
+    def search(self, term):
+        return self.filter(Q(liu_id=term) |
+                           Q(rfid_number=term) |
+                           Q(barcode_number=term) |
+                           Q(pid=format_pid(term))).get()
+
+
 class Person(models.Model):
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
     lintek_member = models.BooleanField(blank=True, default=False)
+    rfid_number = models.CharField(_('RFID number'), max_length=10, blank=True)
+    barcode_number = models.CharField(_('barcode number'), max_length=20, blank=True)
+    liu_id = models.CharField(_('LiU ID'), max_length=10, blank=True)
+
+    objects = PersonManager()
 
     def get_instance(self):
         try:
