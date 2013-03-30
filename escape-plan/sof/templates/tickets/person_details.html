@@ -17,10 +17,9 @@
 {% for invoice in invoices %}
     <hr>
     <h4>Faktura <small>{{ invoice.ocr }}</small></h4>
-
     <ul>
     {% for ticket in invoice.ticket_set.all %}
-        <li>1x {{ ticket.ticket_type }}</li>
+        <li>1x <b>{{ ticket.ticket_type }}</b> á {{ ticket.ticket_type.price }} kr</li>
     {% endfor %}
     </ul>
 

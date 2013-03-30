@@ -40,9 +40,14 @@ class Invoice(models.Model):
     def is_handed_out(self):
         return all([ticket.is_handed_out for ticket in self.ticket_set.all()])
 
+    def get_total_ticket_sum(self):
+        return sum([ticket.ticket_type.price for ticket in self.ticket_set.all()])
+
+    def get_total_rebate(self):
+        return self.person.get_rebate_percent() * self.get_total_price()
+
     def get_total_price(self):
-        # TODO
-        return sum([ticket.price for ticket in self.ticket_set.all()])
+        return self.get_total_price() - self.get_total_rebate()
 
     def get_payment_status(self):
         payment_sum = sum([payment.amount for payment in self.payment_set.all()])

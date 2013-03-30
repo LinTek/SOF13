@@ -1,4 +1,6 @@
 # encoding: utf-8
+from decimal import Decimal
+
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
@@ -105,6 +107,9 @@ class Person(models.Model):
             self.instance = self.visitor
         return self.instance
 
+    def get_rebate_percent(self):
+        return self.get_instance().get_rebate_percent()
+
     def __unicode__(self):
         return unicode(self.get_instance())
 
@@ -117,6 +122,14 @@ class Worker(AbstractUser, Person):
 
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
+
+    def get_rebate_percent(self):
+        count = self.workerregistration_set.count()
+        if count <= 1:
+            return 0
+        if count == 2:
+            return Decimal('0.2')
+        return Decimal('0.3')
 
     def get_type(self):
         return u'Funktionär'
