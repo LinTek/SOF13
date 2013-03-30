@@ -45,15 +45,17 @@ class Invoice(models.Model):
             return sum([ticket.ticket_type.price_rebate for ticket in self.ticket_set.all()])
         return sum([ticket.ticket_type.price for ticket in self.ticket_set.all()])
 
+    def get_payment_sum(self):
+        return sum([payment.amount for payment in self.payment_set.all()])
+
     def get_total_rebate(self):
-        return self.person.get_rebate_percent() * self.get_total_price()
+        return self.person.get_rebate_percent() * self.get_total_ticket_sum()
 
     def get_total_price(self):
-        return self.get_total_price() - self.get_total_rebate()
+        return self.get_total_ticket_sum() - self.get_total_rebate()
 
     def get_payment_status(self):
-        payment_sum = sum([payment.amount for payment in self.payment_set.all()])
-
+        payment_sum = self.get_payment_sum()
         if payment_sum == 0:
             return PaymentStatus.NOT_PAID
 

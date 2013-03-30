@@ -16,6 +16,7 @@ urlpatterns = patterns(
 
     url(r'^funktionar/', include('sof.functionary.urls')),
     url(r'^tickets/', include('sof.tickets.urls')),
+    url(r'^invoices/', include('sof.invoices.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 )
