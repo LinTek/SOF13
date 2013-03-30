@@ -3,6 +3,42 @@
 {% block title %} - Biljettsläpp{% endblock %}
 
 {% block content %}
-<h3>{{ object.get_full_name }}</h3>
+<h3>{{ person }}<small> | {{ person.get_instance.get_type }}</small></h3>
 
+<dl class="dl-horizontal">
+    <dt>LinTek-medlem</dt>
+    <dd>{{ person.lintek_member|yesno:"Ja,Nej" }}</dd>
+
+    <dt>Funktionär/besökare</dt>
+    <dd>{{ person.get_instance.get_type }}</dd>
+</dl>
+
+{% for invoice in invoices %}
+    <hr>
+    <h4>Faktura <small>{{ invoice.ocr }}</small></h4>
+
+    <ul>
+    {% for ticket in invoice.ticket_set.all %}
+        <li>{{ ticket.ticket_type }}</li>
+    {% endfor %}
+    </ul>
+
+    <dl class="dl-horizontal">
+        <dt>Betalstatus</dt>
+        <dd><span class="label label-important">Ej betalad</span></dd>
+
+        <dt>Utlämningsstatus</dt>
+        <dd><span class="label label-important">Ej utlämnad</span></dd>
+    </dl>
+
+    <a class="btn" href="">Markera som utlämnad</a>
+
+{% empty %}
+    Det finns inga fakturor för denna person
+{% endfor %}
+
+<hr>
+<div>
+    <a class="btn btn-primary" href="{% url "ticket_sell" %}">Tillbaka</a>
+</div>
 {% endblock %}

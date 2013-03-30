@@ -96,10 +96,14 @@ class Person(models.Model):
     objects = PersonManager()
 
     def get_instance(self):
+        if hasattr(self, 'instance'):
+            return self.instance
+
         try:
-            return self.worker
+            self.instance = self.worker
         except Worker.DoesNotExist:
-            return self.visitor
+            self.instance = self.visitor
+        return self.instance
 
     def __unicode__(self):
         return unicode(self.get_instance())
@@ -113,6 +117,9 @@ class Worker(AbstractUser, Person):
 
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
+
+    def get_type(self):
+        return u'Funktionär'
 
     def send_registration_email(self):
         send_mail('functionary/mail/confirm_registrations', [self.email],

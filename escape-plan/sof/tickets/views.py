@@ -1,10 +1,9 @@
 # encoding: utf-8
 from django.db import transaction
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import DetailView
 
 from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs)
 from sof.functionary.models import Person
@@ -87,7 +86,6 @@ def sell(request):
     elif search_form.is_valid():
         try:
             person = Person.objects.search(search_form.cleaned_data.get('q'))
-
             return redirect('person_details', pk=person.pk)
 
         except Person.DoesNotExist:
@@ -103,9 +101,12 @@ def sell(request):
                    'error': error})
 
 
-class PersonDetailView(DetailView):
-    model = Person
-    template_name = 'tickets/person_details.html'
+def person_details(request, pk):
+    person = get_object_or_404(Person.objects.select_related('invoices'), pk=pk)
+    invoices = person.invoice_set.select_related('tickets')
+
+    return render(request, 'tickets/person_details.html',
+                  {'person': person, 'invoices': invoices})
 
 
 def create_invoice(person):

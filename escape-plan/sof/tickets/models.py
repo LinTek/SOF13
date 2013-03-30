@@ -14,6 +14,9 @@ class Visitor(AbstractUser, Person):
         verbose_name_plural = _('visitors')
         ordering = ('first_name', 'last_name')
 
+    def get_type(self):
+        return u'Besökare'
+
     def __unicode__(self):
         return unicode(self.get_full_name())
 
