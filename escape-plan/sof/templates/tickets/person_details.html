@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load ticket_status %}
 
 {% block title %} - Biljettsläpp{% endblock %}
 
@@ -19,16 +20,16 @@
 
     <ul>
     {% for ticket in invoice.ticket_set.all %}
-        <li>{{ ticket.ticket_type }}</li>
+        <li>1x {{ ticket.ticket_type }}</li>
     {% endfor %}
     </ul>
 
     <dl class="dl-horizontal">
         <dt>Betalstatus</dt>
-        <dd><span class="label label-important">Ej betalad</span></dd>
+        {% payment_status invoice.get_payment_status %}
 
         <dt>Utlämningsstatus</dt>
-        <dd><span class="label label-important">Ej utlämnad</span></dd>
+        {% handed_out_status invoice.is_handed_out %}
     </dl>
 
     <a class="btn" href="">Markera som utlämnad</a>

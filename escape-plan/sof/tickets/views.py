@@ -101,6 +101,8 @@ def sell(request):
                    'error': error})
 
 
+@login_required
+@permission_required('tickets.add_ticket')
 def person_details(request, pk):
     person = get_object_or_404(Person.objects.select_related('invoices'), pk=pk)
     invoices = person.invoice_set.select_related('tickets')
@@ -110,7 +112,7 @@ def person_details(request, pk):
 
 
 def create_invoice(person):
-    invoice = Invoice(person=person)
+    invoice = Invoice(person=person, is_verified=True)
     invoice.generate_data()
     invoice.send_as_email()
     invoice.save()
