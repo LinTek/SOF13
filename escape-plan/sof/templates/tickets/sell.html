@@ -39,11 +39,11 @@
     </div>
 
     <div>
-        <h4>Senast sålda biljetter</h4>
+        <h4>20 senast sålda biljetter</h4>
 
         <ul>
         {% for ticket in latest_tickets %}
-            <li>{{ ticket }} - <b>{{ ticket.invoice.person }}</b></li>
+            <li>{{ ticket.ticket_type }} - <b>{{ ticket.invoice.person }}</b></li>
         {% endfor %}
         </ul>
     </div>

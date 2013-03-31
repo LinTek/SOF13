@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-31 00:37+0100\n"
-"PO-Revision-Date: 2013-03-31 00:38+0100\n"
+"POT-Creation-Date: 2013-03-31 01:31+0100\n"
+"PO-Revision-Date: 2013-03-31 01:31+0100\n"
 "Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -125,12 +125,12 @@ msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
 #: functionary/views.py:175
-#: tickets/views.py:68
+#: tickets/views.py:78
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
 #: functionary/views.py:178
-#: tickets/views.py:74
+#: tickets/views.py:84
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
 
@@ -226,11 +226,15 @@ msgstr "biljetter"
 msgid "handed out"
 msgstr "utlämnad"
 
-#: tickets/views.py:71
+#: tickets/views.py:75
+msgid "This ticket type is sold out"
+msgstr "Denna biljettyp är slutsåld"
+
+#: tickets/views.py:81
 msgid "An invoice already exist for this person"
 msgstr "En faktura finns redan för denna person"
 
-#: tickets/views.py:92
+#: tickets/views.py:102
 msgid "The person was not found"
 msgstr "Personen hittades inte"
 
