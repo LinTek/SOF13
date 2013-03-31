@@ -13,6 +13,10 @@
     <a href="{% url "ticket_sell" %}" class="btn btn-primary btn-large">Biljettsläpp</a>
 {% endif %}
 
+{% if perms.tickets.add_invoice %}
+    <a href="{% url "invoice_list" %}" class="btn btn-large">Fakturor</a>
+{% endif %}
+
 <h3>Mina funktionärspass</h3>
 <div>
     <ul>

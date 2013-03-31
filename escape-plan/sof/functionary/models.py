@@ -100,7 +100,6 @@ class Person(models.Model):
     def get_instance(self):
         if hasattr(self, 'instance'):
             return self.instance
-
         try:
             self.instance = self.worker
         except Worker.DoesNotExist:

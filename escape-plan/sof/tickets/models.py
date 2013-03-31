@@ -17,6 +17,9 @@ class Visitor(AbstractUser, Person):
     def get_type(self):
         return u'Besökare'
 
+    def get_rebate_percent(self):
+        return 0
+
     def __unicode__(self):
         return unicode(self.get_full_name())
 

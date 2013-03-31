@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-31 01:31+0100\n"
-"PO-Revision-Date: 2013-03-31 01:31+0100\n"
+"POT-Creation-Date: 2013-03-31 17:03+0200\n"
+"PO-Revision-Date: 2013-03-31 17:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -92,31 +92,31 @@ msgstr "streckkodsnummer"
 msgid "LiU ID"
 msgstr "LiU ID"
 
-#: functionary/models.py:122
+#: functionary/models.py:121
 msgid "worker"
 msgstr "funktionär"
 
-#: functionary/models.py:123
+#: functionary/models.py:122
 msgid "workers"
 msgstr "funktionärer"
 
-#: functionary/models.py:126
+#: functionary/models.py:125
 msgid "welcome email sent"
 msgstr "välkomstmail skickat"
 
-#: functionary/models.py:127
+#: functionary/models.py:126
 msgid "contract approved"
 msgstr "kontrakt påskrivet"
 
-#: functionary/models.py:154
+#: functionary/models.py:153
 msgid "worker registration"
 msgstr "funktionärsregistrering"
 
-#: functionary/models.py:155
+#: functionary/models.py:154
 msgid "worker registrations"
 msgstr "funktionärsregistreringar"
 
-#: functionary/models.py:159
+#: functionary/models.py:158
 msgid "approved"
 msgstr "närvarande"
 
@@ -134,23 +134,23 @@ msgstr "Personen hittades inte"
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
 
-#: invoices/models.py:18
+#: invoices/models.py:19
 msgid "invoice"
 msgstr "faktura"
 
-#: invoices/models.py:19
+#: invoices/models.py:20
 msgid "invoices"
 msgstr "fakturor"
 
-#: invoices/models.py:22
+#: invoices/models.py:23
 msgid "is verified"
 msgstr "bekräftad"
 
-#: invoices/models.py:25
+#: invoices/models.py:26
 msgid "due date"
 msgstr "förfallodatum"
 
-#: invoices/models.py:26
+#: invoices/models.py:27
 msgid "OCR number"
 msgstr "OCR-nummer"
 
@@ -182,47 +182,47 @@ msgstr "besökare"
 msgid "visitors"
 msgstr "besökare"
 
-#: tickets/models.py:31
+#: tickets/models.py:34
 msgid "ticket type"
 msgstr "biljettyp"
 
-#: tickets/models.py:32
+#: tickets/models.py:35
 msgid "ticket types"
 msgstr "biljettyper"
 
-#: tickets/models.py:34
+#: tickets/models.py:37
 msgid "name"
 msgstr "namn"
 
-#: tickets/models.py:35
+#: tickets/models.py:38
 msgid "price"
 msgstr "pris"
 
-#: tickets/models.py:36
+#: tickets/models.py:39
 msgid "rebate price"
 msgstr "rabatterat pris"
 
-#: tickets/models.py:38
+#: tickets/models.py:41
 msgid "max amount"
 msgstr "maximalt antal"
 
-#: tickets/models.py:39
+#: tickets/models.py:42
 msgid "opening date"
 msgstr "försäljningsstart"
 
-#: tickets/models.py:40
+#: tickets/models.py:43
 msgid "opening date for public selling"
 msgstr "offentlig försäljningsstart"
 
-#: tickets/models.py:50
+#: tickets/models.py:53
 msgid "ticket"
 msgstr "biljett"
 
-#: tickets/models.py:51
+#: tickets/models.py:54
 msgid "tickets"
 msgstr "biljetter"
 
-#: tickets/models.py:56
+#: tickets/models.py:59
 msgid "handed out"
 msgstr "utlämnad"
 
@@ -247,14 +247,18 @@ msgid "Sum mismatch"
 msgstr "Felaktig betalning"
 
 #: tickets/templatetags/ticket_status.py:12
+msgid "Overdue"
+msgstr "Försenad"
+
+#: tickets/templatetags/ticket_status.py:13
 msgid "Not paid"
 msgstr "Ej betald"
 
-#: tickets/templatetags/ticket_status.py:16
+#: tickets/templatetags/ticket_status.py:17
 msgid "Already handed out"
 msgstr "Redan utlämnad"
 
-#: tickets/templatetags/ticket_status.py:17
+#: tickets/templatetags/ticket_status.py:18
 msgid "Not handed out"
 msgstr "Inte utlämnad ännu"
 

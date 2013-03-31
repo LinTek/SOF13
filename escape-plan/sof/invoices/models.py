@@ -11,6 +11,7 @@ class PaymentStatus:
     NOT_PAID = 'not_paid'
     PAID = 'paid'
     SUM_MISMATCH = 'sum_mismatch'
+    OVERDUE = 'overdue'
 
 
 class Invoice(models.Model):
@@ -48,16 +49,15 @@ class Invoice(models.Model):
     def get_payment_sum(self):
         return sum([payment.amount for payment in self.payment_set.all()])
 
-    def get_total_rebate(self):
-        return self.person.get_rebate_percent() * self.get_total_ticket_sum()
-
     def get_total_price(self):
-        return self.get_total_ticket_sum() - self.get_total_rebate()
+        return self.get_total_ticket_sum() * (1 - self.person.get_rebate_percent())
 
     def get_payment_status(self):
         payment_sum = self.get_payment_sum()
         if payment_sum == 0:
-            return PaymentStatus.NOT_PAID
+            if self.due_date >= datetime.date.today():
+                return PaymentStatus.NOT_PAID
+            return PaymentStatus.OVERDUE
 
         if self.get_total_price() == payment_sum:
             return PaymentStatus.PAID

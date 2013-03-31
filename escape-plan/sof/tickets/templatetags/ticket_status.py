@@ -9,7 +9,8 @@ register = template.Library()
 PAYMENTS = {
     PaymentStatus.PAID: ('label-success', _('Paid')),
     PaymentStatus.SUM_MISMATCH: ('label-warning', _('Sum mismatch')),
-    PaymentStatus.NOT_PAID: ('label-important', _('Not paid')),
+    PaymentStatus.OVERDUE: ('label-important', _('Overdue')),
+    PaymentStatus.NOT_PAID: ('label', _('Not paid')),
 }
 
 HANDED_OUT = {
