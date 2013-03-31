@@ -40,6 +40,10 @@
 
     <a class="btn" href="{% url "set_handed_out" invoice.pk %}">Markera som utlämnad</a>
 
+    {% if perms.tickets.add_invoice %}
+        <a href="" class="btn">Markera som betald</a>
+    {% endif %}
+
 {% empty %}
     Det finns inga fakturor för denna person
 {% endfor %}
