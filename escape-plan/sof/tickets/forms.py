@@ -14,8 +14,7 @@ class TicketTypeForm(forms.Form):
         self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
                                               for choice in TicketType.objects.active()]
 
-    ticket_type = forms.ChoiceField(widget=forms.RadioSelect,
-                                    required=True)
+    ticket_type = forms.MultipleChoiceField(required=True)
 
 
 class TurboTicketForm(forms.Form):

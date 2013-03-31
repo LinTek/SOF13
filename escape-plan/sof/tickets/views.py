@@ -42,13 +42,14 @@ def sell(request):
     if turbo_form.is_valid() and ticket_type_form.is_valid():
         client = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
         term = turbo_form.cleaned_data.get('term')
-        ticket_type_id = ticket_type_form.cleaned_data.get('ticket_type')
+        ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
 
         try:
-            ticket_type = TicketType.objects.select_for_update().get(pk=ticket_type_id)
+            for ticket_type_id in ticket_type_ids:
+                ticket_type = TicketType.objects.select_for_update().get(pk=ticket_type_id)
 
-            if ticket_type.ticket_set.count() >= ticket_type.max_amount:
-                raise TicketSoldOut()
+                if ticket_type.ticket_set.count() >= ticket_type.max_amount:
+                    raise TicketSoldOut()
 
             try:
                 # The person already exists, it may be a Worker or a "double-blipp"
@@ -67,7 +68,9 @@ def sell(request):
                 person.save()
 
             invoice = create_invoice(person)
-            Ticket.objects.create(ticket_type=ticket_type, invoice=invoice)
+
+            for ticket_type_id in ticket_type_ids:
+                Ticket.objects.create(ticket_type_id=ticket_type_id, invoice=invoice)
 
             return redirect('ticket_sell')
 
