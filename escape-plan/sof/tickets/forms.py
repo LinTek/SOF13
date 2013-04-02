@@ -3,8 +3,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms.widgets import CheckboxSelectMultiple
 
 from sof.utils.forms import ForgivingPIDField
+from sof.functionary.models import Visitor
 
-from .models import TicketType, Visitor
+from .models import TicketType
 
 
 class TicketTypeForm(forms.Form):

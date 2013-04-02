@@ -8,7 +8,10 @@ from django.db import models
 class Migration(DataMigration):
     def forwards(self, orm):
         for worker in orm.Worker.objects.all():
-            person = orm.Person(pid=worker.pid)
+            person = orm.Person(pid=worker.pid,
+                                first_name=worker.first_name,
+                                last_name=worker.last_name,
+                                email=worker.email)
             person.save()
 
             worker.person_ptr_id = person.id
@@ -59,10 +62,16 @@ class Migration(DataMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'functionary.person': {
-            'Meta': {'object_name': 'Person'},
+            'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Person'},
+            'barcode_number': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '20'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'lintek_member': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'})
+            'liu_id': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
+            'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            'rfid_number': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'})
         },
         u'functionary.shift': {
             'Meta': {'object_name': 'Shift'},
@@ -84,6 +93,10 @@ class Migration(DataMigration):
             'Meta': {'ordering': "('name',)", 'object_name': 'ShiftType'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'functionary.visitor': {
+            'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Visitor', '_ormbases': [u'functionary.Person']},
+            u'person_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['functionary.Person']", 'unique': 'True', 'primary_key': 'True'})
         },
         u'functionary.worker': {
             'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Worker'},

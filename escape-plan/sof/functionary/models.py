@@ -4,7 +4,7 @@ from decimal import Decimal
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import User
 
 from sof.utils.datetime_utils import format_dt, format_time
 from sof.utils.email import send_mail
@@ -89,6 +89,15 @@ class PersonManager(models.Manager):
 
 
 class Person(models.Model):
+    class Meta:
+        verbose_name = _('person')
+        verbose_name_plural = _('persons')
+        ordering = ('first_name', 'last_name')
+
+    first_name = models.CharField(_('first name'), max_length=20)
+    last_name = models.CharField(_('first name'), max_length=40)
+    email = models.EmailField(_('email'), max_length=50)
+
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
     lintek_member = models.BooleanField(blank=True, default=False)
     rfid_number = models.CharField(_('RFID number'), max_length=10, blank=True)
@@ -97,26 +106,32 @@ class Person(models.Model):
 
     objects = PersonManager()
 
-    def get_instance(self):
-        if hasattr(self, 'instance'):
-            return self.instance
-        try:
-            self.instance = self.worker
-        except Worker.DoesNotExist:
-            self.instance = self.visitor
-        return self.instance
-
-    def get_rebate_percent(self):
-        return self.get_instance().get_rebate_percent()
-
     def has_rebate(self):
         return self.lintek_member
 
+    def get_full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
     def __unicode__(self):
-        return unicode(self.get_instance())
+        return unicode(self.get_full_name())
+
+    def get_type_name(self):
+        return self._meta.verbose_name.title()
 
 
-class Worker(AbstractUser, Person):
+class Visitor(Person):
+    class Meta:
+        verbose_name = _('visitor')
+        verbose_name_plural = _('visitors')
+
+    def get_rebate_percent(self):
+        return 0
+
+    def __unicode__(self):
+        return unicode(self.get_full_name())
+
+
+class Worker(Person):
     class Meta:
         verbose_name = _('worker')
         verbose_name_plural = _('workers')
@@ -132,9 +147,6 @@ class Worker(AbstractUser, Person):
         if count == 2:
             return Decimal('0.2')
         return Decimal('0.3')
-
-    def get_type(self):
-        return u'Funktionär'
 
     def send_registration_email(self):
         send_mail('functionary/mail/confirm_registrations', [self.email],

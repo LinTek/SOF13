@@ -4,7 +4,7 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from sof.functionary.models import Person
+from sof.functionary.models import Person, Worker
 
 
 class PaymentStatus:
@@ -50,7 +50,12 @@ class Invoice(models.Model):
         return sum([payment.amount for payment in self.payment_set.all()])
 
     def get_total_price(self):
-        return self.get_total_ticket_sum() * (1 - self.person.get_rebate_percent())
+        try:
+            rebate_percent = self.person.worker.get_rebate_percent()
+        except Worker.DoesNotExists:
+            rebate_percent = 0
+
+        return self.get_total_ticket_sum() * (1 - rebate_percent)
 
     def get_payment_status(self):
         payment_sum = self.get_payment_sum()

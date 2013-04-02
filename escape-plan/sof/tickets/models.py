@@ -2,26 +2,8 @@
 from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractUser
 
-from sof.functionary.models import Person
 from sof.invoices.models import Invoice
-
-
-class Visitor(AbstractUser, Person):
-    class Meta:
-        verbose_name = _('visitor')
-        verbose_name_plural = _('visitors')
-        ordering = ('first_name', 'last_name')
-
-    def get_type(self):
-        return u'Besökare'
-
-    def get_rebate_percent(self):
-        return 0
-
-    def __unicode__(self):
-        return unicode(self.get_full_name())
 
 
 class TicketTypeManager(models.Manager):

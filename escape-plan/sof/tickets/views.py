@@ -6,10 +6,10 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext_lazy as _
 
 from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs)
-from sof.functionary.models import Person
+from sof.functionary.models import Person, Visitor
 from sof.invoices.models import Invoice
 
-from .models import Ticket, TicketType, Visitor
+from .models import Ticket, TicketType
 from .forms import TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm
 
 

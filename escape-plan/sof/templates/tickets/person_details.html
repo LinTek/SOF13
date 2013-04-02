@@ -4,14 +4,14 @@
 {% block title %} - Biljettsläpp{% endblock %}
 
 {% block content %}
-<h3>{{ person }}<small> | {{ person.get_instance.get_type }}</small></h3>
+<h3>{{ person }}<small> | {{ person.get_type_name }}</small></h3>
 
 <dl class="dl-horizontal">
     <dt>LinTek-medlem</dt>
     <dd>{{ person.lintek_member|yesno:"Ja,Nej" }}</dd>
 
     <dt>Funktionär/besökare</dt>
-    <dd>{{ person.get_instance.get_type }}</dd>
+    <dd>{{ person.get_type_name }}</dd>
 </dl>
 
 {% for invoice in invoices %}
