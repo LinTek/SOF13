@@ -19,5 +19,5 @@ def set_handed_out(request, pk):
 @login_required
 @permission_required('tickets.add_invoice')
 def invoice_list(request):
-    invoices = Invoice.objects.select_related('person', 'person__worker', 'person__visitor')
+    invoices = Invoice.objects.select_related('person', 'person__worker', 'person__visitor').prefetch_related('ticket_set', 'ticket_set__ticket_type', 'payment_set')
     return render(request, 'invoices/invoice_list.html', {'invoices': invoices})

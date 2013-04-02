@@ -52,7 +52,7 @@ class Invoice(models.Model):
     def get_total_price(self):
         try:
             rebate_percent = self.person.worker.get_rebate_percent()
-        except Worker.DoesNotExists:
+        except Worker.DoesNotExist:
             rebate_percent = 0
 
         return self.get_total_ticket_sum() * (1 - rebate_percent)

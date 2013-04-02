@@ -1,5 +1,6 @@
 # encoding: utf-8
 from django.db import transaction
+from django.db.models import Count
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
@@ -33,11 +34,9 @@ def sell(request):
     visitor_form = VisitorForm(request.POST or None)
     search_form = SearchForm(request.GET or None)
 
-    tickets = Ticket.objects.order_by('-sell_date')[:10]
+    tickets = Ticket.objects.select_related('ticket_type', 'invoice', 'invoice__person').order_by('-sell_date')[:10]
 
-    stats = TicketType.objects.active()
-    for ticket_type in stats:
-        ticket_type.sold = ticket_type.ticket_set.count()
+    stats = TicketType.objects.active().annotate(sold=Count('ticket'))
 
     if turbo_form.is_valid() and ticket_type_form.is_valid():
         client = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
@@ -89,10 +88,13 @@ def sell(request):
     elif visitor_form.is_valid() and ticket_type_form.is_valid():
         visitor = visitor_form.save(commit=False)
         visitor.username = visitor.email
-        create_invoice(visitor)
+        visitor.save()
 
-        Ticket(ticket_type=ticket_type_form.cleaned_data.get('ticket_type'),
-               invoice=invoice).save()
+        invoice = create_invoice(visitor)
+
+        for ticket_type_id in ticket_type_form.cleaned_data.get('ticket_type'):
+            Ticket.objects.create(ticket_type_id=ticket_type_id,
+                                  invoice=invoice)
 
         return redirect('ticket_sell')
 
@@ -117,8 +119,8 @@ def sell(request):
 @login_required
 @permission_required('tickets.add_ticket')
 def person_details(request, pk):
-    person = get_object_or_404(Person.objects.select_related('invoices'), pk=pk)
-    invoices = person.invoice_set.select_related('tickets')
+    person = get_object_or_404(Person, pk=pk)
+    invoices = person.invoice_set.all()
 
     return render(request, 'tickets/person_details.html',
                   {'person': person, 'invoices': invoices})
