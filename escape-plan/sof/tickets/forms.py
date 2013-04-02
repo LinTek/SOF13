@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.forms.widgets import CheckboxSelectMultiple
+from django.forms.widgets import RadioSelect, CheckboxSelectMultiple
 
 from sof.utils.forms import ForgivingPIDField
 from sof.functionary.models import Visitor
@@ -23,6 +23,22 @@ class TicketTypeForm(forms.Form):
 
     ticket_type = forms.MultipleChoiceField(required=True,
                                             widget=CheckboxSelectMultiple)
+
+
+class PreemptionTicketTypeForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(PreemptionTicketTypeForm, self).__init__(*args, **kwargs)
+
+        ticket_types = TicketType.objects.all()
+        self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
+                                              for choice in ticket_types]
+
+    ticket_type = forms.MultipleChoiceField(required=True,
+                                            widget=RadioSelect)
+
+
+class LiuIDForm(forms.Form):
+    liu_id = forms.CharField(label=_('LiU-ID'), max_length=10, required=True)
 
 
 class TurboTicketForm(forms.Form):

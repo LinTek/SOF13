@@ -7,11 +7,12 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext_lazy as _
 
 from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs)
-from sof.functionary.models import Person, Visitor
+from sof.functionary.models import Person, Visitor, Worker
 from sof.invoices.models import Invoice
 
 from .models import Ticket, TicketType
-from .forms import TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm
+from .forms import (TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm,
+                    LiuIDForm, PreemptionTicketTypeForm)
 
 
 class InvoiceExists():
@@ -124,6 +125,38 @@ def person_details(request, pk):
 
     return render(request, 'tickets/person_details.html',
                   {'person': person, 'invoices': invoices})
+
+
+def preemption(request):
+    error = ''
+    liu_id_form = LiuIDForm(request.POST or None)
+    ticket_type_form = PreemptionTicketTypeForm(request.POST or None)
+
+    if liu_id_form.is_valid() and ticket_type_form.is_valid():
+        try:
+            worker = Worker.objects.get(liu_id=liu_id_form.cleaned_data.get('liu_id'))
+
+            invoice = Invoice(person=worker.person_ptr, is_verified=False)
+            invoice.generate_data()
+            invoice.send_verify_email()
+
+        except Worker.DoesNotExist:
+            error = _('The functionary was not found')
+
+    return render(request, 'tickets/preemption.html',
+                  {'ticket_type_form': ticket_type_form,
+                   'liu_id_form': liu_id_form,
+                   'error': error})
+
+
+def confirm(request, token):
+    invoice = get_object_or_404(Invoice, token=token)
+
+    if not invoice.is_verified:
+        invoice.is_verified = True
+        invoice.save()
+
+    return render(request, 'tickets/confirm.html')
 
 
 def create_invoice(person):

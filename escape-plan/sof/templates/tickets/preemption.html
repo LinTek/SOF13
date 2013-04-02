@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} - Förköp{% endblock %}
+
+{% block content %}
+<h2>Förköp för funktionärer</h2>
+
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
+
+<p>
+    Välj typ av biljett och fyll i ditt LiU-ID nedan. Formuläret fungerar endast
+    om du är registrerad som funktionär. En bekräftelselänk kommer att skickas
+    till din studentmail.
+</p>
+
+<p>Om du ännu inte lämnat in
+något påskrivet funktionärsavtal måste du göra detta för att kunna hämta ut din biljett.
+Vid problem, skicka önskad typ av biljett till <a href="mailto:biljett@sof13.se">biljett@sof13.se</a>.</p>
+
+<form method="post" class="form form-horizontal">
+    {% csrf_token %}
+    {{ ticket_type_form|crispy}}
+    {{ liu_id_form|crispy}}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-large btn-primary">Skicka</button>
+    </div>
+</form>
+
+{% endblock %}
