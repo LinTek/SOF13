@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.forms.widgets import CheckboxSelectMultiple
 
 from sof.utils.forms import ForgivingPIDField
 
@@ -8,13 +9,14 @@ from .models import TicketType, Visitor
 
 class TicketTypeForm(forms.Form):
     # ModelChoiceFields are slightly retarded and get even more retarded with
-    # radio select widgets and Django crispy forms...
+    # checbox widgets and Django crispy forms...
     def __init__(self, *args, **kwargs):
         super(TicketTypeForm, self).__init__(*args, **kwargs)
         self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
                                               for choice in TicketType.objects.active()]
 
-    ticket_type = forms.MultipleChoiceField(required=True)
+    ticket_type = forms.MultipleChoiceField(required=True,
+                                            widget=CheckboxSelectMultiple)
 
 
 class TurboTicketForm(forms.Form):
