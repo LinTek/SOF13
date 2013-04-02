@@ -13,8 +13,13 @@ class TicketTypeForm(forms.Form):
     # checbox widgets and Django crispy forms...
     def __init__(self, *args, **kwargs):
         super(TicketTypeForm, self).__init__(*args, **kwargs)
+
+        ticket_types = TicketType.objects.active()
         self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
-                                              for choice in TicketType.objects.active()]
+                                              for choice in ticket_types]
+
+        if ticket_types:
+            self.fields['ticket_type'].initial = ticket_types[0].pk
 
     ticket_type = forms.MultipleChoiceField(required=True,
                                             widget=CheckboxSelectMultiple)
