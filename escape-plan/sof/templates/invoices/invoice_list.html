@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load ticket_status %}
+
+{% block title %}- Fakturor{% endblock title %}
+
+{% block content %}
+<table class="table table-striped">
+    <tr>
+        <th>Status</th>
+        <th>Fakturanummer</th>
+        <th>Person</th>
+        <th>Totalbelopp</th>
+        <th>Betalt belopp</th>
+        <th>Förfallodatum</th>
+    </tr>
+{% for invoice in invoices %}
+    <tr>
+        <td>{% payment_status invoice.get_payment_status %}</td>
+        <td>{{ invoice.ocr }}</td>
+        <td><a href="{% url "person_details" invoice.person.pk %}">{{ invoice.person }}</a></td>
+        <td>{{ invoice.get_total_price }} kr</td>
+        <td>{{ invoice.get_payment_sum }} kr</td>
+        <td>{{ invoice.due_date }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock content %}

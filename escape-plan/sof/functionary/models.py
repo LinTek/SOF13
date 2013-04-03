@@ -1,10 +1,14 @@
 # encoding: utf-8
+from decimal import Decimal
+
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import User
 
 from sof.utils.datetime_utils import format_dt, format_time
 from sof.utils.email import send_mail
+from sof.utils.forms import format_pid
 
 
 class ShiftManager(models.Manager):
@@ -76,17 +80,73 @@ class Shift(models.Model):
         return '%s, %s-%s' % (unicode(self.shift_type), format_dt(self.start), format_time(self.end))
 
 
-class Worker(AbstractUser):
+class PersonManager(models.Manager):
+    def search(self, term):
+        return self.filter(Q(liu_id=term) |
+                           Q(rfid_number=term) |
+                           Q(barcode_number=term) |
+                           Q(pid=format_pid(term))).get()
+
+
+class Person(models.Model):
+    class Meta:
+        verbose_name = _('person')
+        verbose_name_plural = _('persons')
+        ordering = ('first_name', 'last_name')
+
+    first_name = models.CharField(_('first name'), max_length=20)
+    last_name = models.CharField(_('first name'), max_length=40)
+    email = models.EmailField(_('email'), max_length=50)
+
+    pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
+    lintek_member = models.BooleanField(blank=True, default=False)
+    rfid_number = models.CharField(_('RFID number'), max_length=10, blank=True)
+    barcode_number = models.CharField(_('barcode number'), max_length=20, blank=True)
+    liu_id = models.CharField(_('LiU ID'), max_length=10, blank=True)
+
+    objects = PersonManager()
+
+    def has_rebate(self):
+        return self.lintek_member
+
+    def get_full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    def __unicode__(self):
+        return unicode(self.get_full_name())
+
+    def get_type_name(self):
+        return self._meta.verbose_name.title()
+
+
+class Visitor(Person):
+    class Meta:
+        verbose_name = _('visitor')
+        verbose_name_plural = _('visitors')
+
+    def get_rebate_percent(self):
+        return 0
+
+    def __unicode__(self):
+        return unicode(self.get_full_name())
+
+
+class Worker(Person):
     class Meta:
         verbose_name = _('worker')
         verbose_name_plural = _('workers')
         ordering = ('first_name', 'last_name')
 
-    pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
-    lintek_member = models.BooleanField(blank=True, default=False)
-
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
+
+    def get_rebate_percent(self):
+        count = self.workerregistration_set.count()
+        if count <= 1:
+            return 0
+        if count == 2:
+            return Decimal('0.2')
+        return Decimal('0.3')
 
     def send_registration_email(self):
         send_mail('functionary/mail/confirm_registrations', [self.email],

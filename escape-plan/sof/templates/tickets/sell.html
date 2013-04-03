@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} - Biljettsläpp{% endblock %}
+
+{% block content %}
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
+
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#turbo" data-toggle="tab">Turbosälj</a>
+        </li>
+        <li>
+            <a href="#detailed" data-toggle="tab">Manuell besökare</a>
+        </li>
+        <li>
+            <a href="#existing" data-toggle="tab">Befintlig person</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="turbo">
+            {% include "tickets/partials/turbo.html" %}
+        </div>
+
+        <div class="tab-pane" id="detailed">
+            {% include "tickets/partials/detailed.html" %}
+        </div>
+
+        <div class="tab-pane" id="existing">
+            {% include "tickets/partials/existing.html" %}
+        </div>
+    </div>
+
+    <div>
+        <h4>10 senast sålda biljetter</h4>
+
+        <ul>
+        {% for ticket in latest_tickets %}
+            <li>{{ ticket.ticket_type }} - <b>{{ ticket.invoice.person }}</b></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h4>Statistik</h4>
+        <ul>
+        {% for ticket_type in ticket_stats %}
+            <li><b>{{ ticket_type }}</b> -
+            {{ ticket_type.sold }} / {{ ticket_type.max_amount }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

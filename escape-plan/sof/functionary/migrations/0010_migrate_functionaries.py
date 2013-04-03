@@ -1,23 +1,28 @@
 # -*- coding: utf-8 -*-
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
 
-class Migration(SchemaMigration):
-
+class Migration(DataMigration):
     def forwards(self, orm):
-        # Adding field 'Worker.lintek_member'
-        db.add_column(u'functionary_worker', 'lintek_member',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
-                      keep_default=False)
+        for worker in orm.Worker.objects.all():
+            person = orm.Person(pid=worker.pid,
+                                first_name=worker.first_name,
+                                last_name=worker.last_name,
+                                email=worker.email)
+            person.save()
 
+            worker.person_ptr_id = person.id
+            worker.save()
+
+        for reg in orm.WorkerRegistration.objects.all():
+            reg.worker_id = reg.worker.person_ptr_id
+            reg.save()
 
     def backwards(self, orm):
-        # Deleting field 'Worker.lintek_member'
-        db.delete_column(u'functionary_worker', 'lintek_member')
-
+        "Write your backwards methods here."
 
     models = {
         u'auth.group': {
@@ -56,6 +61,18 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'functionary.person': {
+            'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Person'},
+            'barcode_number': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '20'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
+            'lintek_member': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'liu_id': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
+            'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            'rfid_number': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'})
+        },
         u'functionary.shift': {
             'Meta': {'object_name': 'Shift'},
             'end': ('django.db.models.fields.DateTimeField', [], {}),
@@ -77,6 +94,10 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'functionary.visitor': {
+            'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Visitor', '_ormbases': [u'functionary.Person']},
+            u'person_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['functionary.Person']", 'unique': 'True', 'primary_key': 'True'})
+        },
         u'functionary.worker': {
             'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Worker'},
             'contract_approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -90,8 +111,8 @@ class Migration(SchemaMigration):
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'lintek_member': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'person_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['functionary.Person']", 'unique': 'True', 'null': 'True'}),
             'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
@@ -107,3 +128,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['functionary']
+    symmetrical = True

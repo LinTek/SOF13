@@ -2,6 +2,9 @@
 import httplib2
 import json
 
+from sof.utils.forms import format_pid
+
+
 HEADERS = {'Accept': 'application/json',
            'Content-Type': 'application/json; charset=UTF-8'}
 
@@ -25,7 +28,6 @@ class KOBRAClient:
 
             if status.get('status') == '404' or not result.strip():
                 raise StudentNotFound()
-
         except ValueError:
             raise StudentNotFound()
         return json.loads(result)
@@ -48,3 +50,14 @@ class KOBRAClient:
         if len(id_or_card_number) <= 8:
             return self.get_student_by_liu_id(id_or_card_number)
         return self.get_student_by_card(id_or_card_number)
+
+
+def get_kwargs(student):
+    return {'first_name': student.get('first_name').title(),
+            'last_name': student.get('last_name').title(),
+            'email': student.get('email'),
+            'lintek_member': student.get('union') == 'LinTek',
+            'liu_id': student.get('liu_id'),
+            'rfid_number': student.get('rfid_number'),
+            'barcode_number': student.get('barcode_number'),
+            'pid': format_pid(student.get('personal_number'))}

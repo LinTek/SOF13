@@ -1,0 +1,12 @@
+{% load crispy_forms_tags %}
+<h3>Lägg till manuell besökare</h3>
+
+<form method="post" class="form form-horizontal">
+    {% csrf_token %}
+    {{ ticket_type_form|crispy}}
+    {{ visitor_form|crispy}}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Skicka faktura</button>
+    </div>
+</form>

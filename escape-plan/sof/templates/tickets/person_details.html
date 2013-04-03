@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load ticket_status %}
+
+{% block title %} - Biljettsläpp{% endblock %}
+
+{% block content %}
+<h3>{{ person }}<small> | {{ person.get_type_name }}</small></h3>
+
+<dl class="dl-horizontal">
+    <dt>LinTek-medlem</dt>
+    <dd>{{ person.lintek_member|yesno:"Ja,Nej" }}</dd>
+
+    <dt>Funktionär/besökare</dt>
+    <dd>{{ person.get_type_name }}</dd>
+</dl>
+
+{% for invoice in invoices %}
+    <hr>
+    <h4>Faktura <small>{{ invoice.ocr }}</small></h4>
+
+    <ul>
+    {% for ticket in invoice.ticket_set.all %}
+        <li>{{ ticket.ticket_type }}</li>
+    {% endfor %}
+    </ul>
+
+    <dl class="dl-horizontal">
+        <dt>Betalstatus</dt>
+        <dd>{% payment_status invoice.get_payment_status %}</dd>
+
+        <dt>Utlämningsstatus</dt>
+        <dd>{% handed_out_status invoice.is_handed_out %}</dd>
+
+        <dt>Totalbelopp</dt>
+        <dd>{{ invoice.get_total_price }} kr</dd>
+
+        <dt>Betalt belopp</dt>
+        <dd>{{ invoice.get_payment_sum }} kr</dd>
+    </dl>
+
+    <a class="btn" href="{% url "set_handed_out" invoice.pk %}">Markera som utlämnad</a>
+
+    {% if perms.tickets.add_invoice %}
+        <a href="" class="btn">Markera som betald</a>
+    {% endif %}
+
+{% empty %}
+    Det finns inga fakturor för denna person
+{% endfor %}
+
+<hr>
+<div>
+    <a class="btn btn-primary" href="{% url "ticket_sell" %}">Tillbaka</a>
+</div>
+{% endblock %}

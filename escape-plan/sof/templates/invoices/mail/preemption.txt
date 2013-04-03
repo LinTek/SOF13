@@ -1,0 +1,8 @@
+Hej,
+
+För att bekräfta ditt förköp av biljett till SOF 2013, klicka på länken nedan.
+
+http://apps.sof13.se{% url "confirm" token=invoice.token %}
+
+Med vänliga hälsningar,
+Biljettansvarig SOF 2013

@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 {% load shift_extras %}
 
-{% block title %}- Visa pass{% endblock %}
+{% block title %}- Inloggad{% endblock %}
 
 {% block content %}
 
 {% if perms.auth.add_user %}
-    <a href="{% url "search" %}" class="btn btn-primary btn-large">Funktionärssläpp</a>
+    <a href="{% url "functionary_search" %}" class="btn btn-primary btn-large">Funktionärssläpp</a>
 {% endif %}
 
 {% if perms.tickets.add_ticket %}
-    <a href="" class="btn btn-primary btn-large">Biljettsläpp</a>
+    <a href="{% url "ticket_sell" %}" class="btn btn-primary btn-large">Biljettsläpp</a>
 {% endif %}
 
-<h3>Mina pass</h3>
+{% if perms.tickets.add_invoice %}
+    <a href="{% url "invoice_list" %}" class="btn btn-large">Fakturor</a>
+{% endif %}
+
+<h3>Mina funktionärspass</h3>
 <div>
     <ul>
     {% for reg in registrations %}

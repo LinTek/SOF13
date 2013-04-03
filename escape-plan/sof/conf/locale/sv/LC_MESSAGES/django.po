@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-26 00:28+0100\n"
-"PO-Revision-Date: 2013-02-26 00:29+0100\n"
+"POT-Creation-Date: 2013-04-02 16:15+0200\n"
+"PO-Revision-Date: 2013-04-02 16:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -17,96 +17,278 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: functionary/admin.py:20
-msgid "Additional info"
-msgstr "Övrig info"
-
-#: functionary/forms.py:41
+#: functionary/forms.py:10
+#: tickets/forms.py:47
 msgid "LiU-ID or card number"
 msgstr "LiU-ID eller kortnummer"
 
-#: functionary/forms.py:50
+#: functionary/forms.py:19
 msgid "LinTek member"
 msgstr "LinTek-medlem"
 
-#: functionary/forms.py:51
+#: functionary/forms.py:20
+#: tickets/forms.py:60
 msgid "Personal identification number"
 msgstr "Personnummer"
 
-#: functionary/models.py:39
+#: functionary/models.py:42
 msgid "shift type"
 msgstr "passtyp"
 
-#: functionary/models.py:40
+#: functionary/models.py:43
 msgid "shift types"
 msgstr "passtyper"
 
-#: functionary/models.py:50
+#: functionary/models.py:54
 msgid "shift subtype"
 msgstr "pass-undertyp"
 
-#: functionary/models.py:51
+#: functionary/models.py:55
 msgid "shift subtypes"
 msgstr "pass-undertyper"
 
-#: functionary/models.py:61
+#: functionary/models.py:66
 msgid "shift"
 msgstr "funktionärspass"
 
-#: functionary/models.py:62
+#: functionary/models.py:67
 msgid "shifts"
 msgstr "funktionärspass"
 
-#: functionary/models.py:66
+#: functionary/models.py:71
 msgid "start date"
 msgstr "starttid"
 
-#: functionary/models.py:67
+#: functionary/models.py:72
 msgid "end date"
 msgstr "sluttid"
 
-#: functionary/models.py:68
+#: functionary/models.py:73
 msgid "max workers"
 msgstr "max antal funktionärer"
 
-#: functionary/models.py:80
-msgid "worker"
-msgstr "funktionär"
+#: functionary/models.py:77
+msgid "dummy shift"
+msgstr "dummypass"
 
-#: functionary/models.py:81
-msgid "workers"
-msgstr "funktionärer"
+#: functionary/models.py:93
+msgid "person"
+msgstr "person"
 
-#: functionary/models.py:83
+#: functionary/models.py:94
+msgid "persons"
+msgstr "personer"
+
+#: functionary/models.py:97
+#: functionary/models.py:98
+msgid "first name"
+msgstr "förnamn"
+
+#: functionary/models.py:99
+msgid "email"
+msgstr "e-postadress"
+
+#: functionary/models.py:101
 msgid "personal identification number"
 msgstr "personnummer"
 
-#: functionary/models.py:97
+#: functionary/models.py:103
+msgid "RFID number"
+msgstr "RFID-nummer"
+
+#: functionary/models.py:104
+msgid "barcode number"
+msgstr "streckkodsnummer"
+
+#: functionary/models.py:105
+msgid "LiU ID"
+msgstr "LiU ID"
+
+#: functionary/models.py:124
+msgid "visitor"
+msgstr "besökare"
+
+#: functionary/models.py:125
+msgid "visitors"
+msgstr "besökare"
+
+#: functionary/models.py:136
+msgid "worker"
+msgstr "funktionär"
+
+#: functionary/models.py:137
+msgid "workers"
+msgstr "funktionärer"
+
+#: functionary/models.py:140
+msgid "welcome email sent"
+msgstr "välkomstmail skickat"
+
+#: functionary/models.py:141
+msgid "contract approved"
+msgstr "kontrakt påskrivet"
+
+#: functionary/models.py:165
 msgid "worker registration"
 msgstr "funktionärsregistrering"
 
-#: functionary/models.py:98
+#: functionary/models.py:166
 msgid "worker registrations"
 msgstr "funktionärsregistreringar"
 
-#: functionary/models.py:102
+#: functionary/models.py:170
 msgid "approved"
 msgstr "närvarande"
 
-#: functionary/views.py:129
+#: functionary/views.py:163
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:141
+#: functionary/views.py:175
+#: tickets/views.py:81
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:144
+#: functionary/views.py:178
+#: tickets/views.py:87
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
 
-#~ msgid "LiU-ID"
-#~ msgstr "LiU-ID"
+#: invoices/models.py:20
+msgid "invoice"
+msgstr "faktura"
 
-#~ msgid "LiU card number"
-#~ msgstr "LiU-kortnummer"
+#: invoices/models.py:21
+msgid "invoices"
+msgstr "fakturor"
+
+#: invoices/models.py:24
+msgid "is verified"
+msgstr "bekräftad"
+
+#: invoices/models.py:27
+msgid "due date"
+msgstr "förfallodatum"
+
+#: invoices/models.py:28
+msgid "OCR number"
+msgstr "OCR-nummer"
+
+#: invoices/models.py:76
+msgid "payment"
+msgstr "betalning"
+
+#: invoices/models.py:77
+msgid "payments"
+msgstr "betalningar"
+
+#: invoices/models.py:79
+msgid "date"
+msgstr "datum"
+
+#: invoices/models.py:80
+msgid "amount"
+msgstr "summa"
+
+#: tickets/forms.py:26
+#: tickets/forms.py:39
+msgid "Ticket type"
+msgstr "Biljettyp"
+
+#: tickets/forms.py:43
+msgid "LiU-ID"
+msgstr "LiU-ID"
+
+#: tickets/forms.py:52
+msgid "Search query"
+msgstr "Sökterm"
+
+#: tickets/models.py:16
+msgid "ticket type"
+msgstr "biljettyp"
+
+#: tickets/models.py:17
+msgid "ticket types"
+msgstr "biljettyper"
+
+#: tickets/models.py:19
+msgid "name"
+msgstr "namn"
+
+#: tickets/models.py:20
+msgid "price"
+msgstr "pris"
+
+#: tickets/models.py:21
+msgid "rebate price"
+msgstr "rabatterat pris"
+
+#: tickets/models.py:23
+msgid "max amount"
+msgstr "maximalt antal"
+
+#: tickets/models.py:24
+msgid "opening date"
+msgstr "försäljningsstart"
+
+#: tickets/models.py:25
+msgid "opening date for public selling"
+msgstr "offentlig försäljningsstart"
+
+#: tickets/models.py:35
+msgid "ticket"
+msgstr "biljett"
+
+#: tickets/models.py:36
+msgid "tickets"
+msgstr "biljetter"
+
+#: tickets/models.py:41
+msgid "handed out"
+msgstr "utlämnad"
+
+#: tickets/views.py:78
+msgid "This ticket type is sold out"
+msgstr "Denna biljettyp är slutsåld"
+
+#: tickets/views.py:84
+msgid "An invoice already exist for this person"
+msgstr "En faktura finns redan för denna person"
+
+#: tickets/views.py:108
+msgid "The person was not found"
+msgstr "Personen hittades inte"
+
+#: tickets/views.py:144
+msgid "The functionary was not found"
+msgstr "Personen kunde inte hittas"
+
+#: tickets/templatetags/ticket_status.py:10
+msgid "Paid"
+msgstr "Betald"
+
+#: tickets/templatetags/ticket_status.py:11
+msgid "Sum mismatch"
+msgstr "Felaktig betalning"
+
+#: tickets/templatetags/ticket_status.py:12
+msgid "Overdue"
+msgstr "Försenad"
+
+#: tickets/templatetags/ticket_status.py:13
+msgid "Not paid"
+msgstr "Ej betald"
+
+#: tickets/templatetags/ticket_status.py:17
+msgid "Already handed out"
+msgstr "Redan utlämnad"
+
+#: tickets/templatetags/ticket_status.py:18
+msgid "Not handed out"
+msgstr "Inte utlämnad ännu"
+
+#~ msgid "Additional info"
+#~ msgstr "Övrig info"
+
+#~ msgid "Handed out"
+#~ msgstr "Utlämnad"
