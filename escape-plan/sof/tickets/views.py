@@ -64,7 +64,6 @@ def sell(request):
                 student = client.get_student(term)
 
                 person = Visitor(**get_kwargs(student))
-                person.username = person.email
                 person.save()
 
             invoice = create_invoice(person)
@@ -88,7 +87,6 @@ def sell(request):
 
     elif visitor_form.is_valid() and ticket_type_form.is_valid():
         visitor = visitor_form.save(commit=False)
-        visitor.username = visitor.email
         visitor.save()
 
         invoice = create_invoice(visitor)

@@ -5,7 +5,7 @@ urlpatterns = patterns(
 
 
     url(r'^shifts$', 'shifts', name='shifts'),
-    url(r'^search$', 'search', name='functionary_search'),
+    url(r'^search$', 'search', name='search'),
     url(r'^create-worker$', 'create_worker', name='create_worker'),
 
     url(r'^add-registrations/(?P<worker_id>\d+)$', 'add_registrations',

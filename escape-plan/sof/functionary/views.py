@@ -97,7 +97,6 @@ def create_worker(request):
 
     if form.is_valid():
         worker = form.save(commit=False)
-        worker.username = worker.email
         worker.save()
         return redirect('add_registrations', worker_id=worker.pk)
 
@@ -150,7 +149,7 @@ def search(request):
             return render_worker_form()
 
         try:
-            w = Worker.objects.get(username__startswith=term)
+            w = Worker.objects.search(term)
             return redirect('add_registrations', worker_id=w.pk)
 
         except Worker.DoesNotExist:

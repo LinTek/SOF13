@@ -140,6 +140,8 @@ class Worker(Person):
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
 
+    objects = PersonManager()
+
     def get_rebate_percent(self):
         count = self.workerregistration_set.count()
         if count <= 1:
