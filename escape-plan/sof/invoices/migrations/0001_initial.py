@@ -12,7 +12,7 @@ class Migration(SchemaMigration):
         db.create_table(u'invoices_invoice', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('is_verified', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('token', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('token', self.gf('django.db.models.fields.CharField')(unique=True, max_length=50, db_index=True)),
             ('due_date', self.gf('django.db.models.fields.DateField')()),
             ('ocr', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20)),
             ('person', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['functionary.Person'])),
@@ -39,10 +39,16 @@ class Migration(SchemaMigration):
 
     models = {
         u'functionary.person': {
-            'Meta': {'object_name': 'Person'},
+            'Meta': {'ordering': "('first_name', 'last_name')", 'object_name': 'Person'},
+            'barcode_number': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '50'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             'lintek_member': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'})
+            'liu_id': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
+            'pid': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
+            'rfid_number': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'})
         },
         u'invoices.invoice': {
             'Meta': {'object_name': 'Invoice'},
@@ -51,7 +57,7 @@ class Migration(SchemaMigration):
             'is_verified': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'ocr': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['functionary.Person']"}),
-            'token': ('django.db.models.fields.CharField', [], {'max_length': '20'})
+            'token': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50', 'db_index': 'True'})
         },
         u'invoices.payment': {
             'Meta': {'object_name': 'Payment'},
