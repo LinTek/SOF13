@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from sof.functionary.models import Person, Worker
+from sof.utils.email import send_mail
 
 
 class PaymentStatus:
@@ -38,6 +39,9 @@ class Invoice(models.Model):
 
     def send_as_email(self):
         pass
+
+    def send_verify_email(self):
+        send_mail('invoices/mail/preemption', [self.person.email], {'invoice': self})
 
     def is_handed_out(self):
         return all([ticket.is_handed_out for ticket in self.ticket_set.all()])

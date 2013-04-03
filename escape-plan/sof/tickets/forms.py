@@ -34,9 +34,9 @@ class PreemptionTicketTypeForm(forms.Form):
         self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
                                               for choice in ticket_types]
 
-    ticket_type = forms.MultipleChoiceField(required=True,
-                                            widget=RadioSelect,
-                                            label=_('Ticket type'))
+    ticket_type = forms.ChoiceField(required=True,
+                                    widget=RadioSelect,
+                                    label=_('Ticket type'))
 
 
 class LiuIDForm(forms.Form):

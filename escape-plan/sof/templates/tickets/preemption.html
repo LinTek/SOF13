@@ -13,15 +13,25 @@
     </div>
 {% endif %}
 
+{% if success %}
+    <div class="alert alert-success">
+        <h4>Sisådär ja!</h4>
+        En bekräftelselänk har skickats till din studentmail. Klicka på denna
+        för att bekräfta din beställning.
+    </div>
+{% endif %}
+
 <p>
     Välj typ av biljett och fyll i ditt LiU-ID nedan. Formuläret fungerar endast
     om du är registrerad som funktionär. En bekräftelselänk kommer att skickas
     till din studentmail.
 </p>
 
-<p>Om du ännu inte lämnat in
-något påskrivet funktionärsavtal måste du göra detta för att kunna hämta ut din biljett.
-Vid problem, kontakta <a href="mailto:biljett@sof13.se">biljett@sof13.se</a>.</p>
+<p>
+    Om du ännu inte lämnat in något påskrivet funktionärsavtal måste du göra
+    detta för att kunna hämta ut din biljett. Vid problem, kontakta
+    <a href="mailto:biljett@sof13.se">biljett@sof13.se</a>.
+</p>
 
 <form method="post" class="form form-horizontal">
     {% csrf_token %}

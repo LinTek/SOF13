@@ -129,24 +129,35 @@ def person_details(request, pk):
 
 def preemption(request):
     error = ''
+    success = False
     liu_id_form = LiuIDForm(request.POST or None)
     ticket_type_form = PreemptionTicketTypeForm(request.POST or None)
 
     if liu_id_form.is_valid() and ticket_type_form.is_valid():
         try:
             worker = Worker.objects.get(liu_id=liu_id_form.cleaned_data.get('liu_id'))
+            if worker.invoice_set.exists():
+                raise InvoiceExists()
 
             invoice = Invoice(person=worker.person_ptr, is_verified=False)
             invoice.generate_data()
             invoice.send_verify_email()
+            invoice.save()
+
+            success = True
+            liu_id_form = LiuIDForm()
+            ticket_type_form = PreemptionTicketTypeForm()
 
         except Worker.DoesNotExist:
             error = _('The functionary was not found')
 
+        except InvoiceExists:
+            error = _('An invoice already exist for this person')
+
     return render(request, 'tickets/preemption.html',
                   {'ticket_type_form': ticket_type_form,
                    'liu_id_form': liu_id_form,
-                   'error': error})
+                   'error': error, 'success': success})
 
 
 def confirm(request, token):
