@@ -6,7 +6,7 @@
 {% block content %}
 
 {% if perms.auth.add_user %}
-    <a href="{% url "functionary_search" %}" class="btn btn-primary btn-large">Funktionärssläpp</a>
+    <a href="{% url "search" %}" class="btn btn-primary btn-large">Funktionärssläpp</a>
 {% endif %}
 
 {% if perms.tickets.add_ticket %}
