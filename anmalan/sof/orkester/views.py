@@ -19,10 +19,23 @@ from forms import OrchestraForm, MemberForm, AddMemberForm
 from models import Orchestra, Member, YES, TICKET_TYPES, GADGETS, TSHIRT_SIZES
 
 
+def redirect_to_closed(func):
+    def decorator(request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return redirect('closed')
+        return func(request, *args, **kwargs)
+
+    return decorator
+
+
 def home(request):
     if request.user.is_authenticated():
         return redirect('admin_home')
     return redirect('orchestra_form')
+
+
+def closed(request):
+    return render(request, 'orkester/closed.html')
 
 
 def admin_home(request):
@@ -37,6 +50,7 @@ def confirm_orchestra(request):
     return render(request, 'orkester/confirm_orchestra.html')
 
 
+@redirect_to_closed
 def orchestra_form(request):
     # if we are submittning a form
     if request.method == 'POST':
@@ -64,6 +78,7 @@ def orchestra_form(request):
     return render(request, 'orkester/orchestra_form.html', {'form': form})
 
 
+@redirect_to_closed
 def member_form(request, token):
     # fetch the orchestra from db by the token in the URL
     orchestra = _orchestra_by_token(token)
@@ -255,6 +270,7 @@ def stats(request):
                    'ticket_types': TICKET_TYPES})
 
 
+@redirect_to_closed
 def add_member(request, token):
     orchestra = _orchestra_by_token(token)
 

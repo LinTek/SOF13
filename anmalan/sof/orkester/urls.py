@@ -18,7 +18,7 @@ admin.autodiscover()
 from sof.orkester.views import (confirm_orchestra, confirm_member, home,
                                 member_form, member_list, add_member, orchestra_list,
                                 stats, press_list, sitting_list, food_list, gadgets,
-                                admin_home, orchestra_form)
+                                admin_home, orchestra_form, closed)
 
 
 urlpatterns = patterns('',
@@ -45,6 +45,7 @@ urlpatterns = patterns('',
     url(r'^logout$', logout, {'next_page': '/'}, 'logout'),
 
     url(r'^admin-home$', admin_home, name='admin_home'),
+    url(r'^closed$', closed, name='closed'),
 )
 
 # Serve static and media files when using development server
