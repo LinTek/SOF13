@@ -1,0 +1,13 @@
+Hej,
+
+Du har köpt följande biljetter till SOF 2013:
+{% for ticket in invoice.ticket_set.all %}
+   {{ ticket.ticket_type.name }} 
+{% endfor %}
+Totalt:               {{ invoice.get_total_price }}kr
+
+Förfallodatum:        {{ invoice.due_date|date:"Y-m-d" }}
+Referensnummer (OCR): {{ invoice.ocr }}
+
+Med vänliga hälsningar,
+Biljettansvarig SOF 2013

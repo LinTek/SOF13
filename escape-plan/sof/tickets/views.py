@@ -52,6 +52,8 @@ def turbo_confirm(request):
                 Ticket.objects.create(ticket_type_id=ticket_type_id,
                                       invoice=invoice)
 
+            invoice.send_as_email()
+
             response['is_valid'] = True
             return HttpResponse(json.dumps(response),
                                 content_type='application/json')
@@ -154,6 +156,8 @@ def sell(request):
             Ticket.objects.create(ticket_type_id=ticket_type_id,
                                   invoice=invoice)
 
+        invoice.send_as_email()
+
         return redirect('ticket_sell')
 
     elif search_form.is_valid():
@@ -230,6 +234,5 @@ def confirm(request, token):
 def create_invoice(person):
     invoice = Invoice(person=person, is_verified=True)
     invoice.generate_data()
-    invoice.send_as_email()
     invoice.save()
     return invoice

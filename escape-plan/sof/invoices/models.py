@@ -38,7 +38,7 @@ class Invoice(models.Model):
         self.ocr = '5070%s' % self.person.pid  # TODO
 
     def send_as_email(self):
-        pass
+        send_mail('invoices/mail/invoice', [self.person.email], {'invoice': self})
 
     def send_verify_email(self):
         send_mail('invoices/mail/preemption', [self.person.email], {'invoice': self})
