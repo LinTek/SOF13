@@ -42,8 +42,6 @@ def turbo_confirm(request):
     if ticket_type_form.is_valid():
         ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
 
-        import ipdb; ipdb.set_trace()
-
         if visitor_form.is_valid() or functionary_form.is_valid():
             if visitor_form.is_valid():
                 invoice = create_invoice(visitor_form.save())
