@@ -22,8 +22,8 @@
             <td>{{ member.needs_bed|boolify|yesno:"Ja,Nej" }}</td>
             <td>{{ member.get_gadgets_display }}</td>
             <td><b>{{ member.get_attends_display }}</b>
-                {% if member.late_registration %} (sen anmälan){% endif %}
-                {% if member.multiple_orchestras %} (flera orkestrar){% endif %}</td>
+                {% if member.late_registration %} <span class="label label-important">Sen anmälan</span>{% endif %}
+                {% if member.multiple_orchestras %} <span class="label label-info">Flera orkestrar</span>{% endif %}</td>
         </tr>
     {% endfor %}
     </table>
