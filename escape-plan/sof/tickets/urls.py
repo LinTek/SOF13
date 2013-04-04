@@ -9,4 +9,5 @@ urlpatterns = patterns(
     url(r'^person/(?P<pk>\d+)/$', 'person_details', name='person_details'),
 
     url(r'^turbo-submit$', 'turbo_submit', name='turbo_submit'),
+    url(r'^turbo-confirm$', 'turbo_confirm', name='turbo_confirm'),
 )
