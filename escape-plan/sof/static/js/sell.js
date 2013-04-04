@@ -7,18 +7,36 @@ var submit_turbo_form = function(e) {
             if (response.is_valid === false) {
                  $('#turbo').html(response.html);
             } else {
-                $('#turbo').html(response.html);
-                console.log("Valid!");
+                $('#modal_container').html(response.html);
+                $('#turbo_modal').modal();
             }
         }
     });
     e.preventDefault();
 };
 
+var confirm_turbo_form = function(e) {
+    $.ajax({
+        url: URL.turbo_confirm,
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function(response) {
+            if (response.is_valid === false) {
+                 alert('Något verkar inte vara korrekt ifyllt.');
+            } else {
+                location.reload();
+            }
+        }
+    });
+    e.preventDefault();
+};
+
+
 $(function() {
     $('#tabs a[href="#turbo"]').tab('show');
 
     $(".tab-content").on('submit', '.turbo_form', submit_turbo_form);
+    $(".tab-content").on('submit', '.turbo_confirm', confirm_turbo_form);
 });
 
 

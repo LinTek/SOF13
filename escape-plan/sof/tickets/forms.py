@@ -55,7 +55,7 @@ class SearchForm(forms.Form):
 class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor
-        fields = ('first_name', 'last_name', 'pid', 'liu_id', 'email', 'lintek_member')
+        fields = ('first_name', 'last_name', 'pid', 'email', 'lintek_member')
 
     pid = ForgivingPIDField(label=_('Personal identification number'))
 
@@ -63,6 +63,6 @@ class VisitorForm(forms.ModelForm):
 class WorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
-        fields = ('first_name', 'last_name', 'pid', 'liu_id', 'email', 'lintek_member')
+        fields = ('first_name', 'last_name', 'pid', 'email', 'lintek_member')
 
     pid = ForgivingPIDField(label=_('Personal identification number'))
