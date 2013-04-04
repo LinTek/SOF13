@@ -1,6 +1,13 @@
 {% load crispy_forms_tags %}
 <h3>Lägg till manuell besökare</h3>
 
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
+
 <form method="post" class="form form-horizontal">
     {% csrf_token %}
     {{ ticket_type_form|crispy}}

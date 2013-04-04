@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms.widgets import RadioSelect, CheckboxSelectMultiple
 
 from sof.utils.forms import ForgivingPIDField
-from sof.functionary.models import Visitor
+from sof.functionary.models import Visitor, Worker
 
 from .models import TicketType
 
@@ -55,6 +55,14 @@ class SearchForm(forms.Form):
 class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor
-        fields = ('first_name', 'last_name', 'email', 'pid')
+        fields = ('first_name', 'last_name', 'pid', 'liu_id', 'email', 'lintek_member')
+
+    pid = ForgivingPIDField(label=_('Personal identification number'))
+
+
+class WorkerForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = ('first_name', 'last_name', 'pid', 'liu_id', 'email', 'lintek_member')
 
     pid = ForgivingPIDField(label=_('Personal identification number'))

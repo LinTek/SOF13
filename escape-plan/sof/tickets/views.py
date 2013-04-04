@@ -1,10 +1,16 @@
 # encoding: utf-8
+import json
+
 from django.db import transaction
 from django.db.models import Count
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext_lazy as _
+from django.template.loader import render_to_string
+from django.template import RequestContext
+from django.middleware.csrf import get_token
 
 from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs)
 from sof.functionary.models import Person, Visitor, Worker
@@ -12,7 +18,7 @@ from sof.invoices.models import Invoice
 
 from .models import Ticket, TicketType
 from .forms import (TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm,
-                    LiuIDForm, PreemptionTicketTypeForm)
+                    LiuIDForm, PreemptionTicketTypeForm, WorkerForm)
 
 
 class InvoiceExists():
@@ -26,18 +32,45 @@ class TicketSoldOut():
 @login_required
 @permission_required('tickets.add_ticket')
 @transaction.commit_on_success
-def sell(request):
-    error = None
-    person = None
+def turbo_confirm(request):
+    response = {}
+    ticket_type_form = TicketTypeForm(request.POST)
 
+    visitor_form = VisitorForm(request.POST)
+    functionary_form = WorkerForm(request.POST)
+
+    if ticket_type_form.is_valid():
+        ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
+
+        if visitor_form.is_valid() or functionary_form.is_valid():
+            if visitor_form.is_valid():
+                invoice = create_invoice(visitor_form.save())
+            else:
+                invoice = create_invoice(functionary_form.save())
+
+            for ticket_type_id in ticket_type_ids:
+                Ticket.objects.create(ticket_type_id=ticket_type_id,
+                                      invoice=invoice)
+
+            response['is_valid'] = True
+            return HttpResponse(json.dumps(response),
+                                content_type='application/json')
+
+    response['is_valid'] = False
+    return HttpResponse(json.dumps(response),
+                        content_type='application/json')
+
+
+@login_required
+@permission_required('tickets.add_ticket')
+@transaction.commit_on_success
+def turbo_submit(request):
+    response = {}
+    error = None
     ticket_type_form = TicketTypeForm(request.POST or None)
     turbo_form = TurboTicketForm(request.POST or None)
-    visitor_form = VisitorForm(request.POST or None)
-    search_form = SearchForm(request.GET or None)
 
-    tickets = Ticket.objects.select_related('ticket_type', 'invoice', 'invoice__person').order_by('-sell_date')[:10]
-
-    stats = TicketType.objects.active().annotate(sold=Count('ticket'))
+    csrf_token_value = get_token(request)
 
     if turbo_form.is_valid() and ticket_type_form.is_valid():
         client = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
@@ -59,19 +92,21 @@ def sell(request):
                 if Invoice.objects.filter(person=person).exists():
                     raise InvoiceExists()
 
+                person_form = WorkerForm(instance=person)
+
             except Person.DoesNotExist:
                 # Otherwise, fetch the person from KOBRA
                 student = client.get_student(term)
+                person_form = VisitorForm(instance=Visitor(**get_kwargs(student)))
 
-                person = Visitor(**get_kwargs(student))
-                person.save()
-
-            invoice = create_invoice(person)
-
-            for ticket_type_id in ticket_type_ids:
-                Ticket.objects.create(ticket_type_id=ticket_type_id, invoice=invoice)
-
-            return redirect('ticket_sell')
+            response['is_valid'] = True
+            response['html'] = render_to_string('tickets/partials/turbo_confirm.html',
+                                                {'ticket_type_form': ticket_type_form,
+                                                 'person_form': person_form,
+                                                 'csrf_token_value': csrf_token_value},
+                                                RequestContext(request))
+            return HttpResponse(json.dumps(response),
+                                content_type='application/json')
 
         except TicketSoldOut:
             error = _('This ticket type is sold out')
@@ -85,7 +120,31 @@ def sell(request):
         except ValueError:
             error = _('Could not get the result')
 
-    elif visitor_form.is_valid() and ticket_type_form.is_valid():
+    response['is_valid'] = False
+    response['html'] = render_to_string('tickets/partials/turbo.html',
+                                        {'ticket_type_form': ticket_type_form,
+                                         'turbo_form': turbo_form,
+                                         'error': error}, RequestContext(request))
+
+    return HttpResponse(json.dumps(response),
+                        content_type='application/json')
+
+
+@login_required
+@permission_required('tickets.add_ticket')
+@transaction.commit_on_success
+def sell(request):
+    error = None
+    person = None
+
+    ticket_type_form = TicketTypeForm(request.POST or None)
+    visitor_form = VisitorForm(request.POST or None)
+    search_form = SearchForm(request.GET or None)
+
+    tickets = Ticket.objects.select_related('ticket_type', 'invoice', 'invoice__person').order_by('-sell_date')[:10]
+    stats = TicketType.objects.active().annotate(sold=Count('ticket'))
+
+    if visitor_form.is_valid() and ticket_type_form.is_valid():
         visitor = visitor_form.save(commit=False)
         visitor.save()
 
@@ -107,7 +166,7 @@ def sell(request):
 
     return render(request, 'tickets/sell.html',
                   {'ticket_type_form': ticket_type_form,
-                   'turbo_form': turbo_form,
+                   'turbo_form': TurboTicketForm(),
                    'visitor_form': visitor_form,
                    'search_form': search_form,
                    'latest_tickets': tickets,

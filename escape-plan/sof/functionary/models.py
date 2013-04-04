@@ -95,7 +95,7 @@ class Person(models.Model):
         ordering = ('first_name', 'last_name')
 
     first_name = models.CharField(_('first name'), max_length=20)
-    last_name = models.CharField(_('first name'), max_length=40)
+    last_name = models.CharField(_('last name'), max_length=40)
     email = models.EmailField(_('email'), max_length=50)
 
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)

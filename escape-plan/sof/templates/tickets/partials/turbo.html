@@ -1,12 +1,19 @@
 {% load crispy_forms_tags %}
 <h3>Turbosälj</h3>
 
-<form method="post" class="form form-horizontal">
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
+
+<form method="post" class="form form-horizontal turbo_form">
     {% csrf_token %}
     {{ ticket_type_form|crispy}}
     {{ turbo_form|crispy}}
 
     <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Skicka faktura</button>
+        <button type="submit" class="btn btn-primary">Nästa</button>
     </div>
 </form>

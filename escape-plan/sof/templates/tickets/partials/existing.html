@@ -1,6 +1,13 @@
 {% load crispy_forms_tags %}
 <h3>Sök befintlig person</h3>
 
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
+
 <form method="get" class="form form-horizontal">
     {% csrf_token %}
     {{ search_form|crispy}}
