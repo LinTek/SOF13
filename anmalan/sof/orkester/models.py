@@ -290,3 +290,6 @@ class Member(models.Model):
         if self.attends_25th_time:
             result.append('25:e gången')
         return ', '.join(result)
+
+    def multiple_orchestras(self):
+        return self.orchestras.count() > 1

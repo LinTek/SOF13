@@ -21,7 +21,9 @@
             <td>{{ member.attend_sitting|boolify|yesno:"Ja,Nej" }}</td>
             <td>{{ member.needs_bed|boolify|yesno:"Ja,Nej" }}</td>
             <td>{{ member.get_gadgets_display }}</td>
-            <td><b>{{ member.get_attends_display }}</b>{% if member.late_registration %} (sen anmälan){% endif %}</td>
+            <td><b>{{ member.get_attends_display }}</b>
+                {% if member.late_registration %} (sen anmälan){% endif %}
+                {% if member.multiple_orchestras %} (flera orkestrar){% endif %}</td>
         </tr>
     {% endfor %}
     </table>
