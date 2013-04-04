@@ -242,13 +242,13 @@ def stats(request):
     all_total_fields = (['members', 'late_members', 'sitting', 'bed', 'kartege']
                         + [t for t, _ in TICKET_TYPES])
     orchestras = (Orchestra.objects.order_by('orchestra_name')
-                                   .select_related('member')
                                    .annotate(member_count=Count('member')))
 
     sums = defaultdict(lambda: defaultdict(int))
 
-    for member in Member.objects.select_related('orchestras'):
-        orchestra = member.orchestras.order_by('id').all()[0]
+    members = Member.objects.prefetch_related('orchestras')
+    for member in members:
+        orchestra = list(member.orchestras.all())[0]
 
         sums[orchestra.pk]['members'] += 1
         sums[orchestra.pk][member.ticket_type] += 1
