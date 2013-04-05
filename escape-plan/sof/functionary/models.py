@@ -127,6 +127,12 @@ class Visitor(Person):
     def get_rebate_percent(self):
         return 0
 
+    def job_count(self):
+        return 0
+
+    def is_worker(self):
+        return False
+
     def __unicode__(self):
         return unicode(self.get_full_name())
 
@@ -143,12 +149,18 @@ class Worker(Person):
     objects = PersonManager()
 
     def get_rebate_percent(self):
-        count = self.workerregistration_set.count()
+        count = self.job_count()
         if count <= 1 or not self.contract_approved:
             return 0
         if count == 2:
             return Decimal('0.2')
         return Decimal('0.3')
+
+    def is_worker(self):
+        return True
+
+    def job_count(self):
+        return self.workerregistration_set.count()
 
     def send_registration_email(self):
         send_mail('functionary/mail/confirm_registrations', [self.email],

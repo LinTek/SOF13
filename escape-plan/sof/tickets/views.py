@@ -194,6 +194,11 @@ def sell(request):
 @permission_required('tickets.add_ticket')
 def person_details(request, pk):
     person = get_object_or_404(Person, pk=pk)
+    try:
+        person = person.worker
+    except Worker.DoesNotExist:
+        person = person.visitor
+
     invoices = person.invoice_set.all()
 
     return render(request, 'tickets/person_details.html',

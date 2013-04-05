@@ -7,11 +7,24 @@
 <h3>{{ person }}<small> | {{ person.get_type_name }}</small></h3>
 
 <dl class="dl-horizontal">
+
+    <dt>Typ</dt>
+    <dd>{{ person.get_type_name }}</dd>
+
     <dt>LinTek-medlem</dt>
     <dd>{{ person.lintek_member|yesno:"Ja,Nej" }}</dd>
 
-    <dt>Funktionär/besökare</dt>
-    <dd>{{ person.get_type_name }}</dd>
+    {% if person.is_worker %}
+        <dt>Antal jobbpass</dt>
+        <dd>{{ person.job_count }} st</dd>
+
+        <dt>Funktionärsavtal</dt>
+        <dd>{% if person.contract_approved %}
+                <span class="label label-success">Inlämnat</span>
+            {% else %}
+                <span class="label label-important">Ej inlämnat</span>
+            {% endif %}</dd>
+    {% endif %}
 </dl>
 
 {% for invoice in invoices %}
