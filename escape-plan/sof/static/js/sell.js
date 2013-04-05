@@ -1,3 +1,5 @@
+WORKER_ID = 0;
+
 var submit_turbo_form = function(e) {
     $.ajax({
         url: URL.turbo_submit,
@@ -7,6 +9,7 @@ var submit_turbo_form = function(e) {
             if (response.is_valid === false) {
                  $('#turbo').html(response.html);
             } else {
+                WORKER_ID = response.worker_id;
                 $('#modal_container').html(response.html);
                 $('#turbo_modal').modal();
             }
@@ -16,8 +19,13 @@ var submit_turbo_form = function(e) {
 };
 
 var confirm_turbo_form = function(e) {
+    var form_url = URL.turbo_confirm;
+    if (WORKER_ID) {
+        form_url += '?worker_id=' + WORKER_ID;
+    }
+
     $.ajax({
-        url: URL.turbo_confirm,
+        url: form_url,
         type: 'POST',
         data: $(this).serialize(),
         success: function(response) {

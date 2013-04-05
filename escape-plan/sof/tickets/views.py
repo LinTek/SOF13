@@ -36,22 +36,27 @@ def turbo_confirm(request):
     response = {}
     ticket_type_form = TicketTypeForm(request.POST)
 
+    worker_id = request.GET.get('worker_id')
+    if worker_id:
+        worker_id = int(worker_id)
+        worker_form = WorkerForm(request.POST,
+                                 instance=Worker.objects.get(pk=worker_id))
+    else:
+        worker_form = WorkerForm()
     visitor_form = VisitorForm(request.POST)
-    functionary_form = WorkerForm(request.POST)
 
     if ticket_type_form.is_valid():
         ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
 
-        if visitor_form.is_valid() or functionary_form.is_valid():
-            if visitor_form.is_valid():
-                invoice = create_invoice(visitor_form.save())
+        if (worker_id and worker_form.is_valid()) or visitor_form.is_valid():
+            if worker_form.is_valid():
+                invoice = create_invoice(worker_form.save())
             else:
-                invoice = create_invoice(functionary_form.save())
+                invoice = create_invoice(visitor_form.save())
 
             for ticket_type_id in ticket_type_ids:
                 Ticket.objects.create(ticket_type_id=ticket_type_id,
                                       invoice=invoice)
-
             invoice.send_as_email()
 
             response['is_valid'] = True
@@ -68,6 +73,8 @@ def turbo_confirm(request):
 @transaction.commit_on_success
 def turbo_submit(request):
     response = {}
+    worker_job_count = None
+    worker_no_contract = False
     error = None
     ticket_type_form = TicketTypeForm(request.POST or None)
     turbo_form = TurboTicketForm(request.POST or None)
@@ -95,7 +102,9 @@ def turbo_submit(request):
                     raise InvoiceExists()
 
                 person_form = WorkerForm(instance=person)
-                person_form.is_worker = True
+                worker_job_count = person.worker.workerregistration_set.count()
+                worker_no_contract = not person.worker.contract_approved
+                response['worker_id'] = person.id
 
             except Person.DoesNotExist:
                 # Otherwise, fetch the person from KOBRA
@@ -106,6 +115,8 @@ def turbo_submit(request):
             response['html'] = render_to_string('tickets/partials/turbo_confirm.html',
                                                 {'ticket_type_form': ticket_type_form,
                                                  'person_form': person_form,
+                                                 'worker_job_count': worker_job_count,
+                                                 'worker_no_contract': worker_no_contract,
                                                  'csrf_token_value': csrf_token_value},
                                                 RequestContext(request))
             return HttpResponse(json.dumps(response),

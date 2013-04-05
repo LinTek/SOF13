@@ -3,14 +3,21 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">Bekräfta köp <small>|
-            {% if person_form.is_worker %}
-                Funktionär
+            {% if worker_job_count %}
+                Funktionär, uppskriven på <b>{{ worker_job_count }}</b> pass
             {% else %}
                 Ny person
             {% endif %}
             </small>
         </h3>
     </div>
+
+    {% if worker_no_contract %}
+        <div class="alert alert-warning">
+            <b>Avtal ej påskrivet!</b> Personen har inte lämnat in sitt funktionärsavtal
+            och kommer därför inte att få någon rabatt på biljettpriset.
+        </div>
+    {% endif %}
     <form method="post" class="form form-horizontal turbo_confirm">
       <div class="modal-body">
             {% csrf_token %}

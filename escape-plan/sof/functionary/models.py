@@ -144,7 +144,7 @@ class Worker(Person):
 
     def get_rebate_percent(self):
         count = self.workerregistration_set.count()
-        if count <= 1:
+        if count <= 1 or not self.contract_approved:
             return 0
         if count == 2:
             return Decimal('0.2')
