@@ -170,6 +170,9 @@ class Worker(Person):
     def send_welcome_email(self):
         send_mail('functionary/mail/welcome', [self.email], {})
 
+    def send_preemption_email(self):
+        send_mail('functionary/mail/preemption', [self.email], {'worker': self})
+
     def __unicode__(self):
         return unicode(self.get_full_name())
 
