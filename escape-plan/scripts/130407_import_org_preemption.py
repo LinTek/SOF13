@@ -55,7 +55,7 @@ client = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
 @transaction.commit_on_success
 def main():
     def create_stuff():
-        invoice = Invoice(person=visitor.person_ptr)
+        invoice = Invoice(person=visitor.person_ptr, is_verified=True)
         invoice.generate_data()
         invoice.save()
         Ticket.objects.create(invoice=invoice, ticket_type_id=1)

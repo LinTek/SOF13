@@ -148,7 +148,7 @@ with open('people.csv', 'rb') as csvfile:
             error('Invoice already exists')
             continue
 
-        invoice = Invoice(person=person)
+        invoice = Invoice(person=person, is_verified=True)
         invoice.generate_data()
         invoice.save()
 
