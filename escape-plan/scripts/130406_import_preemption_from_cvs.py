@@ -30,12 +30,13 @@ invalid_pid = 0
 no_reason = 0
 
 
-TYPES = {
+TYPES = {# TODO ###########################
     'Helhelg': 1,
     'Torsdag': 2,
     'Fredag': 3,
     'Lördag': 4,
 }
+
 
 def try_get_person(pid, liu_id):
     person = None
@@ -110,9 +111,9 @@ with open('people.csv', 'rb') as csvfile:
         pid = format_pid(orig_pid)
 
         if not reason:
-           error('No reason given')
-           no_reason += 1
-           continue
+            error('No reason given')
+            no_reason += 1
+            continue
 
         person = try_get_person(pid=pid, liu_id=liu_id)
 
@@ -122,6 +123,8 @@ with open('people.csv', 'rb') as csvfile:
             visitor = try_get_from_kobra(pid=pid, liu_id=liu_id)
 
             if visitor:
+                if email:
+                    visitor.email = email.lower()
                 liu_visitors += 1
             else:
                 visitor = try_create_manually(fname, lname, pid, email)
@@ -150,7 +153,6 @@ with open('people.csv', 'rb') as csvfile:
         invoice.save()
 
         create_tickets(invoice, ticket_types)
-
 
     print '\n========================================================'
     print '%d workers' % workers
