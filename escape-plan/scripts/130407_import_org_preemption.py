@@ -75,7 +75,7 @@ def main():
 
         visitor = Visitor.objects.create(first_name=fname,
                                          last_name=lname,
-                                         pid=pid,
+                                         pid=format_pid(pid),
                                          email=email)
         print unicode(visitor)
         create_stuff()
