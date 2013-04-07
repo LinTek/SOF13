@@ -272,6 +272,8 @@ def confirm(request, token):
         invoice.is_verified = True
         invoice.save()
 
+        invoice.send_as_email()
+
     return render(request, 'tickets/confirm.html')
 
 
