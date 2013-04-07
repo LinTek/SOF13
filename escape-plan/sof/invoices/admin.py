@@ -3,5 +3,13 @@ from django.contrib import admin
 from .models import Invoice, Payment
 
 
-admin.site.register(Invoice)
-admin.site.register(Payment)
+class InvoiceAdmin(admin.ModelAdmin):
+    search_fields = ('ocr', 'person__pid', 'person__liu_id',
+                     'person__first_name', 'person__last_name')
+
+
+class PaymentAdmin(admin.ModelAdmin):
+    search_fields = ('amount', 'invoice__ocr')
+
+admin.site.register(Invoice, InvoiceAdmin)
+admin.site.register(Payment, PaymentAdmin)
