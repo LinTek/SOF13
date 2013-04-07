@@ -55,7 +55,13 @@ class SearchForm(forms.Form):
 class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor
-        fields = ('first_name', 'last_name', 'pid', 'email', 'lintek_member')
+        fields = ('first_name', 'last_name', 'pid', 'email', 'lintek_member',
+                  'rfid_number', 'barcode_number', 'liu_id')
+        widgets = {
+            'rfid_number': forms.widgets.HiddenInput(),
+            'barcode_number': forms.widgets.HiddenInput(),
+            'liu_id': forms.widgets.HiddenInput(),
+        }
 
     pid = ForgivingPIDField(label=_('Personal identification number'))
 
@@ -63,6 +69,12 @@ class VisitorForm(forms.ModelForm):
 class WorkerForm(forms.ModelForm):
     class Meta:
         model = Worker
-        fields = ('first_name', 'last_name', 'pid', 'email', 'lintek_member')
+        fields = ('first_name', 'last_name', 'pid', 'email', 'lintek_member',
+                  'rfid_number', 'barcode_number', 'liu_id')
+        widgets = {
+            'rfid_number': forms.widgets.HiddenInput(),
+            'barcode_number': forms.widgets.HiddenInput(),
+            'liu_id': forms.widgets.HiddenInput(),
+        }
 
     pid = ForgivingPIDField(label=_('Personal identification number'))

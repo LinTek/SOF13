@@ -99,7 +99,7 @@ class Person(models.Model):
     email = models.EmailField(_('email'), max_length=50)
 
     pid = models.CharField(_('personal identification number'), max_length=20, unique=True)
-    lintek_member = models.BooleanField(blank=True, default=False)
+    lintek_member = models.BooleanField(_('LinTek member'), blank=True, default=False)
     rfid_number = models.CharField(_('RFID number'), max_length=10, blank=True)
     barcode_number = models.CharField(_('barcode number'), max_length=20, blank=True)
     liu_id = models.CharField(_('LiU ID'), max_length=10, blank=True)
@@ -123,9 +123,6 @@ class Visitor(Person):
     class Meta:
         verbose_name = _('visitor')
         verbose_name_plural = _('visitors')
-
-    def get_rebate_percent(self):
-        return 0
 
     def job_count(self):
         return 0
