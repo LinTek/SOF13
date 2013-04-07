@@ -85,14 +85,12 @@ def create_tickets(invoice, ticket_types):
         Ticket.objects.create(invoice=invoice, ticket_type_id=ticket_type_id)
 
 
-@transaction.commit_on_success
 def main():
     edited = []
     manual_visitors = 0
     liu_visitors = 0
     failed = 0
     invalid_pid = 0
-    no_reason = 0
 
     with open('people.csv', 'rb') as csvfile:
         def error(msg):
@@ -111,6 +109,11 @@ def main():
             fname, lname = name_split[0], ' '.join(name_split[1:])
             liu_id = liu_id.lower().strip()
             pid = format_pid(orig_pid)
+
+            if '@' in email and '.' in email:
+                email = email.lower()
+            else:
+                email = None
 
             # if not reason:
             #     error('No reason given')
@@ -167,7 +170,6 @@ def main():
             invoice.save()
 
             create_tickets(invoice, ticket_types)
-
             invoice.send_as_email()
 
         print '\n========================================================'
