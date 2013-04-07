@@ -1,4 +1,5 @@
 WORKER_ID = 0;
+VISITOR_ID = 0;
 
 var submit_turbo_form = function(e) {
     $.ajax({
@@ -10,6 +11,7 @@ var submit_turbo_form = function(e) {
                  $('#turbo').html(response.html);
             } else {
                 WORKER_ID = response.worker_id;
+                VISITOR_ID = response.visitor_id;
                 $('#modal_container').html(response.html);
                 $('#turbo_modal').modal();
             }
@@ -22,6 +24,8 @@ var confirm_turbo_form = function(e) {
     var form_url = URL.turbo_confirm;
     if (WORKER_ID) {
         form_url += '?worker_id=' + WORKER_ID;
+    } else if(VISITOR_ID) {
+        form_url += '?visitor_id=' + VISITOR_ID;
     }
 
     $.ajax({
@@ -35,6 +39,9 @@ var confirm_turbo_form = function(e) {
                 $('#id_term').val('');
                 location.reload();
             }
+        },
+        error: function(response) {
+            alert('Servern gjorde något dumt.');
         }
     });
     e.preventDefault();

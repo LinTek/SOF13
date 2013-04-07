@@ -38,13 +38,21 @@ def turbo_confirm(request):
     ticket_type_form = TicketTypeForm(request.POST)
 
     worker_id = request.GET.get('worker_id')
+    visitor_id = request.GET.get('visitor_id')
     if worker_id:
         worker_id = int(worker_id)
         worker_form = WorkerForm(request.POST,
-                                 instance=Worker.objects.get(pk=worker_id))
+                                 instance=Person.objects.get(pk=worker_id))
+
+    elif visitor_id:
+        worker_form = WorkerForm()
+        visitor_id = int(visitor_id)
+        visitor_form = VisitorForm(request.POST,
+                                   instance=Person.objects.get(pk=visitor_id))
+
     else:
         worker_form = WorkerForm()
-    visitor_form = VisitorForm(request.POST)
+        visitor_form = VisitorForm(request.POST)
 
     if ticket_type_form.is_valid():
         ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
@@ -102,10 +110,16 @@ def turbo_submit(request):
                 if Invoice.objects.filter(person=person).exists():
                     raise InvoiceExists()
 
-                person_form = WorkerForm(instance=person)
-                worker_job_count = person.worker.workerregistration_set.count()
-                worker_no_contract = not person.worker.contract_approved
-                response['worker_id'] = person.id
+                try:
+                    person.worker
+                    person_form = WorkerForm(instance=person)
+                    response['worker_id'] = person.id
+                    worker_job_count = person.worker.workerregistration_set.count()
+                    worker_no_contract = not person.worker.contract_approved
+
+                except Worker.DoesNotExist:
+                    person_form = VisitorForm(instance=person)
+                    response['visitor_id'] = person.id
 
             except Person.DoesNotExist:
                 # Otherwise, fetch the person from KOBRA
