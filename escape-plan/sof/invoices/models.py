@@ -30,6 +30,9 @@ class Invoice(models.Model):
     ocr = models.CharField(_('OCR number'), max_length=20, unique=True)
     person = models.ForeignKey(Person)
 
+    is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
+    denormalized_total_price = models.DecimalField(decimal_places=2, max_digits=8, default=0)
+
     def __unicode__(self):
         return unicode(self.ocr)
 
@@ -40,6 +43,9 @@ class Invoice(models.Model):
 
     def send_as_email(self):
         send_mail('invoices/mail/invoice', [self.person.email], {'invoice': self})
+        self.is_sent_as_email = True
+        self.denormalized_total_price = self.get_total_price()
+        self.save()
 
     def send_verify_email(self):
         send_mail('invoices/mail/preemption', [self.person.email], {'invoice': self})
