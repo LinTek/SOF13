@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.middleware.csrf import get_token
 
+from sof.utils.forms import format_pid
 from sof.utils.kobra_client import (KOBRAClient, StudentNotFound, get_kwargs)
 from sof.functionary.models import Person, Visitor, Worker
 from sof.invoices.models import Invoice
@@ -205,6 +206,7 @@ def person_details(request, pk):
                   {'person': person, 'invoices': invoices})
 
 
+@transaction.commit_on_success
 def preemption(request):
     error = ''
     success = False
@@ -213,7 +215,13 @@ def preemption(request):
 
     if liu_id_form.is_valid() and ticket_type_form.is_valid():
         try:
-            worker = Worker.objects.get(liu_id=liu_id_form.cleaned_data.get('liu_id'))
+            try:
+                worker = Worker.objects.select_for_update().get(liu_id=liu_id_form.cleaned_data.get('liu_id'))
+            except Worker.DoesNotExist:
+                pid = format_pid(liu_id_form.cleaned_data.get('liu_id'))
+                if pid:
+                    worker = Worker.objects.select_for_update().get(pid=pid)
+
             if worker.invoice_set.exists():
                 raise InvoiceExists()
 

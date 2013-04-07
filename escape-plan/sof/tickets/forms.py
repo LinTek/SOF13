@@ -40,7 +40,7 @@ class PreemptionTicketTypeForm(forms.Form):
 
 
 class LiuIDForm(forms.Form):
-    liu_id = forms.CharField(label=_('LiU-ID'), max_length=10, required=True)
+    liu_id = forms.CharField(label=_('LiU-ID or PID'), max_length=10, required=True)
 
 
 class TurboTicketForm(forms.Form):
