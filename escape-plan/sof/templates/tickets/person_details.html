@@ -45,10 +45,10 @@
         <dd>{% handed_out_status invoice.is_handed_out %}</dd>
 
         <dt>Totalbelopp</dt>
-        <dd>{{ invoice.get_total_price }} kr</dd>
+        <dd>{{ invoice.get_total_price|floatformat:2 }} kr</dd>
 
         <dt>Betalt belopp</dt>
-        <dd>{{ invoice.get_payment_sum }} kr</dd>
+        <dd>{{ invoice.get_payment_sum|floatformat:2 }} kr</dd>
     </dl>
 
     <a class="btn" href="{% url "set_handed_out" invoice.pk %}">Markera som utlämnad</a>

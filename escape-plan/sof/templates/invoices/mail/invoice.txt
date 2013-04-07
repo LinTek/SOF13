@@ -2,9 +2,9 @@ Hej,
 
 Du har köpt följande biljetter till SOF 2013:
 {% for ticket in invoice.ticket_set.all %}
-   {{ ticket.ticket_type.name }} 
+   {{ ticket.ticket_type.name }}
 {% endfor %}
-Totalt:               {{ invoice.get_total_price }}kr
+Totalt:               {{ invoice.get_total_price|floatformat:2 }} kr
 
 Använd nedanstående uppgifter för att betala köpet:
 
