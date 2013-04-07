@@ -6,8 +6,19 @@ Du har köpt följande biljetter till SOF 2013:
 {% endfor %}
 Totalt:               {{ invoice.get_total_price }}kr
 
+Använd nedanstående uppgifter för att betala köpet:
+
+Bankgironummer:       515-1493
 Förfallodatum:        {{ invoice.due_date|date:"Y-m-d" }}
-Referensnummer (OCR): {{ invoice.ocr }}
+Meddelande:           {{ invoice.ocr }}
+
+OBS!
+Var noga med att ni skriver meddelandet exakt rätt. Det finns en risk
+att ni förlorar biljetten om ni skriver fel.
+
+Detta mail går inte att svara på. Vid frågor angående fakturan, kontakta
+Sofia Andersson <sofia.andersson@sof13.se>.
+Vid frågor om biljetterna, skicka ett mail till biljett@sof13.se.
 
 Med vänliga hälsningar,
 Biljettansvarig SOF 2013
