@@ -5,6 +5,7 @@ from django_localflavor_se.forms import SEPersonalIdentityNumberField
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db import transaction
 
 from sof.utils.forms import format_kobra_pid
 from sof.utils.kobra_client import KOBRAClient, StudentNotFound, get_kwargs
@@ -22,19 +23,11 @@ def format_pid(value):
     except ValidationError:
         return None
 
-workers = 0
-manual_visitors = 0
-liu_visitors = 0
-failed = 0
-invalid_pid = 0
-no_reason = 0
-
-
-TYPES = {# TODO ###########################
+TYPES = {
     'Helhelg': 1,
-    'Torsdag': 2,
-    'Fredag': 3,
-    'Lördag': 4,
+    'Torsdag': 11,
+    'Fredag': 21,
+    'Lördag': 31,
 }
 
 
@@ -92,73 +85,104 @@ def create_tickets(invoice, ticket_types):
         Ticket.objects.create(invoice=invoice, ticket_type_id=ticket_type_id)
 
 
-with open('people.csv', 'rb') as csvfile:
-    def error(msg):
-        print
-        print msg
-        print name
-        print ', '.join(row)
-        print '-------------------------------'
+@transaction.commit_on_success
+def main():
+    edited = []
+    manual_visitors = 0
+    liu_visitors = 0
+    failed = 0
+    invalid_pid = 0
+    no_reason = 0
 
-    reader = csv.reader(csvfile)
-    for row in reader:
-        _, _, liu_id, name, orig_pid, email, reason, ticket_types = row
-        name = unicode(name, 'utf-8')
-        name_split = name.split()
+    with open('people.csv', 'rb') as csvfile:
+        def error(msg):
+            print
+            print msg
+            print name
+            print ', '.join(row)
+            print '-------------------------------'
 
-        fname, lname = name_split[0], ' '.join(name_split[1:])
-        liu_id = liu_id.lower()
-        pid = format_pid(orig_pid)
+        reader = csv.reader(csvfile)
+        for row in reader:
+            _, _, liu_id, name, orig_pid, email, reason, ticket_types = row
+            name = unicode(name, 'utf-8')
+            name_split = name.split()
 
-        if not reason:
-            error('No reason given')
-            no_reason += 1
-            continue
+            fname, lname = name_split[0], ' '.join(name_split[1:])
+            liu_id = liu_id.lower().strip()
+            pid = format_pid(orig_pid)
 
-        person = try_get_person(pid=pid, liu_id=liu_id)
+            # if not reason:
+            #     error('No reason given')
+            #     no_reason += 1
+            #     continue
 
-        if person:
-            print 'Existing person'
-        else:
-            visitor = try_get_from_kobra(pid=pid, liu_id=liu_id)
+            person = try_get_person(pid=pid, liu_id=liu_id)
 
-            if visitor:
-                if email:
-                    visitor.email = email.lower()
-                liu_visitors += 1
-            else:
-                visitor = try_create_manually(fname, lname, pid, email)
+            if not person:
+                visitor = try_get_from_kobra(pid=pid, liu_id=liu_id)
 
                 if visitor:
-                    manual_visitors += 1
+                    person = try_get_person(pid=visitor.pid,
+                                            liu_id=visitor.liu_id)
 
-            if not visitor:
-                if orig_pid and not pid:
-                    error('Invalid PID')
-                    invalid_pid += 1
+                    if person:
+                        visitor = None
+
+                    if email:
+                        if visitor:
+                            visitor.email = email.lower()
+                        elif person:
+                            person.email = email.lower()
+                    liu_visitors += 1
+                else:
+                    visitor = try_create_manually(fname, lname, pid, email)
+
+                    if visitor:
+                        manual_visitors += 1
+
+                if not (visitor or person):
+                    if orig_pid and not pid:
+                        error('Invalid PID')
+                        invalid_pid += 1
+                        continue
+                    error('Could not find or create user')
+                    failed += 1
                     continue
-                error('Could not find or create user')
-                failed += 1
+
+                if visitor:
+                    visitor.save()
+                    person = visitor.person_ptr
+                elif person:
+                    person.save()
+
+            if Invoice.objects.filter(person=person).exists():
+                ticket_types = ticket_types.replace(' (tors, fre, lör)', '')
+                if [TYPES[tt] for tt in ticket_types.split(', ')] != [1]:
+                    edited.append(person)
                 continue
 
-            visitor.save()
-            person = visitor.person_ptr
+            invoice = Invoice(person=person, is_verified=True)
+            invoice.generate_data()
+            invoice.save()
 
-        if Invoice.objects.filter(person=person).exists():
-            error('Invoice already exists')
-            continue
+            create_tickets(invoice, ticket_types)
 
-        invoice = Invoice(person=person, is_verified=True)
-        invoice.generate_data()
-        invoice.save()
+            invoice.send_as_email()
 
-        create_tickets(invoice, ticket_types)
+        print '\n========================================================'
+        print '%d manual visitors' % manual_visitors
+        print '%d liu visitors' % liu_visitors
+        print '%d failed' % failed
+        print '%d invalid PID' % invalid_pid
 
-    print '\n========================================================'
-    print '%d workers' % workers
-    print '%d manual visitors' % manual_visitors
-    print '%d liu visitors' % liu_visitors
-    print '%d failed' % failed
-    print '--------------------'
-    print '%d invalid PID' % invalid_pid
-    print '%d no reason' % no_reason
+        print '\n========================================================'
+        print '%d edited ticket types' % len(edited)
+        print
+        for p in edited:
+            print unicode(p)
+            print p.liu_id or p.pid
+            print
+
+
+main()
