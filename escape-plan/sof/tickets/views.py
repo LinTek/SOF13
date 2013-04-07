@@ -235,6 +235,8 @@ def preemption(request):
                 pid = format_pid(liu_id_form.cleaned_data.get('liu_id'))
                 if pid:
                     worker = Worker.objects.select_for_update().get(pid=pid)
+                else:
+                    raise Worker.DoesNotExist
 
             if worker.invoice_set.exists():
                 raise InvoiceExists()
