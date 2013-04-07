@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from sof.functionary.models import Person, Worker
 from sof.utils.email import send_mail
+from sof.utils.forms import format_kobra_pid
 
 
 class PaymentStatus:
@@ -35,7 +36,7 @@ class Invoice(models.Model):
     def generate_data(self):
         self.token = os.urandom(20).encode('hex')
         self.due_date = datetime.date.today() + datetime.timedelta(days=7)
-        self.ocr = '5070%s' % self.person.pid  # TODO
+        self.ocr = 'sof-%s' % format_kobra_pid(self.person.pid, dash=False)
 
     def send_as_email(self):
         send_mail('invoices/mail/invoice', [self.person.email], {'invoice': self})

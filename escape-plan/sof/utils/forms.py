@@ -38,9 +38,13 @@ class ForgivingPIDField(SEPersonalIdentityNumberField):
         return value
 
 
-def format_kobra_pid(value):
+def format_kobra_pid(value, dash=True):
     value = value[2:]
-    return "%s-%s" % (value[0:6], value[6:10])
+    values = (value[0:6], value[6:10])
+
+    if dash:
+        return "%s-%s" % values
+    return "%s%s" % values
 
 
 def format_pid(value):

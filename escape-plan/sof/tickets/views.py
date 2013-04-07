@@ -230,6 +230,11 @@ def preemption(request):
             invoice.send_verify_email()
             invoice.save()
 
+            ticket_type_id = ticket_type_form.cleaned_data.get('ticket_type')
+
+            Ticket.objects.create(invoice=invoice,
+                                  ticket_type_id=ticket_type_id)
+
             success = True
             liu_id_form = LiuIDForm()
             ticket_type_form = PreemptionTicketTypeForm()

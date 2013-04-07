@@ -1,0 +1,38 @@
+Information in english will follow.
+
+
+Hej!
+
+För att registrera ditt förköp till SOF 2013, besök hemsidan nedan och välj
+den typ av biljett du önskar köpa. Du kommer att få bekräfta ditt val genom
+en länk som skickas till din e-postadress, och en faktura kommer sedan att
+skickas inom några dagar.
+{% if not worker.contract_approved %}
+    Viktigt: Vi har ännu inte registrerat att du lämnat in ditt funktionärsavtal.
+    För att hämta ut ditt förköp krävs att avtalet lämnas in. Om du lämnat in
+    ditt avtal men vi inte registrerat detta, kontakta funktionar@sof13.se
+{% endif %}
+
+http://apps.sof13.se/tickets/buy
+
+Om du avregistrerat dig som funktionär ber vi dig bortse från detta utskick.
+
+
+-------------------------------------------------------------------------------
+
+
+Hello!
+
+To register your preemption ticket (förköp) to SOF 2013, visit the homepage
+below and choose the ticket type you want to buy. You will have to confirm
+your choice with a link which is sent to your e-mail address, and an invoice
+will be sent in a few days.
+{% if not worker.contract_approved %}
+    Important: We have not yet registered that your contract has been signed.
+    This contract needs to be handed in, in order to get your tickets. If you
+    have handed in your signed contract, please contact funktionar@sof13.se
+{% endif %}
+
+http://apps.sof13.se/tickets/buy
+
+If you have unregistered yourself as volunteer, please ignore this e-email.

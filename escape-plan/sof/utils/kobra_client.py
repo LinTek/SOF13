@@ -57,7 +57,7 @@ def get_kwargs(student):
             'last_name': student.get('last_name').title(),
             'email': student.get('email'),
             'lintek_member': student.get('union') == 'LinTek',
-            'liu_id': student.get('liu_id'),
-            'rfid_number': student.get('rfid_number'),
-            'barcode_number': student.get('barcode_number'),
+            'liu_id': student.get('liu_id') or '',
+            'rfid_number': student.get('rfid_number') or '',
+            'barcode_number': student.get('barcode_number') or '',
             'pid': format_pid(student.get('personal_number'))}
