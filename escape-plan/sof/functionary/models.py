@@ -142,12 +142,17 @@ class Worker(Person):
 
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
+    super_worker = models.BooleanField(_('super worker'), default=False, blank=True)
 
     objects = PersonManager()
 
     def get_rebate_percent(self):
+        if self.super_worker:
+            return Decimal('1.0')
+
         count = self.job_count()
-        if count <= 1 or not self.contract_approved:
+
+        if count <= 1:
             return 0
         if count == 2:
             return Decimal('0.2')
