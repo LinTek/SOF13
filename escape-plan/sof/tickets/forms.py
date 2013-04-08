@@ -12,9 +12,18 @@ class TicketTypeForm(forms.Form):
     # ModelChoiceFields are slightly retarded and get even more retarded with
     # checbox widgets and Django crispy forms...
     def __init__(self, *args, **kwargs):
+        display_all = False
+
+        if 'display_all' in kwargs:
+            display_all = kwargs.pop('display_all')
+
         super(TicketTypeForm, self).__init__(*args, **kwargs)
 
-        ticket_types = TicketType.objects.active()
+        if display_all:
+            ticket_types = TicketType.objects.all()
+        else:
+            ticket_types = TicketType.objects.active()
+
         self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
                                               for choice in ticket_types]
 

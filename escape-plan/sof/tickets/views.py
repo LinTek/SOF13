@@ -35,7 +35,7 @@ class TicketSoldOut():
 @transaction.commit_on_success
 def turbo_confirm(request):
     response = {}
-    ticket_type_form = TicketTypeForm(request.POST)
+    ticket_type_form = TicketTypeForm(request.POST, display_all=request.user.is_staff)
 
     worker_id = request.GET.get('worker_id')
     visitor_id = request.GET.get('visitor_id')
@@ -85,7 +85,7 @@ def turbo_submit(request):
     worker_job_count = None
     worker_no_contract = False
     error = None
-    ticket_type_form = TicketTypeForm(request.POST or None)
+    ticket_type_form = TicketTypeForm(request.POST or None, display_all=request.user.is_staff)
     turbo_form = TurboTicketForm(request.POST or None)
 
     csrf_token_value = get_token(request)
@@ -166,7 +166,7 @@ def sell(request):
     error = None
     person = None
 
-    ticket_type_form = TicketTypeForm(request.POST or None)
+    ticket_type_form = TicketTypeForm(request.POST or None, display_all=request.user.is_staff)
     visitor_form = VisitorForm(request.POST or None)
     search_form = SearchForm(request.GET or None)
 
