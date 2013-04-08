@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.forms.widgets import RadioSelect, CheckboxSelectMultiple
+from django.forms.widgets import CheckboxSelectMultiple
 
 from sof.utils.forms import ForgivingPIDField
 from sof.functionary.models import Visitor, Worker
@@ -25,6 +25,14 @@ class TicketTypeForm(forms.Form):
                                             widget=CheckboxSelectMultiple,
                                             label=_('Ticket type'))
 
+    def clean(self):
+        c = self.cleaned_data['ticket_type']
+        # Officially the ugliest thing I've ever done. Tokfulhaxx!
+        if '1' in c:
+            if '11' in c or '21' in c or '31' in c:
+                raise forms.ValidationError(_('Conflicting ticket types'))
+        return self.cleaned_data
+
 
 class PreemptionTicketTypeForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -34,9 +42,17 @@ class PreemptionTicketTypeForm(forms.Form):
         self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
                                               for choice in ticket_types]
 
-    ticket_type = forms.ChoiceField(required=True,
-                                    widget=RadioSelect,
-                                    label=_('Ticket type'))
+    ticket_type = forms.MultipleChoiceField(required=True,
+                                            widget=CheckboxSelectMultiple,
+                                            label=_('Ticket type'))
+
+    def clean(self):
+        c = self.cleaned_data['ticket_type']
+        # Officially the ugliest thing I've ever done. Tokfulhaxx!
+        if '1' in c:
+            if '11' in c or '21' in c or '31' in c:
+                raise forms.ValidationError(_('Conflicting ticket types'))
+        return self.cleaned_data
 
 
 class LiuIDForm(forms.Form):
