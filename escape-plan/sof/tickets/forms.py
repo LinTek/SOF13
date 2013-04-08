@@ -56,9 +56,10 @@ class PreemptionTicketTypeForm(forms.Form):
                                             label=_('Ticket type'))
 
     def clean(self):
-        c = self.cleaned_data['ticket_type']
+        cleaned_data = super(PreemptionTicketTypeForm, self).clean()
+        c = cleaned_data.get('ticket_type')
         # Officially the ugliest thing I've ever done. Tokfulhaxx!
-        if '1' in c:
+        if c and '1' in c:
             if '11' in c or '21' in c or '31' in c:
                 raise forms.ValidationError(_('Conflicting ticket types'))
         return self.cleaned_data
@@ -78,9 +79,10 @@ class PublicTicketTypeForm(forms.Form):
                                             label=_('Ticket type'))
 
     def clean(self):
-        c = self.cleaned_data['ticket_type']
+        cleaned_data = super(PublicTicketTypeForm, self).clean()
+        c = cleaned_data.get('ticket_type')
         # Officially the ugliest thing I've ever done. Tokfulhaxx!
-        if '1' in c:
+        if c and '1' in c:
             if '11' in c or '21' in c or '31' in c:
                 raise forms.ValidationError(_('Conflicting ticket types'))
         return self.cleaned_data
