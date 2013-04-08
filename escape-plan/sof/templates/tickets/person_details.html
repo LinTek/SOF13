@@ -37,6 +37,11 @@
     {% endfor %}
     </ul>
 
+    {% if not invoice.is_verified %}
+        <span class="label label-important">Obekräftat online-köp</span><br>
+        Personen har inte fått någon faktura och köpet har inte gått igenom ännu.
+    {% endif %}
+
     <dl class="dl-horizontal">
         <dt>Betalstatus</dt>
         <dd>{% payment_status invoice.get_payment_status %}</dd>
@@ -51,10 +56,11 @@
         <dd>{{ invoice.get_payment_sum|floatformat:2 }} kr</dd>
     </dl>
 
+    <a class="btn" href="{% url "add_trappan" invoice.pk %}">Lägg till trappan-fest</a><br>
     <a class="btn" href="{% url "set_handed_out" invoice.pk %}">Markera som utlämnad</a>
 
     {% if perms.tickets.add_invoice %}
-        <a href="" class="btn">Markera som betald</a>
+        <a href="{% url "set_paid" invoice.pk %}" class="btn">Markera som betald</a>
     {% endif %}
 
 {% empty %}

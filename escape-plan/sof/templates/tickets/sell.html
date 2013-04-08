@@ -12,7 +12,7 @@
             <a href="#detailed" data-toggle="tab">Manuell besökare</a>
         </li>
         <li>
-            <a href="#existing" data-toggle="tab">Befintlig person</a>
+            <a href="#existing" data-toggle="tab">Befintlig besökare</a>
         </li>
     </ul>
 
@@ -35,7 +35,7 @@
 
         <ul>
         {% for ticket in latest_tickets %}
-            <li>{{ ticket.ticket_type }} - <b>{{ ticket.invoice.person }}</b></li>
+            <li>{{ ticket.ticket_type }} - <b>{{ ticket.invoice.person }}</b> ({{ ticket.sell_date|timesince }} sedan)</li>
         {% endfor %}
         </ul>
     </div>
