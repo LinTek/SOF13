@@ -29,3 +29,7 @@ ul {
 div > .btn {
     margin-top: 13px;
 }
+
+.container {
+    padding-bottom: 70px;
+}
