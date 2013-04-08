@@ -170,8 +170,15 @@ def sell(request):
     visitor_form = VisitorForm(request.POST or None)
     search_form = SearchForm(request.GET or None)
 
-    tickets = Ticket.objects.select_related('ticket_type', 'invoice', 'invoice__person').order_by('-sell_date')[:10]
-    stats = TicketType.objects.active().annotate(sold=Count('ticket'))
+    tickets = (Ticket.objects
+               .select_related('ticket_type', 'invoice', 'invoice__person')
+               .filter(invoice__is_verified=True)
+               .order_by('-sell_date')[:10])
+
+    if request.user.is_staff:
+        stats = TicketType.objects.all().annotate(sold=Count('ticket'))
+    else:
+        stats = TicketType.objects.active().annotate(sold=Count('ticket'))
 
     if visitor_form.is_valid() and ticket_type_form.is_valid():
         visitor = visitor_form.save(commit=False)
