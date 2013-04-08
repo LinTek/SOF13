@@ -19,7 +19,7 @@ from sof.invoices.models import Invoice
 
 from .models import Ticket, TicketType
 from .forms import (TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm,
-                    LiuIDForm, PreemptionTicketTypeForm, WorkerForm)
+                    LiuIDForm, PreemptionTicketTypeForm, WorkerForm, PublicTicketTypeForm)
 
 
 class InvoiceExists():
@@ -218,6 +218,56 @@ def person_details(request, pk):
 
     return render(request, 'tickets/person_details.html',
                   {'person': person, 'invoices': invoices})
+
+
+@transaction.commit_on_success
+def public_sell(request):
+    error = ''
+    success = False
+    liu_id_form = LiuIDForm(request.POST or None)
+    ticket_type_form = PublicTicketTypeForm(request.POST or None)
+
+    if liu_id_form.is_valid() and ticket_type_form.is_valid():
+        try:
+            term = liu_id_form.cleaned_data['liu_id']
+
+            try:
+                person = Person.objects.search(term=term)
+
+                if person.invoice_set.exists():
+                    raise InvoiceExists()
+
+            except Person.DoesNotExist:
+                client = KOBRAClient(settings.KOBRA_USER, settings.KOBRA_KEY)
+                student = client.get_student(term)
+                visitor = Visitor.objects.create(**get_kwargs(student))
+                person = visitor.person_ptr
+
+            invoice = Invoice(person=person, is_verified=False)
+            invoice.generate_data()
+            invoice.save()
+
+            ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
+
+            for ticket_type_id in ticket_type_ids:
+                Ticket.objects.create(invoice=invoice,
+                                      ticket_type_id=ticket_type_id)
+            invoice.send_verify_email()
+
+            success = True
+            liu_id_form = LiuIDForm()
+            ticket_type_form = PublicTicketTypeForm()
+
+        except InvoiceExists:
+            error = _('An invoice already exist for this person')
+
+        except StudentNotFound:
+            error = _('Student was not found')
+
+    return render(request, 'tickets/public_sell.html',
+                  {'ticket_type_form': ticket_type_form,
+                   'liu_id_form': liu_id_form,
+                   'error': error, 'success': success})
 
 
 @transaction.commit_on_success

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} - Köp biljett{% endblock %}
+
+{% block content %}
+<h2>Biljettköp för LiU-studenter</h2>
+
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
+
+{% if success %}
+    <div class="alert alert-success">
+        <h4>Sisådär ja!</h4>
+        En bekräftelselänk har skickats till din studentmail. Klicka på denna
+        för att bekräfta din beställning.
+    </div>
+{% endif %}
+
+<p>
+    Fyll i ditt LiU-ID nedan. En bekräftelselänk kommer att skickas till din studentmail.<br>
+    När du bekräftat ditt köp via länken kommer en faktura att skickas till din e-postadress.
+    Fakturan betalas inom 7 dagar.
+</p>
+
+<form method="post" class="form form-horizontal">
+    {% csrf_token %}
+    {{ ticket_type_form|crispy}}
+    {{ liu_id_form|crispy}}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-large btn-primary">Skicka</button>
+    </div>
+</form>
+
+{% endblock %}

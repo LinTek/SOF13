@@ -55,6 +55,28 @@ class PreemptionTicketTypeForm(forms.Form):
         return self.cleaned_data
 
 
+# Copypaste FTW.....
+class PublicTicketTypeForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(PublicTicketTypeForm, self).__init__(*args, **kwargs)
+
+        ticket_types = TicketType.objects.public()
+        self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
+                                              for choice in ticket_types]
+
+    ticket_type = forms.MultipleChoiceField(required=True,
+                                            widget=CheckboxSelectMultiple,
+                                            label=_('Ticket type'))
+
+    def clean(self):
+        c = self.cleaned_data['ticket_type']
+        # Officially the ugliest thing I've ever done. Tokfulhaxx!
+        if '1' in c:
+            if '11' in c or '21' in c or '31' in c:
+                raise forms.ValidationError(_('Conflicting ticket types'))
+        return self.cleaned_data
+
+
 class LiuIDForm(forms.Form):
     liu_id = forms.CharField(label=_('LiU-ID or PID'), max_length=10, required=True)
 

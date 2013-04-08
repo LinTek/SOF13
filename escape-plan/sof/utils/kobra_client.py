@@ -44,7 +44,8 @@ class KOBRAClient:
 
     def get_student(self, id_or_card_number):
         # LiU-ID is normally 8 chars long (or 5 chars for some employees)
-        if '-' in id_or_card_number:
+        valid_pid = format_pid(id_or_card_number)
+        if valid_pid:
             return self.get_student_by_pid(id_or_card_number)
 
         if len(id_or_card_number) <= 8:

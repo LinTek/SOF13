@@ -10,6 +10,9 @@ class TicketTypeManager(models.Manager):
     def active(self):
         return self.filter(opening_date__lte=now())
 
+    def public(self):
+        return self.filter(opening_date_public__lte=now())
+
 
 class TicketType(models.Model):
     class Meta:
