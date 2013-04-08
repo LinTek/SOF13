@@ -2,7 +2,7 @@
 import httplib2
 import json
 
-from sof.utils.forms import format_pid
+from sof.utils.forms import format_pid, format_kobra_pid
 
 
 HEADERS = {'Accept': 'application/json',
@@ -46,7 +46,7 @@ class KOBRAClient:
         # LiU-ID is normally 8 chars long (or 5 chars for some employees)
         valid_pid = format_pid(id_or_card_number)
         if valid_pid:
-            return self.get_student_by_pid(id_or_card_number)
+            return self.get_student_by_pid(format_kobra_pid(id_or_card_number))
 
         if len(id_or_card_number) <= 8:
             return self.get_student_by_liu_id(id_or_card_number)
