@@ -1,10 +1,13 @@
 import datetime
 
 from django.db import transaction
+from django.db.models import Sum, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 
-from .models import Invoice
+from sof.functionary.models import Worker, Person
+
+from .models import Invoice, Payment
 
 TRAPPAN_ID = 41
 
@@ -50,6 +53,24 @@ def add_trappan(request, pk):
         invoice.send_as_email()
 
     return redirect('person_details', pk=invoice.person.pk)
+
+
+@login_required
+@permission_required('tickets.add_invoice')
+def stats(request):
+
+    unused = (Person.objects
+              .annotate(icount=Count('invoice'),
+                        wcount=Count('worker__workerregistration'))
+              .filter(icount=0, wcount__gt=0).count())
+
+    unverified = Invoice.objects.filter(is_verified=False).count()
+    worth = Invoice.objects.filter(is_verified=True).aggregate(s=Sum('denormalized_total_price'))['s']
+    payments = Payment.objects.aggregate(s=Sum('amount'))['s']
+
+    return render(request, 'invoices/stats.html',
+                  {'worth': worth, 'payments': payments,
+                   'unused': unused, 'unverified': unverified})
 
 
 @login_required

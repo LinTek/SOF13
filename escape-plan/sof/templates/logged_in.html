@@ -6,40 +6,16 @@
 {% block content %}
 
 {% if perms.auth.add_user %}
-    <a href="{% url "search" %}" class="btn btn-primary btn-large">Funktionärssläpp</a>
+    <a href="{% url "search" %}" class="btn btn-primary btn-large">Funktionärer</a>
 {% endif %}
 
 {% if perms.tickets.add_ticket %}
-    <a href="{% url "ticket_sell" %}" class="btn btn-primary btn-large">Biljettsläpp</a>
+    <a href="{% url "ticket_sell" %}" class="btn btn-primary btn-large">Biljetter</a>
 {% endif %}
 
 {% if perms.tickets.add_invoice %}
     <a href="{% url "invoice_list" %}" class="btn btn-large">Fakturor</a>
+    <a href="{% url "stats" %}" class="btn btn-large">Blandad statistik</a>
 {% endif %}
 
-<h3>Mina funktionärspass</h3>
-<div>
-    <ul>
-    {% for reg in registrations %}
-        <li>{% shift_title reg.shift %}</li>
-    {% empty %}
-        Du är inte registrerad på några pass ännu!
-    {% endfor %}
-    </ul>
-</div>
-
-{% comment %}
-<div>
-    <h3>Alla pass</h3>
-    <p>Klicka på en kategori för att visa passen för denna kategori. Dubbelklicka på ett pass för att anmäla dig.</p>
-
-    {% include "functionary/partials/shifts_accordion.html" %}
-</div>
-{% endcomment %}
-
-    {% comment %}
-    {% if perms.functionary.add_shift %}
-        <a href="#" class="btn btn-primary">Skapa jobbpass</a>
-    {% endif %}
-    {% endcomment %}
 {% endblock %}

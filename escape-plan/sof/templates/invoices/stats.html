@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %} - Random statistik{% endblock %}
+
+{% block content %}
+<h3>Random statistik</h3>
+<dl class="dl-horizontal">
+    <dt>Overifierade köp</dt>
+    <dd>{{ unverified }}</dd>
+
+    <dt>Otnyttjade funkisförköp</dt>
+    <dd>{{ unused}}</dd>
+
+    <dt>Totalvärde biljetter</dt>
+    <dd>{{ worth|intcomma }} kr</dd>
+
+    <dt>Summa betalningar</dt>
+    <dd>{{ payments|default:0|intcomma }} kr</dd>
+</dl>
+<div>
+    <a class="btn btn-primary" href="{% url "shifts" %}">Tillbaka</a>
+</div>
+{% endblock %}
