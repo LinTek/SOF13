@@ -4,8 +4,6 @@ from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 
-from sof.tickets.models import Ticket
-
 from .models import Invoice
 
 TRAPPAN_ID = 41
@@ -27,7 +25,17 @@ def set_handed_out(request, pk):
 @permission_required('tickets.add_invoice')
 def set_paid(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
-    invoice.payment_set.create(amount=invoice.amount, date=datetime.date.today())
+    invoice.payment_set.create(amount=invoice.get_total_price(),
+                               date=datetime.date.today())
+
+    return redirect('person_details', pk=invoice.person.pk)
+
+
+@login_required
+@permission_required('tickets.add_invoice')
+def send_email(request, pk):
+    invoice = get_object_or_404(Invoice, pk=pk)
+    invoice.send_as_email()
 
     return redirect('person_details', pk=invoice.person.pk)
 

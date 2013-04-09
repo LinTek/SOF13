@@ -56,11 +56,14 @@
         <dd>{{ invoice.get_payment_sum|floatformat:2 }} kr</dd>
     </dl>
 
-    <a class="btn" href="{% url "add_trappan" invoice.pk %}">Lägg till trappan-fest</a><br>
-    <a class="btn" href="{% url "set_handed_out" invoice.pk %}">Markera som utlämnad</a>
+    <a class="btn" href="{% url "set_handed_out" invoice.pk %}"><i class="icon-ok"></i> Markera som utlämnad</a><br>
+    <a class="btn" href="{% url "add_trappan" invoice.pk %}"><i class="icon-plus"></i> Lägg till trappan-fest</a><br>
 
     {% if perms.tickets.add_invoice %}
-        <a href="{% url "set_paid" invoice.pk %}" class="btn">Markera som betald</a>
+        <a class="btn" href="{% url "send_email" invoice.pk %}"><i class="icon-envelope"></i> Skicka via e-post</a><br>
+        {% if not invoice.payment_set.exists %}
+            <a href="{% url "set_paid" invoice.pk %}" class="btn"><i class="icon-star"></i> Lägg till fullständig betalning</a>
+        {% endif %}
     {% endif %}
 
 {% empty %}
