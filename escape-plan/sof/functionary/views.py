@@ -97,6 +97,7 @@ def create_worker(request):
 
     if form.is_valid():
         worker = form.save(commit=False)
+        worker.lintek_member = form.cleaned_data.get('lintek', False)
         worker.save()
         return redirect('add_registrations', worker_id=worker.pk)
 

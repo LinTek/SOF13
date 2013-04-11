@@ -3,6 +3,9 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
+from sof.utils.email import send_mail
+from sof.utils.forms import format_kobra_pid
+
 from sof.invoices.models import Invoice
 
 
@@ -42,6 +45,14 @@ class Ticket(models.Model):
     sell_date = models.DateTimeField(auto_now_add=True)
     invoice = models.ForeignKey(Invoice)
     is_handed_out = models.BooleanField(_('handed out'), default=False, blank=True)
+    is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
+
+    def send_as_email(self):
+        person = self.invoice.person
+        person.formatted_pid = format_kobra_pid(person.pid)
+        send_mail('tickets/mail/ticket', [person.email], {'ticket': self, 'person': person})
+        self.is_sent_as_email = True
+        self.save()
 
     def __unicode__(self):
         return unicode("%s #%d" % (unicode(self.ticket_type), self.id))

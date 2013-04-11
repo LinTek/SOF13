@@ -1,0 +1,10 @@
+Biljett, SOF 2013
+=================
+
+Typ av biljett: {{ ticket.ticket_type }}
+Biljettnummer: {{ ticket.pk }}
+
+Denna biljett är personlig och tillhör {{ person.first_name }} {{ person.last_name }}, {{ person.formatted_pid }}.
+
+Du behöver din biljett och en giltig id-handling för att kunna hämta ut ditt festivalband. Ditt festivalband kan hämtas ut i vår biljettutlämning utanför C4 från och med den 2:a maj, samt utanför festivalområdet under själva festivalen 9-11 maj.
+Biljetten är personlig och kan inte säljas vidare direkt. Om du behöver sälja din biljett, kontakta biljett@sof13.se.

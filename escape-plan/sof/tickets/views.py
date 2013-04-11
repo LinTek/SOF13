@@ -64,8 +64,9 @@ def turbo_confirm(request):
                 invoice = create_invoice(visitor_form.save())
 
             for ticket_type_id in ticket_type_ids:
-                Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                      invoice=invoice)
+                ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
+                                               invoice=invoice)
+                ticket.send_as_email()
             invoice.send_as_email()
 
             response['is_valid'] = True
@@ -187,9 +188,9 @@ def sell(request):
         invoice = create_invoice(visitor)
 
         for ticket_type_id in ticket_type_form.cleaned_data.get('ticket_type'):
-            Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                  invoice=invoice)
-
+            ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
+                                           invoice=invoice)
+            ticket.send_as_email()
         invoice.send_as_email()
 
         return redirect('ticket_sell')
@@ -332,6 +333,8 @@ def confirm(request, token):
         invoice.is_verified = True
         invoice.save()
 
+        for ticket in invoice.ticket_set.all():
+            ticket.send_as_email()
         invoice.send_as_email()
 
     return render(request, 'tickets/confirm.html')

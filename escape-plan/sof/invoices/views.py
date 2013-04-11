@@ -49,7 +49,8 @@ def add_trappan(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
 
     if not invoice.ticket_set.filter(ticket_type_id=TRAPPAN_ID).exists():
-        invoice.ticket_set.create(ticket_type_id=TRAPPAN_ID)
+        ticket = invoice.ticket_set.create(ticket_type_id=TRAPPAN_ID)
+        ticket.send_as_email()
         invoice.send_as_email()
 
     return redirect('person_details', pk=invoice.person.pk)
