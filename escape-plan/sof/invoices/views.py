@@ -64,13 +64,18 @@ def stats(request):
                         wcount=Count('worker__workerregistration'))
               .filter(icount=0, wcount__gt=0).count())
 
+    contracts = (Worker.objects
+                 .annotate(wcount=Count('workerregistration'))
+                 .filter(wcount__gt=0, contract_approved=False).count())
+
     unverified = Invoice.objects.filter(is_verified=False).count()
     worth = Invoice.objects.filter(is_verified=True).aggregate(s=Sum('denormalized_total_price'))['s']
     payments = Payment.objects.aggregate(s=Sum('amount'))['s']
 
     return render(request, 'invoices/stats.html',
                   {'worth': worth, 'payments': payments,
-                   'unused': unused, 'unverified': unverified})
+                   'unused': unused, 'unverified': unverified,
+                   'contracts': contracts})
 
 
 @login_required
