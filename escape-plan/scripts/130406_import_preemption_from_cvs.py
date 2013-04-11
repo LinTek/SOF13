@@ -102,7 +102,7 @@ def main():
 
         reader = csv.reader(csvfile)
         for row in reader:
-            _, _, liu_id, name, orig_pid, email, reason, ticket_types = row
+            _, _, liu_id, name, orig_pid, email, reason, ticket_types, _ = row
             name = unicode(name, 'utf-8')
             name_split = name.split()
 
@@ -160,9 +160,9 @@ def main():
                     person.save()
 
             if Invoice.objects.filter(person=person).exists():
-                ticket_types = ticket_types.replace(' (tors, fre, lör)', '')
-                if [TYPES[tt] for tt in ticket_types.split(', ')] != [1]:
-                    edited.append(person)
+                #ticket_types = ticket_types.replace(' (tors, fre, lör)', '')
+                #if [TYPES[tt] for tt in ticket_types.split(', ')] != [1]:
+                edited.append(person)
                 continue
 
             invoice = Invoice(person=person, is_verified=True)
