@@ -5,15 +5,11 @@
 
 {% block content %}
 <h3>Random statistik</h3>
+
+<h4>Ekonomi</h4>
 <dl class="dl-horizontal">
     <dt>Overifierade köp</dt>
     <dd>{{ unverified }}</dd>
-
-    <dt>Otnyttjade funkisförköp</dt>
-    <dd>{{ unused}}</dd>
-
-    <dt>Icke-ifyllda funkisavtal</dt>
-    <dd>{{ contracts }}</dd>
 
     <dt>Totalvärde biljetter</dt>
     <dd>{{ worth|intcomma }} kr</dd>
@@ -21,6 +17,23 @@
     <dt>Summa betalningar</dt>
     <dd>{{ payments|default:0|intcomma }} kr</dd>
 </dl>
+
+
+<h4>Funktionärer</h4>
+<dl class="dl-horizontal">
+    <dt>Funkisar med pass</dt>
+    <dd>{{ workers }}</dd>
+
+    <dt>Icke-ifyllda funkisavtal</dt>
+    <dd>{{ contracts }}</dd>
+
+    <dt>Otnyttjade funkisförköp</dt>
+    <dd>{{ unused }}</dd>
+
+    <dt>Förköp utan avtal</dt>
+    <dd>{{ with_preemption }}</dd>
+</dl>
+
 <div>
     <a class="btn btn-primary" href="{% url "shifts" %}">Tillbaka</a>
 </div>

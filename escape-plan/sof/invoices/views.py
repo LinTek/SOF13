@@ -68,6 +68,15 @@ def stats(request):
                  .annotate(wcount=Count('workerregistration'))
                  .filter(wcount__gt=0, contract_approved=False).count())
 
+    workers = (Worker.objects
+               .annotate(wcount=Count('workerregistration'))
+               .filter(wcount__gt=0).count())
+
+    with_preemption = (Person.objects
+                       .annotate(icount=Count('invoice'),
+                                 wcount=Count('worker__workerregistration'))
+                       .filter(icount__gt=0, wcount__gt=0, worker__contract_approved=False).count())
+
     unverified = Invoice.objects.filter(is_verified=False).count()
     worth = Invoice.objects.filter(is_verified=True).aggregate(s=Sum('denormalized_total_price'))['s']
     payments = Payment.objects.aggregate(s=Sum('amount'))['s']
@@ -75,7 +84,8 @@ def stats(request):
     return render(request, 'invoices/stats.html',
                   {'worth': worth, 'payments': payments,
                    'unused': unused, 'unverified': unverified,
-                   'contracts': contracts})
+                   'contracts': contracts, 'workers': workers,
+                   'with_preemption': with_preemption})
 
 
 @login_required
