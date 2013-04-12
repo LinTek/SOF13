@@ -6,5 +6,7 @@ Biljettnummer: {{ ticket.pk }}
 
 Denna biljett är personlig och tillhör {{ person.first_name }} {{ person.last_name }}, {{ person.formatted_pid }}.
 
-Du behöver din biljett och en giltig id-handling för att kunna hämta ut ditt festivalband. Ditt festivalband kan hämtas ut i vår biljettutlämning utanför C4 från och med den 2:a maj, samt utanför festivalområdet under själva festivalen 9-11 maj. Utlämning sker även på Täppan den 2:a och 3:e maj.
+Du behöver din biljett och en giltig id-handling för att kunna hämta ut ditt festivalband. Ditt festivalband kan hämtas ut i vår biljettutlämning utanför C4 från och med den 2:a maj, samt utanför festivalområdet under själva festivalen 9-11 maj. Utlämning sker även på Täppan den 2:a och 3:e maj. Mer information finns på www.sof13.se/biljetter.
+
 Biljetten är personlig och kan inte säljas vidare direkt. Om du behöver sälja din biljett, kontakta biljett@sof13.se.
+
