@@ -38,7 +38,7 @@ class Invoice(models.Model):
 
     def generate_data(self):
         self.token = os.urandom(20).encode('hex')
-        self.due_date = datetime.date.today() + datetime.timedelta(days=7)
+        self.due_date = datetime.date.today() + datetime.timedelta(days=14)
         self.ocr = 'sof-%s' % format_kobra_pid(self.person.pid, dash=False)
 
     def send_as_email(self):
