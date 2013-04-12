@@ -82,7 +82,8 @@ def create_tickets(invoice, ticket_types):
     ticket_type_ids = [TYPES[tt] for tt in ticket_types.split(', ')]
 
     for ticket_type_id in ticket_type_ids:
-        Ticket.objects.create(invoice=invoice, ticket_type_id=ticket_type_id)
+        ticket = Ticket.objects.create(invoice=invoice, ticket_type_id=ticket_type_id)
+        ticket.send_as_email()
 
 
 def main():
@@ -160,9 +161,9 @@ def main():
                     person.save()
 
             if Invoice.objects.filter(person=person).exists():
-                #ticket_types = ticket_types.replace(' (tors, fre, lör)', '')
-                #if [TYPES[tt] for tt in ticket_types.split(', ')] != [1]:
-                edited.append(person)
+                ticket_types = ticket_types.replace(' (tors, fre, lör)', '')
+                if [TYPES[tt] for tt in ticket_types.split(', ')] != [1]:
+                    edited.append(person)
                 continue
 
             invoice = Invoice(person=person, is_verified=True)
