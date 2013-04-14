@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-08 06:34+0200\n"
-"PO-Revision-Date: 2013-04-08 06:34+0100\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2013-04-14 14:23+0200\n"
+"PO-Revision-Date: 2013-04-14 14:23+0100\n"
+"Last-Translator: Niclas Olofsson <n@niclasolofsson.se>\n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: functionary/forms.py:10
-#: tickets/forms.py:63
+#: tickets/forms.py:97
 msgid "LiU-ID or card number"
 msgstr "LiU-ID eller kortnummer"
 
@@ -28,8 +28,8 @@ msgid "LinTek member"
 msgstr "LinTek-medlem"
 
 #: functionary/forms.py:20
-#: tickets/forms.py:82
-#: tickets/forms.py:96
+#: tickets/forms.py:116
+#: tickets/forms.py:130
 msgid "Personal identification number"
 msgstr "Personnummer"
 
@@ -109,57 +109,58 @@ msgstr "streckkodsnummer"
 msgid "LiU ID"
 msgstr "LiU ID"
 
-#: functionary/models.py:124
+#: functionary/models.py:126
 msgid "visitor"
 msgstr "besökare"
 
-#: functionary/models.py:125
+#: functionary/models.py:127
 msgid "visitors"
 msgstr "besökare"
 
-#: functionary/models.py:139
+#: functionary/models.py:141
 msgid "worker"
 msgstr "funktionär"
 
-#: functionary/models.py:140
+#: functionary/models.py:142
 msgid "workers"
 msgstr "funktionärer"
 
-#: functionary/models.py:143
+#: functionary/models.py:145
 msgid "welcome email sent"
 msgstr "välkomstmail skickat"
 
-#: functionary/models.py:144
+#: functionary/models.py:146
 msgid "contract approved"
 msgstr "kontrakt påskrivet"
 
-#: functionary/models.py:145
+#: functionary/models.py:147
 msgid "super worker"
 msgstr "superfunktionär"
 
-#: functionary/models.py:184
+#: functionary/models.py:186
 msgid "worker registration"
 msgstr "funktionärsregistrering"
 
-#: functionary/models.py:185
+#: functionary/models.py:187
 msgid "worker registrations"
 msgstr "funktionärsregistreringar"
 
-#: functionary/models.py:189
+#: functionary/models.py:191
 msgid "approved"
 msgstr "närvarande"
 
-#: functionary/views.py:162
+#: functionary/views.py:163
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:174
-#: tickets/views.py:144
+#: functionary/views.py:175
+#: tickets/views.py:145
+#: tickets/views.py:275
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:177
-#: tickets/views.py:150
+#: functionary/views.py:178
+#: tickets/views.py:151
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
 
@@ -176,109 +177,139 @@ msgid "is verified"
 msgstr "bekräftad"
 
 #: invoices/models.py:29
+#: invoices/models.py:92
 msgid "due date"
 msgstr "förfallodatum"
 
 #: invoices/models.py:30
+#: invoices/models.py:91
 msgid "OCR number"
 msgstr "OCR-nummer"
 
 #: invoices/models.py:33
+#: tickets/models.py:48
 msgid "is sent as email"
 msgstr "Skickad som email"
 
+#: invoices/models.py:34
+msgid "denormalized total price"
+msgstr "totalpris när fakturan skickades"
+
 #: invoices/models.py:87
+msgid "special invoice"
+msgstr "specialfaktura"
+
+#: invoices/models.py:88
+msgid "special invoices"
+msgstr "specialfakturor"
+
+#: invoices/models.py:90
+msgid "specification"
+msgstr "specifikation"
+
+#: invoices/models.py:95
+msgid "is paid"
+msgstr "betald"
+
+#: invoices/models.py:96
+msgid "is handed out"
+msgstr "utlämnad"
+
+#: invoices/models.py:104
 msgid "payment"
 msgstr "betalning"
 
-#: invoices/models.py:88
+#: invoices/models.py:105
 msgid "payments"
 msgstr "betalningar"
 
-#: invoices/models.py:90
+#: invoices/models.py:107
 msgid "date"
 msgstr "datum"
 
-#: invoices/models.py:91
+#: invoices/models.py:108
 msgid "amount"
 msgstr "summa"
 
-#: tickets/forms.py:26
-#: tickets/forms.py:47
+#: tickets/forms.py:35
+#: tickets/forms.py:57
+#: tickets/forms.py:80
 msgid "Ticket type"
 msgstr "Biljettyp"
 
-#: tickets/forms.py:33
-#: tickets/forms.py:54
+#: tickets/forms.py:43
+#: tickets/forms.py:65
+#: tickets/forms.py:88
 msgid "Conflicting ticket types"
 msgstr "Ogitig kombination av biljettyper"
 
-#: tickets/forms.py:59
+#: tickets/forms.py:93
 msgid "LiU-ID or PID"
 msgstr "LiU-ID eller personnummer"
 
-#: tickets/forms.py:68
+#: tickets/forms.py:102
 msgid "Search query"
 msgstr "Sökterm"
 
-#: tickets/models.py:16
+#: tickets/models.py:22
 msgid "ticket type"
 msgstr "biljettyp"
 
-#: tickets/models.py:17
+#: tickets/models.py:23
 msgid "ticket types"
 msgstr "biljettyper"
 
-#: tickets/models.py:19
+#: tickets/models.py:25
 msgid "name"
 msgstr "namn"
 
-#: tickets/models.py:20
+#: tickets/models.py:26
 msgid "price"
 msgstr "pris"
 
-#: tickets/models.py:21
+#: tickets/models.py:27
 msgid "rebate price"
 msgstr "rabatterat pris"
 
-#: tickets/models.py:23
+#: tickets/models.py:29
 msgid "max amount"
 msgstr "maximalt antal"
 
-#: tickets/models.py:24
+#: tickets/models.py:30
 msgid "opening date"
 msgstr "försäljningsstart"
 
-#: tickets/models.py:25
+#: tickets/models.py:31
 msgid "opening date for public selling"
 msgstr "offentlig försäljningsstart"
 
-#: tickets/models.py:35
+#: tickets/models.py:41
 msgid "ticket"
 msgstr "biljett"
 
-#: tickets/models.py:36
+#: tickets/models.py:42
 msgid "tickets"
 msgstr "biljetter"
 
-#: tickets/models.py:41
+#: tickets/models.py:47
 msgid "handed out"
 msgstr "utlämnad"
 
-#: tickets/views.py:141
+#: tickets/views.py:142
 msgid "This ticket type is sold out"
 msgstr "Denna biljettyp är slutsåld"
 
-#: tickets/views.py:147
-#: tickets/views.py:263
+#: tickets/views.py:148
+#: tickets/views.py:272
+#: tickets/views.py:323
 msgid "An invoice already exist for this person"
 msgstr "En faktura finns redan för denna person"
 
-#: tickets/views.py:196
+#: tickets/views.py:204
 msgid "The person was not found"
 msgstr "Personen hittades inte"
 
-#: tickets/views.py:260
+#: tickets/views.py:320
 msgid "The functionary was not found"
 msgstr "Personen kunde inte hittas"
 

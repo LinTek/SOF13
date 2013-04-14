@@ -31,7 +31,7 @@ class Invoice(models.Model):
     person = models.ForeignKey(Person)
 
     is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
-    denormalized_total_price = models.DecimalField(decimal_places=2, max_digits=8, default=0)
+    denormalized_total_price = models.DecimalField(_('denormalized total price'), decimal_places=2, max_digits=8, default=0)
 
     def __unicode__(self):
         return unicode(self.ocr)
