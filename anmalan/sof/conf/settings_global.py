@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'south',
     'crispy_forms',
     'debug_toolbar',
+    'compressor',
 
     'sof.orkester',
     'sof.cortege',

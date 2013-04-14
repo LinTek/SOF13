@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if form.is_valid %}
+        <h3>Sökresultat</h3>
+        {% if not members and not orchestras %}
+        Ingen matchande person eller orkester hittades!
+        {% endif %}
+    {% endif %}
+
+    {% if members %}
+        <h4>Orkestermedlemmar</h4>
+    {% endif %}
+    <ul>
+    {% for member in members %}
+        <li><a href="{% url check_in_list token=member.orchestra_token %}">{{ member }}</a> ({{ member.formatted_pid }})</li>
+    {% endfor %}
+    </ul>
+
+    {% if orchestras %}
+        Orkestrar
+    {% endif %}
+    <ul>
+    {% for orchestra in orchestras %}
+         <li><a href="{% url check_in_list token=orchestra.token %}">{{ orchestra }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <h3>Sök person eller orkester</h3>
+    <form method="get" class="form form-horizontal">
+        {{ form|crispy}}
+        Personens namn eller personnummer, alternativt orkesterns namn eller kortnamn.
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Sök</button>
+        </div>
+    </form>
+{% endblock %}

@@ -3,7 +3,7 @@ textarea {
     height: 80px;
 }
 
-form ul {
+ul {
     list-style: none;
 }
 
@@ -55,3 +55,6 @@ input[type="checkbox"] {
   }
 }
 
+.container {
+    padding-bottom: 70px;
+}

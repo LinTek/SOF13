@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load compress %}
 
 <!DOCTYPE html>
 <html>
@@ -26,6 +27,7 @@
             <ul class="nav">
                 <a class="brand" href="{% url admin_home %}">Orkesteradmin</a>
                 <li><a href="{% url statistics %}">Statistik och biljetter</a></li>
+                <li><a href="{% url check_in %}">Biljettutlämning</a></li>
                 <li><a href="{% url orchestra_list %}">Orkestrar</a></li>
                 <li><a href="{% url gadgets %}">Prylar</a></li>
                 <li><a href="{% url sitting %}">Sittningar</a></li>
@@ -42,6 +44,19 @@
     <h2>SOF 2013</h2>
 
     {% block content %}{% endblock content %}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    {% compress js %}
+    <script type="text/javascript" charset="utf-8">
+        var URL = {
+            toggle_handed_out: '{% url toggle_handed_out %}',
+        }
+    </script>
+
+    <script src="{% static "js/check_in.js" %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static "js/lib/ajax_csrf.js" %}" type="text/javascript" charset="utf-8"></script>
+    {% endcompress %}
 </div>
 </body>
 </html>

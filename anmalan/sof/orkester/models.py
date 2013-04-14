@@ -272,7 +272,14 @@ class Member(models.Model):
     yoyo = models.BooleanField("Jojo (20 kr) (skidliftkortshållare som man kan ha kapsylöppnaren i)")
     beer_glass = models.BooleanField("Ölglas (50 kr)")
 
+    ticket_handed_out = models.BooleanField("Biljett utlämnad", default=False)
+
     orchestras = models.ManyToManyField(Orchestra)
+
+    def formatted_pid(self):
+        if len(self.pid) == 8:
+            return self.pid[2:8]
+        return "%s-%s" % (self.pid[2:8], self.pid[8:12])
 
     def send_confirm_email(self, orchestra):
         _mail('confirm_member',

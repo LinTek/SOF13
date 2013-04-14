@@ -8,14 +8,17 @@ redirect. Views typically creates and saves form instances, fetches stuff
 from database or calls methods on models. Be careful not to do too much
 work in the views to maintain a somewhat good MVC-pattern.
 """
+import json
+
 from collections import defaultdict
 from itertools import groupby
 
+from django.http import HttpResponse, Http404
 from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
-from forms import OrchestraForm, MemberForm, AddMemberForm
+from forms import OrchestraForm, MemberForm, AddMemberForm, SearchForm
 from models import Orchestra, Member, YES, TICKET_TYPES, GADGETS, TSHIRT_SIZES
 
 
@@ -182,7 +185,7 @@ def food_list(request, day=None):
     orchestras = Orchestra.objects.order_by('orchestra_name')
     member_list = defaultdict(lambda: defaultdict(int))
 
-    for member in Member.objects.select_related('orchestras').order_by('first_name', 'last_name'):
+    for member in Member.objects.order_by('first_name', 'last_name'):
         if member.ticket_type in types:
             orchestra = member.orchestras.order_by('id').all()[0]
             member_list[orchestra.pk]['total'] += 1
@@ -298,6 +301,59 @@ def add_member(request, token):
 
     return render(request, 'orkester/add_member_form.html',
                   {'form': form, 'orchestra': orchestra})
+
+
+@login_required
+def toggle_handed_out(request):
+    try:
+        member = Member.objects.get(pk=int(request.POST.get('member') or 0))
+    except Member.DoesNotExist:
+        raise Http404
+
+    member.ticket_handed_out = not member.ticket_handed_out
+    member.save()
+
+    response = {'ticket_handed_out': member.ticket_handed_out}
+    return HttpResponse(json.dumps(response),
+                        content_type="application/json")
+
+
+@login_required
+def check_in(request):
+    form = SearchForm(request.GET or None)
+    members = orchestras = None
+
+    if form.is_valid():
+        term = form.cleaned_data.get('q')
+        members = (Member.objects.filter(Q(first_name__istartswith=term) |
+                                         Q(last_name__istartswith=term) |
+                                         Q(pid__contains=term))
+                   .select_related('orchestras')
+                   .order_by('first_name', 'last_name'))
+
+        if len(members) == 1:
+            return redirect('check_in_list', token=members[0].orchestras[0].token)
+
+        orchestras = Orchestra.objects.filter(Q(orchestra_name__icontains=term) |
+                                              Q(short_name__icontains=term))
+
+        if len(orchestras) == 1:
+            return redirect('check_in_list', token=orchestras[0].token)
+
+        for member in members:
+            member.orchestra_token = member.orchestras.all()[0].token
+
+    return render(request, 'orkester/search.html',
+                  {'form': form, 'members': members, 'orchestras': orchestras})
+
+
+@login_required
+def check_in_list(request, token):
+    orchestra = _orchestra_by_token(token)
+    members = orchestra.member_set.order_by('first_name', 'last_name')
+
+    return render(request, 'orkester/check_in_list.html',
+                  {'orchestra': orchestra, 'members': members})
 
 
 def _orchestra_by_token(token):

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load utils %}
+
+{% block content %}
+    <h3>{{ orchestra }} <small> | <b>{{ members|length }}</b> personer anmälda</small></h3>
+
+    <table class="table table-striped">
+        <tr>
+            <th></th>
+            <th>Namn</th>
+            <th>Person-/födelsenr</th>
+            <th>Boende</th>
+            <th>Biljettyp</th>
+        </tr>
+    {% for member in members %}
+        <tr>
+            <td>{% if not member.ticket_handed_out %}
+                <button class="btn btn-small toggle_handed_out" data-member="{{ member.pk }}">Lämna ut</button>
+            {% else %}
+                <button class="btn btn-small btn-danger toggle_handed_out" data-member="{{ member.pk }}">Utlämnad</button>
+            {% endif %}</td>
+
+            <td>{{ member }}</td>
+            <td>{{ member.formatted_pid }}</td>
+            <td>{% if member.needs_bed|boolify %}
+                <span class="label label-success">Boende</span>
+            {% endif %}</td>
+            <td>{{ member.get_ticket_type_display }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <a href="{% url check_in %}" class="btn btn-primary">Tillbaka</a>
+{% endblock content %}

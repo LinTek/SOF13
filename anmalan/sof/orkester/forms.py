@@ -122,3 +122,7 @@ class AddMemberForm(forms.Form):
             raise ValidationError('Det finns ingen registrerad person med detta personnummer.')
 
         return pid
+
+
+class SearchForm(forms.Form):
+    q = forms.CharField(max_length=40, label='Sökterm')
