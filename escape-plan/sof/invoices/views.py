@@ -7,9 +7,19 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 from sof.functionary.models import Worker, Person
 
-from .models import Invoice, Payment
+from .models import SpecialInvoice, Invoice, Payment
 
 TRAPPAN_ID = 41
+
+
+@login_required
+@permission_required('tickets.add_ticket')
+def set_handed_out_special(request, pk):
+    invoice = get_object_or_404(SpecialInvoice, pk=pk)
+    invoice.is_handed_out = True
+    invoice.save()
+
+    return redirect('person_details', pk=invoice.person.pk)
 
 
 @login_required

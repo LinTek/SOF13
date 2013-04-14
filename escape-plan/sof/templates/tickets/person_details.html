@@ -73,6 +73,7 @@
 {% for invoice in special_invoices %}
     <hr>
     <h4>Specialfaktura <small>{{ invoice.ocr }}</small></h4>
+    {{ invoice.specification|linebreaksbr }}
 
     <dl class="dl-horizontal">
         <dt>Betalstatus</dt>
@@ -87,8 +88,20 @@
             </span>
             {% endif %}
         </dd>
+
+        <dt>Utlämningsstatus</dt>
+        <dd>{% handed_out_status invoice.is_handed_out %}</dd>
+
+        <dt>Totalbelopp</dt>
+        <dd>{{ invoice.total_price|floatformat:2 }} kr</dd>
     </dl>
 
+    <div class="alert alert-error">
+    <b>OBS!</b> Personen som hämtar ut denna order skall skriva på ett avtal där
+    personen försäkrar att armbanden kommer till rätt person.
+    </div>
+
+    <a class="btn" href="{% url "set_handed_out_special" invoice.pk %}"><i class="icon-ok"></i> Markera som utlämnad</a><br>
 {% endfor %}
 
 <hr>

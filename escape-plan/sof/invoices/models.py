@@ -90,6 +90,7 @@ class SpecialInvoice(models.Model):
     specification = models.TextField(_('specification'))
     ocr = models.CharField(_('OCR number'), max_length=20, unique=True)
     due_date = models.DateField(_('due date'))
+    total_price = models.DecimalField(_('amount'), decimal_places=2, max_digits=8)
     person = models.ForeignKey(Person)
 
     is_paid = models.BooleanField(_('is paid'), default=False)
