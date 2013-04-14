@@ -4,7 +4,7 @@
 }
 
 .signed-up {
-    background: #D4FFBF;
+    background: #DFF0D8;
 }
 
 .accordion-heading {
@@ -32,4 +32,9 @@ div > .btn {
 
 .container {
     padding-bottom: 70px;
+}
+
+textarea {
+    width: 600px;
+    height: 150px;
 }

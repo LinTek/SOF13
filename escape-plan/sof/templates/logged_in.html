@@ -6,16 +6,17 @@
 {% block content %}
 
 {% if perms.auth.add_user %}
-    <a href="{% url "search" %}" class="btn btn-primary btn-large">Funktionärer</a>
+    <a href="{% url "search" %}" class="btn">Sök funktionär</a>
+    <a href="{% url "list_workers" %}" class="btn">Alla funktionärer</a><br>
 {% endif %}
 
 {% if perms.tickets.add_ticket %}
-    <a href="{% url "ticket_sell" %}" class="btn btn-primary btn-large">Biljetter</a>
+    <a href="{% url "ticket_sell" %}" class="btn">Biljetter</a>
 {% endif %}
 
 {% if perms.tickets.add_invoice %}
-    <a href="{% url "invoice_list" %}" class="btn btn-large">Fakturor</a>
-    <a href="{% url "stats" %}" class="btn btn-large">Blandad statistik</a>
+    <a href="{% url "invoice_list" %}" class="btn">Fakturor</a>
+    <a href="{% url "stats" %}" class="btn">Blandad statistik</a>
 {% endif %}
 
 {% endblock %}

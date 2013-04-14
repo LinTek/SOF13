@@ -7,6 +7,8 @@ urlpatterns = patterns(
     url(r'^shifts$', 'shifts', name='shifts'),
     url(r'^search$', 'search', name='search'),
     url(r'^create-worker$', 'create_worker', name='create_worker'),
+    url(r'^list-workers$', 'list_workers', name='list_workers'),
+
 
     url(r'^add-registrations/(?P<worker_id>\d+)$', 'add_registrations',
         name='add_registrations'),

@@ -3,10 +3,10 @@ import json
 from itertools import groupby
 
 from django.db import transaction
+from django.db.models import Count
 from django.conf import settings
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.decorators import login_required, permission_required
-
 from django.http import HttpResponse, Http404
 from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
@@ -102,6 +102,18 @@ def create_worker(request):
         return redirect('add_registrations', worker_id=worker.pk)
 
     return render(request, 'functionary/add_functionary.html', {'form': form})
+
+
+@login_required
+@permission_required('auth.add_user')
+def list_workers(request):
+    workers = (Worker.objects.order_by('first_name', 'last_name')
+               .annotate(wcount=Count('workerregistration'))
+               .filter(wcount__gt=0))
+    no_contract = workers.filter(contract_approved=False)
+
+    return render(request, 'functionary/list.html',
+                  {'workers': workers, 'no_contract': no_contract})
 
 
 @login_required

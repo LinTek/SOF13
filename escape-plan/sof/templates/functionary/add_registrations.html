@@ -30,7 +30,7 @@
     {% for r in worker_shifts %}
         <li class="shift signed-up">
         <a href="#" class="add_worker" data-shift="{{ r.shift.pk }}">
-            {% shift_title r.shift '' 'sub_type' %}
+            <b>{{ r.shift.shift_type }}</b> - {% shift_title r.shift '' 'admin' %}
         </a>
         </li>
     {% endfor %}

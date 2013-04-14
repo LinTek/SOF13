@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Funktionärer med minst ett pass <small>| {{ workers|length }} st</small></h3>
+<table class="table table-striped">
+    <tr>
+        <th>Namn</th>
+        <th>E-postadress</th>
+        <th>Avtal inlämnat</th>
+    </tr>
+    {% for worker in workers %}
+    <tr>
+        <td><a href="{% url "add_registrations" worker_id=worker.pk %}">{{ worker.get_full_name }}</a></td>
+        <td>{{ worker.email }}</td>
+        <td>
+            {% if worker.contract_approved %}
+                <span class="label label-success">Inlämnat</span>
+            {% else %}
+                <span class="label label-important">Ej inlämnat</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h4>Funktionärer med pass, utan inlämnat avtal <small>| {{ no_contract|length }} st</small></h4>
+<textarea>
+{% for worker in no_contract %}{{ worker }} &lt;{{ worker.email }}&gt;, {% endfor %}
+</textarea>
+{% endblock content %}
