@@ -35,7 +35,7 @@ class TicketTypeForm(forms.Form):
                                             label=_('Ticket type'))
 
     def clean(self):
-        cleaned_data = super(PreemptionTicketTypeForm, self).clean()
+        cleaned_data = super(TicketTypeForm, self).clean()
         c = cleaned_data.get('ticket_type')
         # Officially the ugliest thing I've ever done. Tokfulhaxx!
         if c and '1' in c:
