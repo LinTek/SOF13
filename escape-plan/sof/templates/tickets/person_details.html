@@ -39,7 +39,7 @@
 
     {% if not invoice.is_verified %}
         <span class="label label-important">Obekräftat online-köp</span><br>
-        Personen har inte fått någon faktura och köpet har inte gått igenom ännu.
+        Personen har inte fått någon faktura eller biljett och köpet har inte gått igenom ännu.
     {% endif %}
 
     <dl class="dl-horizontal">
@@ -68,6 +68,27 @@
 
 {% empty %}
     Det finns inga fakturor för denna person
+{% endfor %}
+
+{% for invoice in special_invoices %}
+    <hr>
+    <h4>Specialfaktura <small>{{ invoice.ocr }}</small></h4>
+
+    <dl class="dl-horizontal">
+        <dt>Betalstatus</dt>
+        <dd>
+            {% if invoice.is_paid %}
+            <span class="label label-success">
+                Betald
+            </span>
+            {% else %}
+            <span class="label label-important">
+                Ej betald
+            </span>
+            {% endif %}
+        </dd>
+    </dl>
+
 {% endfor %}
 
 <hr>

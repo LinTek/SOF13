@@ -223,9 +223,11 @@ def person_details(request, pk):
         person = person.visitor
 
     invoices = person.invoice_set.all()
+    special_invoices = person.specialinvoice_set.all()
 
     return render(request, 'tickets/person_details.html',
-                  {'person': person, 'invoices': invoices})
+                  {'person': person, 'invoices': invoices,
+                   'special_invoices': special_invoices})
 
 
 @transaction.commit_on_success

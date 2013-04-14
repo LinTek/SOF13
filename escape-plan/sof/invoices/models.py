@@ -82,6 +82,23 @@ class Invoice(models.Model):
         return PaymentStatus.SUM_MISMATCH
 
 
+class SpecialInvoice(models.Model):
+    class Meta:
+        verbose_name = _('special invoice')
+        verbose_name_plural = _('special invoices')
+
+    specification = models.TextField(_('specification'))
+    ocr = models.CharField(_('OCR number'), max_length=20, unique=True)
+    due_date = models.DateField(_('due date'))
+    person = models.ForeignKey(Person)
+
+    is_paid = models.BooleanField(_('is paid'), default=False)
+    is_handed_out = models.BooleanField(_('is handed out'), default=False)
+
+    def __unicode__(self):
+        return unicode(self.ocr)
+
+
 class Payment(models.Model):
     class Meta:
         verbose_name = _('payment')

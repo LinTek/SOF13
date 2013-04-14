@@ -113,7 +113,9 @@ class Person(models.Model):
         return '%s %s' % (self.first_name, self.last_name)
 
     def __unicode__(self):
-        return unicode(self.get_full_name())
+        suffix = ' (%s)' % self.liu_id if self.liu_id else ''
+
+        return '%s%s' % (unicode(self.get_full_name()), suffix)
 
     def get_type_name(self):
         return self._meta.verbose_name.title()
