@@ -21,6 +21,7 @@ class TicketTypeForm(forms.Form):
 
         if display_all:
             ticket_types = TicketType.objects.all()
+            self.fields['ticket_type'].required = False
         else:
             ticket_types = TicketType.objects.active()
 
@@ -90,7 +91,7 @@ class PublicTicketTypeForm(forms.Form):
 
 
 class LiuIDForm(forms.Form):
-    liu_id = forms.CharField(label=_('LiU-ID or PID'), max_length=10, required=True)
+    liu_id = forms.CharField(label=_('LiU-ID or PID'), max_length=20, required=True)
 
 
 class TurboTicketForm(forms.Form):

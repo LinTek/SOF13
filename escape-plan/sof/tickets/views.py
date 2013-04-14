@@ -60,15 +60,18 @@ def turbo_confirm(request):
 
         if (worker_id and worker_form.is_valid()) or visitor_form.is_valid():
             if worker_form.is_valid():
-                invoice = create_invoice(worker_form.save())
+                person = worker_form.save()
             else:
-                invoice = create_invoice(visitor_form.save())
+                person = visitor_form.save()
 
-            for ticket_type_id in ticket_type_ids:
-                ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                               invoice=invoice)
-                ticket.send_as_email()
-            invoice.send_as_email()
+            if ticket_type_ids:
+                invoice = create_invoice(person)
+
+                for ticket_type_id in ticket_type_ids:
+                    ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
+                                                   invoice=invoice)
+                    ticket.send_as_email()
+                invoice.send_as_email()
 
             response['is_valid'] = True
             return HttpResponse(json.dumps(response),
@@ -186,13 +189,16 @@ def sell(request):
         visitor = visitor_form.save(commit=False)
         visitor.save()
 
-        invoice = create_invoice(visitor)
+        ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
 
-        for ticket_type_id in ticket_type_form.cleaned_data.get('ticket_type'):
-            ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                           invoice=invoice)
-            ticket.send_as_email()
-        invoice.send_as_email()
+        if ticket_type_ids:
+            invoice = create_invoice(visitor)
+
+            for ticket_type_id in ticket_type_ids:
+                ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
+                                               invoice=invoice)
+                ticket.send_as_email()
+            invoice.send_as_email()
 
         return redirect('ticket_sell')
 
@@ -240,7 +246,7 @@ def person_details(request, pk):
             error = _('The person was not found')
 
         except MultipleObjectsReturned:
-            error = _('The person had multiple invoices and someone was too lazy to implement support for that')
+            error = _('The current invoice holder has multiple invoices and someone was too lazy to implement support for that')
 
     invoices = person.invoice_set.all()
     special_invoices = person.specialinvoice_set.all()
