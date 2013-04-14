@@ -4,6 +4,7 @@ import json
 from django.db import transaction
 from django.db.models import Count
 from django.conf import settings
+from django.core.exceptions import MultipleObjectsReturned
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
@@ -222,12 +223,33 @@ def person_details(request, pk):
     except Worker.DoesNotExist:
         person = person.visitor
 
+    error = new_person = None
+    move_form = LiuIDForm(request.POST or None)
+
+    if move_form.is_valid():
+        try:
+            new_person = Person.objects.search(move_form.cleaned_data.get('liu_id'))
+            invoice = person.invoice_set.get()
+            invoice.person = new_person
+            invoice.save()
+
+            for ticket in invoice.ticket_set.all():
+                ticket.send_as_email()
+
+        except Person.DoesNotExist:
+            error = _('The person was not found')
+
+        except MultipleObjectsReturned:
+            error = _('The person had multiple invoices and someone was too lazy to implement support for that')
+
     invoices = person.invoice_set.all()
     special_invoices = person.specialinvoice_set.all()
 
     return render(request, 'tickets/person_details.html',
                   {'person': person, 'invoices': invoices,
-                   'special_invoices': special_invoices})
+                   'special_invoices': special_invoices,
+                   'move_form': move_form, 'error': error,
+                   'new_person': new_person})
 
 
 @transaction.commit_on_success

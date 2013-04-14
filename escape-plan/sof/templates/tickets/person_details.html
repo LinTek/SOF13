@@ -1,13 +1,27 @@
 {% extends "base.html" %}
 {% load ticket_status %}
+{% load crispy_forms_tags %}
 
 {% block title %} - Biljettsläpp{% endblock %}
 
 {% block content %}
 <h3>{{ person }}<small> | {{ person.get_type_name }}</small></h3>
 
-<dl class="dl-horizontal">
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
 
+{% if new_person and not error %}
+    <div class="alert alert-success">
+        <h4>Biljetter flyttade</h4>
+        Biljetterna har mailats till <a href="{% url "person_details" pk=new_person.pk %}">{{ new_person }}</a>.
+    </div>
+{% endif %}
+
+<dl class="dl-horizontal">
     <dt>Typ</dt>
     <dd>{{ person.get_type_name }}</dd>
 
@@ -56,14 +70,27 @@
         <dd>{{ invoice.get_payment_sum|floatformat:2 }} kr</dd>
     </dl>
 
-    <a class="btn" href="{% url "set_handed_out" invoice.pk %}"><i class="icon-ok"></i> Markera som utlämnad</a><br>
-    <a class="btn" href="{% url "add_trappan" invoice.pk %}"><i class="icon-plus"></i> Lägg till trappan-fest</a><br>
+    <div>
+        <a class="btn btn-small" href="{% url "set_handed_out" invoice.pk %}"><i class="icon-ok"></i> Markera som utlämnad</a>
+        <a class="btn btn-small" href="{% url "add_trappan" invoice.pk %}"><i class="icon-plus"></i> Lägg till trappan-fest</a>
+    </div>
 
     {% if perms.tickets.add_invoice %}
-        <a class="btn" href="{% url "send_email" invoice.pk %}"><i class="icon-envelope"></i> Skicka via e-post</a><br>
+    <p></p>
+    <div class="alert alert-block alert-warning">
+        <h4>Danger Zone&#0153;</h4>
+        <a class="btn btn-small" href="{% url "send_email" invoice.pk %}"><i class="icon-envelope"></i> Skicka via e-post</a><br>
         {% if not invoice.payment_set.exists %}
-            <a href="{% url "set_paid" invoice.pk %}" class="btn"><i class="icon-star"></i> Lägg till fullständig betalning</a>
+            <a class="btn btn-small" href="{% url "set_paid" invoice.pk %}"><i class="icon-star"></i> Lägg till fullständig betalning</a>
         {% endif %}
+
+        <h5>Flytta fakturans biljetter</h5>
+        <form method="post" class="form-inline">
+            {% csrf_token %}
+            {{ move_form|crispy }}
+            <button class="btn btn-small" type="submit">Flytta biljetter</button>
+        </form>
+    </div>
     {% endif %}
 
 {% empty %}
