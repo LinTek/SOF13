@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-14 22:02+0200\n"
-"PO-Revision-Date: 2013-04-14 22:02+0100\n"
+"POT-Creation-Date: 2013-04-15 22:10+0200\n"
+"PO-Revision-Date: 2013-04-15 22:11+0100\n"
 "Last-Translator: Niclas Olofsson <n@niclasolofsson.se>\n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -137,29 +137,33 @@ msgstr "kontrakt påskrivet"
 msgid "super worker"
 msgstr "superfunktionär"
 
-#: functionary/models.py:186
+#: functionary/models.py:148
+msgid "orchestra worker"
+msgstr "orkesterfadder"
+
+#: functionary/models.py:187
 msgid "worker registration"
 msgstr "funktionärsregistrering"
 
-#: functionary/models.py:187
+#: functionary/models.py:188
 msgid "worker registrations"
 msgstr "funktionärsregistreringar"
 
-#: functionary/models.py:191
+#: functionary/models.py:192
 msgid "approved"
 msgstr "närvarande"
 
-#: functionary/views.py:163
+#: functionary/views.py:175
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:175
+#: functionary/views.py:187
 #: tickets/views.py:149
 #: tickets/views.py:303
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:178
+#: functionary/views.py:190
 #: tickets/views.py:155
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
