@@ -147,6 +147,13 @@ class Worker(Person):
     super_worker = models.BooleanField(_('super worker'), default=False, blank=True)
     orchestra_worker = models.BooleanField(_('orchestra worker'), default=False, blank=True)
 
+    has_meta_info = models.BooleanField(_('has meta info'), default=False, blank=True)
+    phone_number = models.CharField(_('phone number'), max_length=20, blank=True)
+    tshirt_size = models.CharField(_('t-shirt size'), max_length=4, blank=True)
+    ice_number = models.CharField(_('phone number'), max_length=20, blank=True)
+    allergies = models.CharField(_('allergies'), max_length=100, blank=True)
+    other = models.TextField(_('other'), blank=True)
+
     objects = PersonManager()
 
     def get_rebate_percent(self):
