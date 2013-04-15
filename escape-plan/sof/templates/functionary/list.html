@@ -5,18 +5,35 @@
 <table class="table table-striped">
     <tr>
         <th>Namn</th>
-        <th>E-postadress</th>
+        <th>E-post</th>
+        <th>Telefon</th>
+        <th><abbr title="Telefonnummer till anhörig">ICE-nummer</abbr></th>
+        <th><abbr title="T-shirtstorlek">Storlek</abbr></th>
+        <th>Specialkost</th>
         <th>Avtal inlämnat</th>
+        <th></th>
     </tr>
     {% for worker in workers %}
     <tr>
         <td><a href="{% url "add_registrations" worker_id=worker.pk %}">{{ worker.get_full_name }}</a></td>
         <td>{{ worker.email }}</td>
+        <td>{{ worker.phone_number }}</td>
+        <td>{{ worker.ice_number }}</td>
+        <td>{{ worker.tshirt_size }}</td>
+        <td>{{ worker.allergies }}</td>
         <td>
             {% if worker.contract_approved %}
                 <span class="label label-success">Inlämnat</span>
             {% else %}
                 <span class="label label-important">Ej inlämnat</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if worker.super_worker %}
+                <span class="label label-warning">Superfunkis</span>
+            {% endif %}
+            {% if worker.orchestra_worker %}
+                <span class="label label-info">Orkesterfadder</span>
             {% endif %}
         </td>
     </tr>
@@ -27,4 +44,10 @@
 <textarea>
 {% for worker in no_contract %}{{ worker }} &lt;{{ worker.email }}&gt;, {% endfor %}
 </textarea>
+
+<h4>Funktionärer med pass, ej ifyllt formulär <small>| {{ no_meta_info|length }} st</small></h4>
+<textarea>
+{% for worker in no_meta_info %}{{ worker }} &lt;{{ worker.email }}&gt;, {% endfor %}
+</textarea>
+
 {% endblock content %}

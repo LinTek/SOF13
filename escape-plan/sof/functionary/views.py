@@ -110,10 +110,13 @@ def list_workers(request):
     workers = (Worker.objects.order_by('first_name', 'last_name')
                .annotate(wcount=Count('workerregistration'))
                .filter(wcount__gt=0))
+
     no_contract = workers.filter(contract_approved=False)
+    no_meta_info = workers.filter(has_meta_info=False)
 
     return render(request, 'functionary/list.html',
-                  {'workers': workers, 'no_contract': no_contract})
+                  {'workers': workers, 'no_contract': no_contract,
+                   'no_meta_info': no_meta_info})
 
 
 @login_required
