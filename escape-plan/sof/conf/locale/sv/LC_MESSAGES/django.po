@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-15 22:56+0200\n"
-"PO-Revision-Date: 2013-04-15 22:57+0100\n"
+"POT-Creation-Date: 2013-04-15 23:00+0200\n"
+"PO-Revision-Date: 2013-04-15 23:00+0100\n"
 "Last-Translator: Niclas Olofsson <n@niclasolofsson.se>\n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -146,13 +146,16 @@ msgid "has meta info"
 msgstr "fyllt i infoformulär"
 
 #: functionary/models.py:151
-#: functionary/models.py:153
 msgid "phone number"
 msgstr "telefonnummer"
 
 #: functionary/models.py:152
 msgid "t-shirt size"
 msgstr "t-shirtstorlek"
+
+#: functionary/models.py:153
+msgid "ICE number"
+msgstr "telefonnummer anhörig"
 
 #: functionary/models.py:154
 msgid "allergies"
