@@ -332,7 +332,6 @@ def check_in(request):
                    .order_by('first_name', 'last_name'))
 
         if len(members) == 1:
-            import ipdb; ipdb.set_trace()
             return redirect('check_in_list', token=members[0].orchestras.all()[0].token)
 
         orchestras = Orchestra.objects.filter(Q(orchestra_name__icontains=term) |
