@@ -121,6 +121,20 @@ def list_workers(request):
 
 @login_required
 @permission_required('auth.add_user')
+def workers_by_type(request):
+    workers = (Worker.objects.order_by('first_name', 'last_name')
+               .annotate(wcount=Count('workerregistration'))
+               .filter(wcount__gt=0))
+
+    orchestra_workers = workers.filter(orchestra_worker=True)
+    super_workers = workers.filter(super_worker=True)
+
+    return render(request, 'functionary/list.html',
+                  {'orchestra': orchestra_workers, 'super': super_workers})
+
+
+@login_required
+@permission_required('auth.add_user')
 def add_registrations(request, worker_id):
     worker = get_object_or_404(Worker, pk=worker_id)
     all_shifts = _group_by_type(list(Shift.objects.with_free_places(worker)))
