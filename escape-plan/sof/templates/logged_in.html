@@ -7,7 +7,8 @@
 
 {% if perms.auth.add_user %}
     <a href="{% url "search" %}" class="btn">Sök funktionär</a>
-    <a href="{% url "list_workers" %}" class="btn">Alla funktionärer</a><br>
+    <a href="{% url "list_workers" %}" class="btn">Alla funktionärer</a>
+    <a href="{% url "workers_by_type" %}" class="btn">Efter typ</a><br>
 {% endif %}
 
 {% if perms.tickets.add_ticket %}

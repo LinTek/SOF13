@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from sof.utils.kobra_client import KOBRAClient, StudentNotFound
 
-from .models import Shift, WorkerRegistration, Worker
+from .models import Shift, WorkerRegistration, Worker, ShiftType
 from .forms import SearchForm, AddWorkerForm
 
 
@@ -122,15 +122,16 @@ def list_workers(request):
 @login_required
 @permission_required('auth.add_user')
 def workers_by_type(request):
-    workers = (Worker.objects.order_by('first_name', 'last_name')
-               .annotate(wcount=Count('workerregistration'))
-               .filter(wcount__gt=0))
+    shift_types = ShiftType.objects.order_by('name')
 
-    orchestra_workers = workers.filter(orchestra_worker=True)
-    super_workers = workers.filter(super_worker=True)
+    for shift_type in shift_types:
+        shift_type.registrations = (WorkerRegistration.objects
+                                    .filter(shift__shift_type=shift_type)
+                                    .select_related('worker')
+                                    .order_by('worker__first_name', 'worker__last_name'))
 
-    return render(request, 'functionary/list.html',
-                  {'orchestra': orchestra_workers, 'super': super_workers})
+    return render(request, 'functionary/list_by_type.html',
+                  {'shift_types': shift_types})
 
 
 @login_required

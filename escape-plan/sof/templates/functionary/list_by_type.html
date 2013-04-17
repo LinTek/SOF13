@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Funktionär efter typ</h2>
+{% for shift_type in shift_types %}
+<a href="#s{{ shift_type.pk }}">{{ shift_type }}</a> |
+{% endfor %}
+
+{% for shift_type in shift_types %}
+<a id="s{{ shift_type.pk }}"></a>
+
+<h3>{{ shift_type }} <small>| {{ shift_type.registrations|length }} st</small></h3>
+
+<table class="table table-striped">
+    <tr>
+        <th>Namn</th>
+        <th>E-post</th>
+        <th>Telefon</th>
+        <th><abbr title="Telefonnummer till anhörig">ICE-nummer</abbr></th>
+        <th><abbr title="T-shirtstorlek">Storlek</abbr></th>
+        <th>Specialkost</th>
+        <th>Avtal inlämnat</th>
+        <th></th>
+    </tr>
+    {% for r in shift_type.registrations %}
+    <tr>
+        <td><a href="{% url "add_registrations" worker_id=r.worker.pk %}">{{ r.worker.get_full_name }}</a></td>
+        <td>{{ r.worker.email }}</td>
+        <td>{{ r.worker.phone_number }}</td>
+        <td>{{ r.worker.ice_number }}</td>
+        <td>{{ r.worker.tshirt_size }}</td>
+        <td>{{ r.worker.allergies }}</td>
+        <td>
+            {% if r.worker.contract_approved %}
+                <span class="label label-success">Inlämnat</span>
+            {% else %}
+                <span class="label label-important">Ej inlämnat</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if r.worker.super_worker %}
+                <span class="label label-warning">Superfunkis</span>
+            {% endif %}
+            {% if r.worker.orchestra_worker %}
+                <span class="label label-info">Orkesterfadder</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h4>Maillista {{ shift_type|lower }}</h4>
+<textarea>
+{% for r in shift_type.registrations %}{{ r.worker }} &lt;{{ r.worker.email }}&gt;, {% endfor %}
+</textarea>
+<hr>
+
+{% endfor %}
+
+{% endblock content %}
