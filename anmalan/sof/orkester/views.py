@@ -332,7 +332,9 @@ def check_in(request):
                    .order_by('first_name', 'last_name'))
 
         if len(members) == 1:
-            return redirect('check_in_list', token=members[0].orchestras.all()[0].token)
+            member = members[0]
+            return redirect('check_in_list',
+                            token=member.orchestras.all()[0].token, member_pk=member.pk)
 
         orchestras = Orchestra.objects.filter(Q(orchestra_name__icontains=term) |
                                               Q(short_name__icontains=term))
@@ -348,12 +350,13 @@ def check_in(request):
 
 
 @login_required
-def check_in_list(request, token):
+def check_in_list(request, token, member_pk=None):
     orchestra = _orchestra_by_token(token)
     members = orchestra.member_set.order_by('first_name', 'last_name')
 
     return render(request, 'orkester/check_in_list.html',
-                  {'orchestra': orchestra, 'members': members})
+                  {'orchestra': orchestra, 'members': members,
+                   'member_pk': int(member_pk) if member_pk else None})
 
 
 def _orchestra_by_token(token):

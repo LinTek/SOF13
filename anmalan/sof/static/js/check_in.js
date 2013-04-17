@@ -19,5 +19,13 @@ $(function() {
         });
         e.preventDefault();
     });
+
     $("#id_q").focus();
+
+    if ($("#highlight").length > 0) {
+        $("#highlight td").effect("highlight", {}, 4000);
+        $("html, body").animate({
+            scrollTop: $("#highlight").offset().top - 200
+        }, 500);
+    }
 });

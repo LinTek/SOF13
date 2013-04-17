@@ -14,7 +14,7 @@
     {% endif %}
     <ul>
     {% for member in members %}
-        <li><a href="{% url check_in_list token=member.orchestra_token %}">{{ member }}</a> ({{ member.formatted_pid }})</li>
+        <li><a href="{% url check_in_list token=member.orchestra_token member_pk=member.pk %}">{{ member }}</a> ({{ member.formatted_pid }})</li>
     {% endfor %}
     </ul>
 

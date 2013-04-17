@@ -28,6 +28,7 @@ urlpatterns = patterns(
     url(r'^check-in/$', 'check_in', name='check_in'),
     url(r'^toggle-handed-out/$', 'toggle_handed_out', name='toggle_handed_out'),
     url(r'^check-in/(?P<token>\w+)/$', 'check_in_list', name='check_in_list'),
+    url(r'^check-in/(?P<token>\w+)/(?P<member_pk>\d+)$', 'check_in_list', name='check_in_list'),
 
     url(r'^register/(?P<token>\w+)/$', 'member_form', name='member_form'),
     url(r'^register/(?P<token>\w+)/add/$', 'add_member', name='add_member'),

@@ -13,7 +13,7 @@
             <th>Biljettyp</th>
         </tr>
     {% for member in members %}
-        <tr>
+        <tr{% if member.pk == member_pk %} id="highlight"{% endif %}>
             <td>{% if not member.ticket_handed_out %}
                 <button class="btn btn-small toggle_handed_out" data-member="{{ member.pk }}">Lämna ut</button>
             {% else %}
