@@ -1,0 +1,25 @@
+Hej!
+
+Jag vill ännu en gång rikta ett stort tack till dig för att du hjälper oss att göra SOF 2013 möjligt. Nu börjar det närma sig festival och här kommer lite mer information om vad som kommer hända innan och under festivaldagarna.
+
+{% if registrations %}Du är anmäld till följande pass:
+-----------------------------------------{% for r in registrations %}{% if r.shift.is_dummy %}
+{{ r.shift.shift_type }} (under hela festivalen){% else %}
+{{ r.shift.start|date:"l j F" }} {{ r.shift.start|date:"H:i" }}-{{ r.shift.end|date:"H:i" }} - {{ r.shift.shift_type }}{% endif %}{% endfor %}
+{% endif %}
+Om detta inte stämmer eller om du önskar byta pass kontakta funktionärsansvarig på funktionar@sof13.se
+
+Lördagen den 4 maj kommer vi hålla ett informationsmöte för alla funktionärer i C1 mellan klockan 15 och 17. Vi kommer, förutom att gå igenom upplägget för festivalen, även dela ut material ni behöver under era jobbpass och ni kommer även få chans att ställa frågor. Det är alltså viktigt att ni kommer dit.
+{% if not worker.has_meta_info %}
+Du har ännu inte fyllt i dokumentet med extra information som skickats ut. Vi ber dig göra det snarast.
+https://docs.google.com/forms/d/1nZ3zh1CP-rXgQyp8spAv23MUc2A9eJqDpPybNs9vaoE/viewform
+{% endif %}{% if not worker.contract_approved %}
+Det verkar som att du ännu inte har lämnat in något påskrivet funktionärsavtal. Vi sitter utanför C4 på luncherna under resten av v.16, efter det kommer det inte gå att skriva på kontraktet innan biljettutlämningen som börjar den 2 maj. Kom ihåg att du måste skriva på kontraktet för att kunna hämta ut din biljett.
+{% endif %}{% if worker.person_ptr.invoice_set.count == 0 %}
+Du har inte utnyttjat ditt förköp ännu. Du kan göra detta på http://apps.sof13.se/tickets/buy.{% endif %}
+
+Hoppas att ni är lika peppade inför SOF som vi är!
+
+
+Vänliga hälsningar
+Jenny Stenström, Personal-Info
