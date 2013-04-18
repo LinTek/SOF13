@@ -10,10 +10,11 @@
             <th>Namn</th>
             <th>Person-/födelsenr</th>
             <th>Boende</th>
+            <th>Sittning</th>
             <th>Biljettyp</th>
         </tr>
     {% for member in members %}
-        <tr{% if member.pk == member_pk %} id="highlight"{% endif %}>
+        <tr {% if member.pk == member_pk %}id="highlight"{% endif %}>
             <td>{% if not member.ticket_handed_out %}
                 <button class="btn btn-small toggle_handed_out" data-member="{{ member.pk }}">Lämna ut</button>
             {% else %}
@@ -24,6 +25,9 @@
             <td>{{ member.formatted_pid }}</td>
             <td>{% if member.needs_bed|boolify %}
                 <span class="label label-success">Boende</span>
+            {% endif %}</td>
+            <td>{% if member.attend_sitting|boolify %}
+                <span class="label label-info">Sittning</span>
             {% endif %}</td>
             <td>{{ member.get_ticket_type_display }}</td>
         </tr>
