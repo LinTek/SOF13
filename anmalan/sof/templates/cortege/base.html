@@ -1,0 +1,25 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Anmälan - SOF 2013</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+ </head>
+<body>
+
+<div class="container">
+    <img src="{% static "images/tutputten-logo-small.png" %}">
+    <h2>SOF 2013</h2>
+
+    {% block content %}{% endblock content %}
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script></div>
+</body>
+</html>
