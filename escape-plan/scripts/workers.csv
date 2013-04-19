@@ -1,3 +1,4 @@
+Timestamp,Namn,LiU-ID,Telefonnummer,Tröjstorlek,ICE-Nummer,Allergier/Specialkost,Övrigt
 2013-04-03 21.37.29,Tobias Fjellander,,0732196977,L,0701507873,,Kolla med meki och rasmus.
 2013-04-03 22.37.31,Emil Björkrot,emibj982,0762007499,L,0738395255,,
 2013-04-03 22.37.47,Hampus Andersson,haman442,0705432530,M,,,
@@ -74,7 +75,8 @@
 2013-04-04 14.46.16,Martin Hildbrand,marhi048,0734304747,XL,0707734372,Glutenfritt,
 2013-04-04 16.02.04,Elsa Danielsson ,Elsda674,0733999802,M,0733404081,,
 2013-04-04 16.03.33,Jonna Fleischanderl,Jonfl961,0707901770,M,0702161991,,
-2013-04-04 16.06.41,Linda Johansson,linjo504,0735933165,L,0706538019,"Laktosintollerant, Nötallergi",
+2013-04-04 16.06.41,Linda Johansson,linjo504,0735933165,L,0706538019,"Laktosintollerant
+Nötallergi",
 2013-04-04 16.26.17,Emma Villemoes,emmvi055,0736699368,M,0702673703,,
 2013-04-04 16.28.02,Sara Näslund ,sarna168,0735440482,S,,,
 2013-04-04 17.02.19,Alma Jonsson,almjo303,0706267904,M,,,
@@ -148,7 +150,8 @@
 2013-04-08 07.09.49,Victor Mässgård,vicma299,0730379200,L,070-5448882,,
 2013-04-08 07.29.34,Marcus Fallqvist,marfa861,0763407255,M,0763132451,,
 2013-04-08 07.49.34,Andreas Lindberg,andli905,0768448113,M,0706830133,,
-2013-04-08 08.38.31,Emelie Olofsson ,Emeol631,0707484497,S,0730520520,,"Jag blev nu osäker om jag skrivit på alla papper? Skrev på en massa då jag anmälde mig men min kompis gjorde mig nu osäker... Ska vara orkesterfadder"
+2013-04-08 08.38.31,Emelie Olofsson ,Emeol631,0707484497,S,0730520520,,"Jag blev nu osäker om jag skrivit på alla papper? Skrev på en massa då jag anmälde mig men min kompis gjorde mig nu osäker... Ska vara orkesterfadder
+"
 2013-04-08 09.12.29,Tova Nilsson,tovni751,0735656349,M,0706331283,,
 2013-04-08 09.43.23,Johan Lindskog,Johli442,0768240054,M,,,
 2013-04-08 11.03.40,Emma Olsson,emmol877,0767672023,S,0768832806,gluten,
@@ -191,8 +194,50 @@
 2013-04-14 20.36.09,Jenny Lysell,jenly330,0703884859,S,026134396,Vegetariskt,
 2013-04-14 20.38.45,Gullis Phung,gulph714,0737092046,S,0734098618,,
 2013-04-14 20.53.30,Sofia Werder,sofwe623,0730200047,M,,,
-2013-04-03 22.56.41,Arturs Gegeris,artge202,'+371 29161661,S,,,
-2013-04-04 00.04.10,Paul MARTINEZ-VALENTIN,pauma976,0738959585,M,'+33476592567,,
-2013-04-04 10.02.28,Pierre-louis Blete,piebl036,0765810324,M,,,
-2013-04-04 13.11.51,Nicolas Pionnier,nicpi725,0738959177,L,'+33631690933,,
-2013-04-11 15.09.37,Nadine Roettger,nadro859,0738956567,XS,,,
+2013-04-17 08.37.40,Filippa Pyk,filpy297,0703858889,S,0730919928,,
+2013-04-18 17.53.07,Andreas Lindblom,andli375,0708872373,M,,,Jag har ingen möjlighet att delta i informationsmötet den 4 maj då detta är samtidigt som ett event nere i Lund kallat Biobollen. 
+2013-04-18 17.53.53,Oskar Björk,oskbj439,0703822715,M,0705902069,,
+2013-04-18 17.54.00,Matilda Strömberg,matst583,0702094429,XXL,'+46 70-305 27 69,,
+2013-04-18 17.55.20,Mattias Köpsén,matko380,0706432624,L,,,
+2013-04-18 17.57.33,Johanna Jansson,johja071,0730877373,S,0707881655,,
+2013-04-18 18.02.07,Gustav Ekbäck ,gusek994,0705827027,M,0703359510,Tål inte svamp,
+2013-04-18 18.06.39,Johanna Alander,johal771,0703892364,L,0722214975,,
+2013-04-18 18.08.23,Henric Davidsson,henda274,0702378386,M,0768111186,Nej,Nej
+2013-04-18 18.09.26,Ebba Kihlberg,ebbki475,0735702782,M,0730597567,,
+2013-04-18 18.23.45,Malina Sundell ,malsu146,0739222816,S,0763190177,,
+2013-04-18 18.24.29,Erik Muncker,erimu532,0704352816,XL,,,
+2013-04-18 18.34.31,Malin Hansson ,malha930,0737292914,S,0737203450,,
+2013-04-18 18.37.58,Josefin Wallin ,Joswa300,0706500698,M,'+46 70-508 22 83,Nej,
+2013-04-18 18.37.58,Rasmus Magnell,rasma751,0762240175,M,0735040990,"Kiwi
+Jordnötter
+",
+2013-04-18 19.00.02,Jessica Fritzen,jesfr469,0766112723,L,0736362366,Ingen/,
+2013-04-18 19.10.18,joswa300,joswa300,0706500699,M,0705082283,,
+2013-04-18 19.15.46,Camilla Sandvik,camsa960,0702801830,L,,Mjölkprotein,
+2013-04-18 19.32.17,Elin Lager,elila576,07366397+0,M,0704617348,,
+2013-04-18 19.36.37,Rasmus Asklud ,rasas975,0739862680,M,0706476178,,
+2013-04-18 19.43.09,Anna Karlsson,annka171,0735862667,L,,nötter,
+2013-04-18 19.45.38,Andreas Wenström,andwe488,0739398912,M,0702902023,-,-
+2013-04-18 19.58.03,Pontus Andersson,ponan765,0706827732,L,707750127,Laktos intolerant,
+2013-04-18 20.44.19,Klara Palmér,klapa397,0702945177,S,0485-12946,,
+2013-04-18 21.36.35,Lukas Andersson,lukan949,0734201979,M,,,
+2013-04-18 21.37.10,Tove Bjureflo,,0736006412,M,0708591863,,
+2013-04-18 22.02.17,Hanna Berg,hanbe086,0703336361,S,0702717243,,
+2013-04-18 22.35.51,Lova Strandesjö,Lovst948,0739247531,S,0702580874,Vegetarian. ,
+2013-04-18 22.37.07,Oscar Nordahl,oscno266,0706955558,L,0737387085,Vegetarian,
+2013-04-18 23.31.46,Freja Fagerblom,frefa105,0738099747,S,0706426213,,
+2013-04-18 23.48.07,Rasmus Mathsien,rasma237,0761725001,L,0733253301,Nej,Nej
+2013-04-19 00.56.06,Nicholas Ahonen,nicah601,0707762992,L,0739864992,-,-
+2013-04-19 01.05.40,Kalle Broberg,kalbr277,0762946477,M,0737615703,Getingar,
+2013-04-19 04.57.33,Anna Westin,annwe936,0735394177,XL,076-398 30 97,"Skaldjur, fisk och ärtor",
+2013-04-19 07.39.36,Elin Straume,elist808,0722184107,M,0733999267,,
+2013-04-19 09.29.56,Maria Hedvall,marhe040,0703921997,XS,0703619142,Allergisk mot ägg och hasselnöt,
+2013-04-19 11.14.39,Lovisa Annerwall,lovan454,0768-54 86 56,S,0706655588,-,-
+2013-04-19 11.51.42,Hannes Snögren,hansn314,0706265064,M,0703998411,Inget,
+2013-04-19 12.35.41,Gunilla Karlsson,gunka463,0733890999,M,0768065209/ 0734131850,,
+2013-04-19 13.16.48,adriana Milicevic ,Adrmi314,0730526242,M,013154816,,
+2013-04-19 16.31.44,Oliver Cedenheim,olice488,0703870320,L,,,
+2013-04-19 17.13.09,Madeleine Bergström,madbe137,073-6292832,M,,,
+2013-04-19 19.39.29,Jakob Bergsten,jakbe117,073 8454650,L,0491 83239,,
+2013-04-19 19.43.39,Jonas Tarassu,jonta760,0705738583,M,,,
+2013-04-19 21.02.56,Sandra Gustavsson,sangu029,0760441951,M,0734188906,,
