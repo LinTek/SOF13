@@ -125,10 +125,12 @@ def workers_by_type(request):
     shift_types = ShiftType.objects.order_by('name')
 
     for shift_type in shift_types:
-        shift_type.registrations = (WorkerRegistration.objects
-                                    .filter(shift__shift_type=shift_type)
-                                    .select_related('worker')
-                                    .order_by('worker__first_name', 'worker__last_name'))
+        regs = (WorkerRegistration.objects
+                .filter(shift__shift_type=shift_type)
+                .select_related('worker')
+                .order_by('worker__first_name', 'worker__last_name'))
+        seen = set()
+        shift_type.workers = [r.worker for r in regs if not r.worker in seen and not seen.add(r.worker)]
 
     return render(request, 'functionary/list_by_type.html',
                   {'shift_types': shift_types})
