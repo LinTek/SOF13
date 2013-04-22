@@ -3,15 +3,16 @@ Hej,
 Detta är en faktura från SOF 2013.
 
 Fakturaspecifikation:
+
 {{ invoice.specification }}
 
 Totalpris:               {{ invoice.total_price|floatformat:2 }} kr
 
-Använd nedanstående uppgifter för att betala köpet:
+Använd nedanstående uppgifter för att betala fakturan:
 
-Bankgironummer:       515-1493
-Förfallodatum:        {{ invoice.due_date|date:"Y-m-d" }}
-Meddelande:           {{ invoice.ocr }}
+Bankgironummer:        515-1493
+Förfallodatum:         {{ invoice.due_date|date:"Y-m-d" }}
+OCR-nummer/meddelande: {{ invoice.ocr }}
 
 Detta mail går inte att svara på. Vid frågor angående fakturan, kontakta
 Sofia Andersson <sofia.andersson@sof13.se>.
