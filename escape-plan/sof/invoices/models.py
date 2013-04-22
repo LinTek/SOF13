@@ -99,6 +99,11 @@ class SpecialInvoice(models.Model):
     def __unicode__(self):
         return unicode(self.ocr)
 
+    def send_as_email(self):
+        send_mail('invoices/mail/invoice_special', [self.person.email], {'invoice': self})
+        self.denormalized_total_price = self.total_price
+        self.save()
+
 
 class Payment(models.Model):
     class Meta:

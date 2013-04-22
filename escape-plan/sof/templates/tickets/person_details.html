@@ -129,6 +129,13 @@
     </div>
 
     <a class="btn" href="{% url "set_handed_out_special" invoice.pk %}"><i class="icon-ok"></i> Markera som utlämnad</a><br>
+    {% if perms.tickets.add_invoice %}
+    <p></p>
+    <div class="alert alert-block alert-warning">
+        <h4>Danger Zone&#0153;</h4>
+        <a class="btn btn-small" href="{% url "send_email_special" invoice.pk %}"><i class="icon-envelope"></i> Skicka via e-post</a>
+    </div>
+    {% endif %}
 {% endfor %}
 
 <hr>

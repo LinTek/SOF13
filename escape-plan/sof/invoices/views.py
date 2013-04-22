@@ -54,6 +54,15 @@ def send_email(request, pk):
 
 
 @login_required
+@permission_required('tickets.add_invoice')
+def send_email_special(request, pk):
+    invoice = get_object_or_404(SpecialInvoice, pk=pk)
+    invoice.send_as_email()
+
+    return redirect('person_details', pk=invoice.person.pk)
+
+
+@login_required
 @transaction.commit_on_success
 def add_trappan(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)

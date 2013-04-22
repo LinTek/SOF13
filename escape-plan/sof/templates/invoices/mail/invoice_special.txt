@@ -1,0 +1,20 @@
+Hej,
+
+Detta är en faktura från SOF 2013.
+
+Fakturaspecifikation:
+{{ invoice.specification }}
+
+Totalpris:               {{ invoice.total_price|floatformat:2 }} kr
+
+Använd nedanstående uppgifter för att betala köpet:
+
+Bankgironummer:       515-1493
+Förfallodatum:        {{ invoice.due_date|date:"Y-m-d" }}
+Meddelande:           {{ invoice.ocr }}
+
+Detta mail går inte att svara på. Vid frågor angående fakturan, kontakta
+Sofia Andersson <sofia.andersson@sof13.se>.
+
+Med vänliga hälsningar,
+Biljettansvarig SOF 2013
