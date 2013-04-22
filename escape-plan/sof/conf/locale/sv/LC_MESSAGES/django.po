@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-15 23:00+0200\n"
-"PO-Revision-Date: 2013-04-15 23:00+0100\n"
-"Last-Translator: Niclas Olofsson <n@niclasolofsson.se>\n"
+"POT-Creation-Date: 2013-04-22 10:29+0200\n"
+"PO-Revision-Date: 2013-04-22 10:30+0100\n"
+"Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -177,17 +177,17 @@ msgstr "funktionärsregistreringar"
 msgid "approved"
 msgstr "närvarande"
 
-#: functionary/views.py:175
+#: functionary/views.py:195
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:187
+#: functionary/views.py:207
 #: tickets/views.py:149
-#: tickets/views.py:303
+#: tickets/views.py:310
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:190
+#: functionary/views.py:210
 #: tickets/views.py:155
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
@@ -325,12 +325,13 @@ msgid "handed out"
 msgstr "utlämnad"
 
 #: tickets/views.py:146
+#: tickets/views.py:304
 msgid "This ticket type is sold out"
-msgstr "Denna biljettyp är slutsåld"
+msgstr "Någon av de valda biljettyperna är slutsåld"
 
 #: tickets/views.py:152
-#: tickets/views.py:300
-#: tickets/views.py:351
+#: tickets/views.py:307
+#: tickets/views.py:358
 msgid "An invoice already exist for this person"
 msgstr "En faktura finns redan för denna person"
 
@@ -343,7 +344,7 @@ msgstr "Personen hittades inte"
 msgid "The current invoice holder has multiple invoices and someone was too lazy to implement support for that"
 msgstr "Nuvarande fakturainnehavare har flera fakturor, vilket någon var för lat för att implementera stöd för..."
 
-#: tickets/views.py:348
+#: tickets/views.py:355
 msgid "The functionary was not found"
 msgstr "Personen kunde inte hittas"
 

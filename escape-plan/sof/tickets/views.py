@@ -288,13 +288,20 @@ def public_sell(request):
             ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
 
             for ticket_type_id in ticket_type_ids:
-                Ticket.objects.create(invoice=invoice,
-                                      ticket_type_id=ticket_type_id)
+                ticket_type = TicketType.objects.select_for_update().get(pk=ticket_type_id)
+
+                if ticket_type.ticket_set.count() >= ticket_type.max_amount:
+                    raise TicketSoldOut()
+
+                Ticket.objects.create(invoice=invoice, ticket_type=ticket_type)
             invoice.send_verify_email()
 
             success = True
             liu_id_form = LiuIDForm()
             ticket_type_form = PublicTicketTypeForm()
+
+        except TicketSoldOut:
+            error = _('This ticket type is sold out')
 
         except InvoiceExists:
             error = _('An invoice already exist for this person')
