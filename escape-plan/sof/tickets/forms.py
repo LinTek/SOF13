@@ -28,9 +28,6 @@ class TicketTypeForm(forms.Form):
         self.fields['ticket_type'].choices = [(choice.pk, unicode(choice))
                                               for choice in ticket_types]
 
-        if ticket_types:
-            self.fields['ticket_type'].initial = ticket_types[0].pk
-
     ticket_type = forms.MultipleChoiceField(required=True,
                                             widget=CheckboxSelectMultiple,
                                             label=_('Ticket type'))
