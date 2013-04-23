@@ -15,13 +15,19 @@
         </tr>
     {% for member in members %}
         <tr {% if member.pk == member_pk %}id="highlight"{% endif %}>
+            {% if member.unregistered %}
+                <span class="label label-warning">Avregistrerad</span>
+            {% else %}
+
             <td>{% if not member.ticket_handed_out %}
                 <button class="btn btn-small toggle_handed_out" data-member="{{ member.pk }}">Lämna ut</button>
             {% else %}
                 <button class="btn btn-small btn-danger toggle_handed_out" data-member="{{ member.pk }}">Utlämnad</button>
             {% endif %}</td>
 
-            <td>{{ member }}{% if member.unregistered %} <span class="label label-warning">Avregistrerad</span>{% endif %}</td>
+            {% endif %}
+
+            <td>{{ member }}</td>
             <td>{{ member.formatted_pid }}</td>
             <td>{% if member.needs_bed|boolify %}
                 <span class="label label-success">Boende</span>

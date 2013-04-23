@@ -23,8 +23,8 @@
             <td>{{ member.get_gadgets_display }}</td>
             <td><b>{{ member.get_attends_display }}</b>
                 {% if member.late_registration %} <span class="label label-important">Sen anmälan</span>{% endif %}
-                {% if member.multiple_orchestras %} <span class="label label-info">Flera orkestrar</span>{% endif %}</td>
-                {% if member.unregistered %} <span class="label label-warning">Avregistrerad</span>{% endif %}
+                {% if member.multiple_orchestras %} <span class="label label-info">Flera orkestrar</span>{% endif %}
+                {% if member.unregistered %} <span class="label label-warning">Avregistrerad</span>{% endif %}</td>
         </tr>
     {% endfor %}
     </table>
