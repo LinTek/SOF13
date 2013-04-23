@@ -83,7 +83,7 @@ with open('non_students.csv', 'rb') as csvfile:
             continue
 
         person.save()
-        ' '.join((first_name, last_name))
+        print ' '.join((first_name, last_name))
 
         invoice = Invoice(person=person, is_verified=True)
         invoice.generate_data()
