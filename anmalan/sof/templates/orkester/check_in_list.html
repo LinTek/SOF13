@@ -21,7 +21,7 @@
                 <button class="btn btn-small btn-danger toggle_handed_out" data-member="{{ member.pk }}">Utlämnad</button>
             {% endif %}</td>
 
-            <td>{{ member }}</td>
+            <td>{{ member }}{% if member.unregistered %} <span class="label label-warning">Avregistrerad</span>{% endif %}</td>
             <td>{{ member.formatted_pid }}</td>
             <td>{% if member.needs_bed|boolify %}
                 <span class="label label-success">Boende</span>

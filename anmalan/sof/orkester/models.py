@@ -261,6 +261,8 @@ class Member(models.Model):
     late_registration = models.BooleanField("Sen registrering",
                                             default=False, blank=True)
 
+    unregistered = models.BooleanField("Avanmäld", default=False)
+
     t_shirt = models.BooleanField("T-shirt (100 kr)")
     t_shirt_size = models.CharField("Storlek T-shirt",
                                     choices=TSHIRT_SIZES, max_length=5,
