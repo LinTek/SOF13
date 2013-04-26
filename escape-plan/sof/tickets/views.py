@@ -1,5 +1,6 @@
 # encoding: utf-8
 import json
+import datetime
 
 from django.db import transaction
 from django.db.models import Count
@@ -368,6 +369,10 @@ def confirm(request, token):
 
     if not invoice.is_verified:
         invoice.is_verified = True
+
+        # For people which confirms old invoices
+        if invoice.due_date < datetime.date.today() + datetime.timedelta(days=7):
+            invoice.due_date = datetime.date.today() + datetime.timedelta(days=7)
         invoice.save()
 
         for ticket in invoice.ticket_set.all():

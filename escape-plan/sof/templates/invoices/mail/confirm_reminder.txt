@@ -1,0 +1,17 @@
+Hej,
+
+För en tid sedan registrerades ett köp av biljett till SOF 2013 med ditt LiU-id.
+Vi har ännu inte fått någon bekräftelse på köpet från dig. Köpet har därmed
+inte gått igenom ännu, och någon annan kan fortfarande köpa din biljett.
+
+Beställningens innehåll:
+{% for ticket in invoice.ticket_set.all %}{{ ticket.ticket_type }}
+{% endfor %}
+För att bekräfta ditt köp av biljett till SOF 2013, klicka på länken nedan.
+http://apps.sof13.se{% url "confirm" token=invoice.token %}
+
+Vänligen bortse från detta meddelande om du inte önskar köpa någon biljett
+till SOF 2013. Obekräftade köp kommer att tas bort från systemet.
+
+Med vänliga hälsningar,
+Biljettansvarig SOF 2013
