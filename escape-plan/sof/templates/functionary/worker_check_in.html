@@ -16,7 +16,6 @@
             <th></th>
             <th>Namn</th>
             <th>Telefon</th>
-            <th><abbr title="Telefonnummer till anhörig">ICE-nummer</abbr></th>
             <th><abbr title="T-shirtstorlek">Storlek</abbr></th>
             <th>Avtal inlämnat</th>
         </tr>
@@ -26,7 +25,6 @@
                 <td class="check_in_status">{% check_in_status r %}</td>
                 <td>{{ r.worker }}</td>
                 <td>{{ r.worker.phone_number }}</td>
-                <td>{{ r.worker.ice_number }}</td>
                 <td>{{ r.worker.tshirt_size }}</td>
                 <td>
                     {% if r.worker.contract_approved %}
