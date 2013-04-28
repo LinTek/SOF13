@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load shift_extras %}
+
+{% block content %}
+    {% for day in dates %}
+        <a href="{% url "worker_check_in" day %}">{{ day|date:"l"|title }}</a> |
+    {% endfor %}
+
+    <table class="table table-striped">
+    {% for shift, registrations in shifts %}
+        <tr>
+            <th colspan="7"><h4>{{ shift }}</h4></th>
+        </tr>
+
+        <tr>
+            <th></th>
+            <th>Namn</th>
+            <th>Telefon</th>
+            <th><abbr title="Telefonnummer till anhörig">ICE-nummer</abbr></th>
+            <th><abbr title="T-shirtstorlek">Storlek</abbr></th>
+            <th>Avtal inlämnat</th>
+        </tr>
+
+        {% for r in registrations %}
+            <tr>
+                <td class="check_in_status">{% check_in_status r %}</td>
+                <td>{{ r.worker }}</td>
+                <td>{{ r.worker.phone_number }}</td>
+                <td>{{ r.worker.ice_number }}</td>
+                <td>{{ r.worker.tshirt_size }}</td>
+                <td>
+                    {% if r.worker.contract_approved %}
+                        <span class="label label-success">Inlämnat</span>
+                    {% else %}
+                        <span class="label label-important">Ej inlämnat</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+    </table>
+{% endblock content %}

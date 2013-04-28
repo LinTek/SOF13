@@ -1,5 +1,6 @@
 # encoding: utf-8
 import json
+import datetime
 from itertools import groupby
 
 from django.db import transaction
@@ -20,6 +21,10 @@ from .forms import SearchForm, AddWorkerForm
 
 def _group_by_type(lst):
     return [(key, list(shifts)) for key, shifts in groupby(lst, key=lambda shift: shift.shift_type)]
+
+
+def _group_by_shift(lst):
+    return [(key, list(regs)) for key, regs in groupby(lst, key=lambda r: r.shift)]
 
 
 def login(request, **kwargs):
@@ -134,6 +139,58 @@ def workers_by_type(request):
 
     return render(request, 'functionary/list_by_type.html',
                   {'shift_types': shift_types})
+
+
+@login_required
+@permission_required('auth.add_user')
+def worker_check_in(request, date=None):
+    dates = sorted(set(s.start.date() for s in Shift.objects.all()))
+
+    if date:
+        try:
+            date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+        except ValueError:
+            raise Http404
+
+        if not date in dates:
+            raise Http404
+
+    registrations = (WorkerRegistration.objects
+                     .select_related('worker', 'shift', 'shift__shift_type')
+                     .order_by('shift__start', 'shift__end', 'shift__id'))
+
+    if date:
+        registrations = registrations.filter(shift__start__day=date.day, shift__start__month=date.month, shift__start__year=date.year)
+
+    shifts = _group_by_shift(list(registrations))
+
+    for shift, regs in shifts:
+        regs.sort(key=lambda r: (r.worker.first_name, r.worker.last_name))
+
+    return render(request, 'functionary/worker_check_in.html',
+                  {'shifts': shifts, 'dates': dates})
+
+
+@login_required
+@permission_required('auth.add_user')
+def toggle_checked_in(request):
+    r = get_object_or_404(WorkerRegistration, pk=request.POST.get('registration', 0))
+    r.checked_in = (not r.checked_in)
+
+    if r.checked_out:
+        r.checked_out = False
+
+    r.save()
+    return render(request, 'functionary/partials/check_in_status.html', {'r': r})
+
+
+@login_required
+@permission_required('auth.add_user')
+def toggle_checked_out(request):
+    r = get_object_or_404(WorkerRegistration, pk=request.POST.get('registration', 0))
+    r.checked_out = (not r.checked_out)
+    r.save()
+    return render(request, 'functionary/partials/check_in_status.html', {'r': r})
 
 
 @login_required

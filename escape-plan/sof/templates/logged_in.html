@@ -6,18 +6,25 @@
 {% block content %}
 
 {% if perms.auth.add_user %}
-    <a href="{% url "search" %}" class="btn">Sök funktionär</a>
-    <a href="{% url "list_workers" %}" class="btn">Alla funktionärer</a>
-    <a href="{% url "workers_by_type" %}" class="btn">Efter typ</a><br>
+    <h4>Funktionärer</h4>
+    <ul>
+        <li><a href="{% url "search" %}">Sök funktionär</a></li>
+        <li><a href="{% url "list_workers" %}">Alla funktionärer</a></li>
+        <li><a href="{% url "workers_by_type" %}">Lista efter typ</a></li>
+        <li><a href="{% url "worker_check_in" %}">Incheckning</a></li>
+    </ul>
 {% endif %}
 
+<h4>Biljetter och ekonomi</h4>
+<ul>
 {% if perms.tickets.add_ticket %}
-    <a href="{% url "ticket_sell" %}" class="btn">Biljetter</a>
+    <li><a href="{% url "ticket_sell" %}">Biljetter</a></li>
 {% endif %}
 
 {% if perms.tickets.add_invoice %}
-    <a href="{% url "invoice_list" %}" class="btn">Fakturor</a>
-    <a href="{% url "stats" %}" class="btn">Blandad statistik</a>
+    <li><a href="{% url "invoice_list" %}">Fakturor</a></li>
+    <li><a href="{% url "stats" %}">Blandad statistik</a></li>
 {% endif %}
+</ul>
 
 {% endblock %}

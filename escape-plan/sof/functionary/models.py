@@ -196,7 +196,8 @@ class WorkerRegistration(models.Model):
 
     worker = models.ForeignKey(Worker)
     shift = models.ForeignKey(Shift)
-    approved = models.BooleanField(_('approved'), default=False)
+    checked_in = models.BooleanField(_('checked_in'), default=False)
+    checked_out = models.BooleanField(_('checked_out'), default=False)
 
     def __unicode__(self):
         return '%s @ %s' % (unicode(self.worker), unicode(self.shift))
