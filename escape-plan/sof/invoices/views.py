@@ -4,6 +4,7 @@ from django.db import transaction
 from django.db.models import Sum, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse
 
 from sof.functionary.models import Worker, Person
 
@@ -31,7 +32,7 @@ def set_handed_out(request, pk):
         ticket.is_handed_out = True
         ticket.save()
 
-    return redirect('person_details', pk=invoice.person.pk)
+    return redirect("%s#existing" % reverse('ticket_sell'))
 
 
 @login_required

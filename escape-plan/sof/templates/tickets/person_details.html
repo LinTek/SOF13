@@ -71,8 +71,10 @@
     </dl>
 
     <div>
+        {% if not invoice.is_handed_out %}
         <a class="btn" href="{% url "set_handed_out" invoice.pk %}"><i class="icon-ok"></i> Markera som utlämnad</a>
         <a class="btn" href="{% url "add_trappan" invoice.pk %}"><i class="icon-plus"></i> Lägg till trappan-fest</a>
+        {% endif %}
     </div>
 
     {% if perms.tickets.add_invoice %}
