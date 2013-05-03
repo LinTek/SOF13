@@ -145,6 +145,8 @@ class Worker(Person):
 
     welcome_email_sent = models.BooleanField(_('welcome email sent'), default=False, blank=True)
     contract_approved = models.BooleanField(_('contract approved'), default=False, blank=True)
+    attended_info_meeting = models.BooleanField(_('attended info meeting'), default=False, blank=True)
+    fetched_merchandise = models.BooleanField(_('fetched merchandise'), default=False, blank=True)
     super_worker = models.BooleanField(_('super worker'), default=False, blank=True)
     orchestra_worker = models.BooleanField(_('orchestra worker'), default=False, blank=True)
 

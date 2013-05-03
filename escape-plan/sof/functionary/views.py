@@ -118,10 +118,11 @@ def list_workers(request):
 
     no_contract = workers.filter(contract_approved=False)
     no_meta_info = workers.filter(has_meta_info=False)
+    no_meeting = workers.filter(attended_info_meeting=False)
 
     return render(request, 'functionary/list.html',
                   {'workers': workers, 'no_contract': no_contract,
-                   'no_meta_info': no_meta_info})
+                   'no_meta_info': no_meta_info, 'no_meeting': no_meeting})
 
 
 @login_required
@@ -175,7 +176,7 @@ def worker_check_in(request, date=None):
 @login_required
 @permission_required('auth.add_user')
 def toggle_checked_in(request):
-    r = get_object_or_404(WorkerRegistration, pk=request.POST.get('registration', 0))
+    r = get_object_or_404(WorkerRegistration, pk=request.POST.get('pk', 0))
     r.checked_in = (not r.checked_in)
 
     if r.checked_out:
@@ -188,10 +189,28 @@ def toggle_checked_in(request):
 @login_required
 @permission_required('auth.add_user')
 def toggle_checked_out(request):
-    r = get_object_or_404(WorkerRegistration, pk=request.POST.get('registration', 0))
+    r = get_object_or_404(WorkerRegistration, pk=request.POST.get('pk', 0))
     r.checked_out = (not r.checked_out)
     r.save()
     return render(request, 'functionary/partials/check_in_status.html', {'r': r})
+
+
+@login_required
+@permission_required('auth.add_user')
+def toggle_info_meeting(request):
+    w = get_object_or_404(Worker, pk=request.POST.get('pk', 0))
+    w.attended_info_meeting = (not w.attended_info_meeting)
+    w.save()
+    return render(request, 'functionary/partials/info_meeting_status.html', {'worker': w})
+
+
+@login_required
+@permission_required('auth.add_user')
+def toggle_merchandise(request):
+    w = get_object_or_404(Worker, pk=request.POST.get('pk', 0))
+    w.fetched_merchandise = (not w.fetched_merchandise)
+    w.save()
+    return render(request, 'functionary/partials/merchandise_status.html', {'worker': w})
 
 
 @login_required

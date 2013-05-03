@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load shift_extras %}
 
 {% block content %}
 <h3>Funktionärer med minst ett pass <small>| {{ workers|length }} st</small></h3>
@@ -7,18 +8,21 @@
         <th>Namn</th>
         <th>E-post</th>
         <th>Telefon</th>
-        <th><abbr title="Telefonnummer till anhörig">ICE-nummer</abbr></th>
         <th><abbr title="T-shirtstorlek">Storlek</abbr></th>
         <th>Specialkost</th>
-        <th>Avtal inlämnat</th>
+        <th>Avtal</th>
+        <th>Infomöte</th>
+        <th>Prylar</th>
         <th></th>
     </tr>
     {% for worker in workers %}
     <tr>
-        <td><a href="{% url "add_registrations" worker_id=worker.pk %}">{{ worker.get_full_name }}</a></td>
+        <td>
+            <a href="{% url "add_registrations" worker_id=worker.pk %}">{{ worker.get_full_name }}</a>
+            {% if worker.other %}<p>{{ worker.other }}</p>{% endif %}
+        </td>
         <td>{{ worker.email }}</td>
         <td>{{ worker.phone_number }}</td>
-        <td>{{ worker.ice_number }}</td>
         <td>{{ worker.tshirt_size }}</td>
         <td>{{ worker.allergies }}</td>
         <td>
@@ -27,6 +31,12 @@
             {% else %}
                 <span class="label label-important">Ej inlämnat</span>
             {% endif %}
+        </td>
+        <td>
+            {% info_meeting_status worker %}
+        </td>
+        <td>
+            {% merchandise_status worker %}
         </td>
         <td>
             {% if worker.super_worker %}
@@ -48,6 +58,11 @@
 <h4>Funktionärer med pass, ej ifyllt formulär <small>| {{ no_meta_info|length }} st</small></h4>
 <textarea>
 {% for worker in no_meta_info %}{{ worker }} &lt;{{ worker.email }}&gt;, {% endfor %}
+</textarea>
+
+<h4>Funktionärer med pass, ej infomöte <small>| {{ no_meeting|length }} st</small></h4>
+<textarea>
+{% for worker in no_meeting %}{{ worker }} &lt;{{ worker.email }}&gt;, {% endfor %}
 </textarea>
 
 {% endblock content %}

@@ -13,6 +13,8 @@ urlpatterns = patterns(
 
     url(r'^toggle-checked-in/$', 'toggle_checked_in', name='toggle_checked_in'),
     url(r'^toggle-checked-out/$', 'toggle_checked_out', name='toggle_checked_out'),
+    url(r'^toggle-info-meeting/$', 'toggle_info_meeting', name='toggle_info_meeting'),
+    url(r'^toggle-merchandise/$', 'toggle_merchandise', name='toggle_merchandise'),
 
     url(r'^add-registrations/(?P<worker_id>\d+)$', 'add_registrations',
         name='add_registrations'),
