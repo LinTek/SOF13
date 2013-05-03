@@ -21,6 +21,10 @@
     margin-top: 10px;
 }
 
+.table th p {
+    font-weight: normal;
+}
+
 ul {
     list-style-type: none;
     margin-bottom: 0;

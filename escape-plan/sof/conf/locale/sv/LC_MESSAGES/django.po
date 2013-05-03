@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-28 19:03+0200\n"
-"PO-Revision-Date: 2013-04-28 19:03+0100\n"
-"Last-Translator: Niclas Olofsson <n@niclasolofsson.se>\n"
+"POT-Creation-Date: 2013-05-03 15:14+0200\n"
+"PO-Revision-Date: 2013-05-03 15:14+0100\n"
+"Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "LiU-ID or card number"
 msgstr "LiU-ID eller kortnummer"
 
 #: functionary/forms.py:19
-#: functionary/models.py:102
+#: functionary/models.py:103
 msgid "LinTek member"
 msgstr "LinTek-medlem"
 
@@ -69,129 +69,133 @@ msgstr "sluttid"
 msgid "max workers"
 msgstr "max antal funktionärer"
 
-#: functionary/models.py:77
+#: functionary/models.py:76
+msgid "note"
+msgstr "notering"
+
+#: functionary/models.py:78
 msgid "dummy shift"
 msgstr "dummypass"
 
-#: functionary/models.py:93
+#: functionary/models.py:94
 msgid "person"
 msgstr "person"
 
-#: functionary/models.py:94
+#: functionary/models.py:95
 msgid "persons"
 msgstr "personer"
 
-#: functionary/models.py:97
+#: functionary/models.py:98
 msgid "first name"
 msgstr "förnamn"
 
-#: functionary/models.py:98
+#: functionary/models.py:99
 msgid "last name"
 msgstr "efternamn"
 
-#: functionary/models.py:99
+#: functionary/models.py:100
 msgid "email"
 msgstr "e-postadress"
 
-#: functionary/models.py:101
+#: functionary/models.py:102
 msgid "personal identification number"
 msgstr "personnummer"
 
-#: functionary/models.py:103
+#: functionary/models.py:104
 msgid "RFID number"
 msgstr "RFID-nummer"
 
-#: functionary/models.py:104
+#: functionary/models.py:105
 msgid "barcode number"
 msgstr "streckkodsnummer"
 
-#: functionary/models.py:105
+#: functionary/models.py:106
 msgid "LiU ID"
 msgstr "LiU ID"
 
-#: functionary/models.py:126
+#: functionary/models.py:127
 msgid "visitor"
 msgstr "besökare"
 
-#: functionary/models.py:127
+#: functionary/models.py:128
 msgid "visitors"
 msgstr "besökare"
 
-#: functionary/models.py:141
+#: functionary/models.py:142
 msgid "worker"
 msgstr "funktionär"
 
-#: functionary/models.py:142
+#: functionary/models.py:143
 msgid "workers"
 msgstr "funktionärer"
 
-#: functionary/models.py:145
+#: functionary/models.py:146
 msgid "welcome email sent"
 msgstr "välkomstmail skickat"
 
-#: functionary/models.py:146
+#: functionary/models.py:147
 msgid "contract approved"
 msgstr "kontrakt påskrivet"
 
-#: functionary/models.py:147
+#: functionary/models.py:148
 msgid "super worker"
 msgstr "superfunktionär"
 
-#: functionary/models.py:148
+#: functionary/models.py:149
 msgid "orchestra worker"
 msgstr "orkesterfadder"
 
-#: functionary/models.py:150
+#: functionary/models.py:151
 msgid "has meta info"
 msgstr "fyllt i infoformulär"
 
-#: functionary/models.py:151
+#: functionary/models.py:152
 msgid "phone number"
 msgstr "telefonnummer"
 
-#: functionary/models.py:152
+#: functionary/models.py:153
 msgid "t-shirt size"
 msgstr "t-shirtstorlek"
 
-#: functionary/models.py:153
+#: functionary/models.py:154
 msgid "ICE number"
 msgstr "telefonnummer anhörig"
 
-#: functionary/models.py:154
+#: functionary/models.py:155
 msgid "allergies"
 msgstr "specialkost"
 
-#: functionary/models.py:155
+#: functionary/models.py:156
 msgid "other"
 msgstr "övrigt"
 
-#: functionary/models.py:194
+#: functionary/models.py:195
 msgid "worker registration"
 msgstr "funktionärsregistrering"
 
-#: functionary/models.py:195
+#: functionary/models.py:196
 msgid "worker registrations"
 msgstr "funktionärsregistreringar"
 
-#: functionary/models.py:199
+#: functionary/models.py:200
 msgid "checked in"
 msgstr "incheckad"
 
-#: functionary/models.py:200
+#: functionary/models.py:201
 msgid "checked out"
 msgstr "utcheckad"
 
-#: functionary/views.py:252
+#: functionary/views.py:253
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:264
+#: functionary/views.py:265
 #: tickets/views.py:150
 #: tickets/views.py:311
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:267
+#: functionary/views.py:268
 #: tickets/views.py:156
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"

@@ -73,6 +73,7 @@ class Shift(models.Model):
     max_workers = models.PositiveSmallIntegerField(_('max workers'))
     shift_type = models.ForeignKey('ShiftType')
     shift_sub_type = models.ForeignKey('ShiftSubType', null=True, blank=True)
+    note = models.CharField(_('note'), max_length=200, blank=True)
     responsible_person = models.ForeignKey(User, null=True, blank=True)
     is_dummy = models.BooleanField(_('dummy shift'), default=False, blank=True)
 

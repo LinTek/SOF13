@@ -9,7 +9,11 @@
     <table class="table table-striped">
     {% for shift, registrations in shifts %}
         <tr>
-            <th colspan="7"><h4>{{ shift }}</h4></th>
+            <th colspan="7">
+                <h4>{{ shift }}{% if shift.shift_sub_type %}<small> | {{ shift.shift_sub_type }}</small>{% endif %}</h4>
+                {% if shift.note %}{{ shift.note }}{% endif %}
+                <p><i>{% if shift.responsible_person %}{{ shift.responsible_person.get_full_name }}{% else %}Ingen ansvarig</i></p>{% endif %}
+            </th>
         </tr>
 
         <tr>

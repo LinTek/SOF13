@@ -156,7 +156,8 @@ def worker_check_in(request, date=None):
             raise Http404
 
     registrations = (WorkerRegistration.objects
-                     .select_related('worker', 'shift', 'shift__shift_type')
+                     .select_related('worker', 'shift', 'shift__shift_type',
+                                     'shift__shift_sub_type')
                      .order_by('shift__start', 'shift__end', 'shift__id'))
 
     if date:
