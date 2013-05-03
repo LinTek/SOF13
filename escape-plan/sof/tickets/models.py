@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from sof.utils.email import send_mail
 from sof.utils.forms import format_kobra_pid
+from sof.functionary.models import Person
 
 from sof.invoices.models import Invoice
 
@@ -44,6 +45,8 @@ class Ticket(models.Model):
     ticket_type = models.ForeignKey(TicketType)
     sell_date = models.DateTimeField(auto_now_add=True)
     invoice = models.ForeignKey(Invoice)
+    person = models.ForeignKey(Person, null=True)
+
     is_handed_out = models.BooleanField(_('handed out'), default=False, blank=True)
     is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
 
