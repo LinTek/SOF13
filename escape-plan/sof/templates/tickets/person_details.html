@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load ticket_status %}
+{% load shift_extras %}
 {% load crispy_forms_tags %}
 
 {% block title %} - Biljettsläpp{% endblock %}
@@ -38,6 +39,13 @@
             {% else %}
                 <span class="label label-important">Ej inlämnat</span>
             {% endif %}</dd>
+
+        <dt>T-shirtstorlek</dt>
+        <dd>{{ person.tshirt_size }}</dd>
+
+        <dt>Prylar</dt>
+        <dd>{% merchandise_status person %}</dd>
+
     {% endif %}
 </dl>
 
