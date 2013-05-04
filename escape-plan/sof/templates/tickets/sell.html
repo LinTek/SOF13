@@ -40,7 +40,7 @@
 
         <ul>
         {% for ticket in latest_tickets %}
-            <li>{{ ticket.ticket_type }} - <b>{{ ticket.invoice.person }}</b> ({{ ticket.sell_date|timesince }} sedan)</li>
+            <li>{{ ticket.ticket_type }} - <b>{{ ticket.person }}</b> ({{ ticket.sell_date|timesince }} sedan)</li>
         {% endfor %}
         </ul>
     </div>

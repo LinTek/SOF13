@@ -34,20 +34,44 @@
         <dd>{{ person.job_count }} st</dd>
 
         <dt>Funktionärsavtal</dt>
-        <dd>{% if person.contract_approved %}
+        <dd>
+            {% if person.contract_approved %}
                 <span class="label label-success">Inlämnat</span>
             {% else %}
                 <span class="label label-important">Ej inlämnat</span>
-            {% endif %}</dd>
+            {% endif %}
+        </dd>
 
         <dt>T-shirtstorlek</dt>
         <dd>{{ person.tshirt_size }}</dd>
 
         <dt>Prylar</dt>
         <dd>{% merchandise_status person %}</dd>
-
     {% endif %}
 </dl>
+
+{% if tickets %}
+<hr>
+<h4>Biljetter</h4>
+{% if tickets_handed_out %}
+    <div class="alert alert-error">
+        <b>Redan utlämnade!</b> Dessa biljetter har redan markerats som utlämnade.
+    </div>
+{% endif %}
+{% endif %}
+<ul>
+{% for ticket in tickets %}
+    <li>{{ ticket.ticket_type }}
+        {% if ticket.is_handed_out and not tickets_handed_out %}
+            <p><span class="label label-important">Utlämnad</span></p>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+{% if not tickets_handed_out %}
+    <a class="btn" href="{% url "set_handed_out" person.pk %}"><i class="icon-ok"></i> Markera som utlämnat</a>
+{% endif %}
+
 
 {% for invoice in invoices %}
     <hr>
@@ -80,7 +104,6 @@
 
     <div>
         {% if not invoice.is_handed_out %}
-        <a class="btn" href="{% url "set_handed_out" invoice.pk %}"><i class="icon-ok"></i> Markera som utlämnad</a>
         <a class="btn" href="{% url "add_trappan" invoice.pk %}"><i class="icon-plus"></i> Lägg till trappan-fest</a>
         {% endif %}
     </div>

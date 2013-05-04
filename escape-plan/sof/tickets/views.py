@@ -239,10 +239,11 @@ def person_details(request, pk):
         try:
             new_person = Person.objects.search(move_form.cleaned_data.get('liu_id'))
             invoice = person.invoice_set.get()
-            invoice.person = new_person
-            invoice.save()
 
             for ticket in invoice.ticket_set.all():
+                ticket.person = new_person
+                ticket.save()
+
                 ticket.send_as_email()
 
         except Person.DoesNotExist:
@@ -251,11 +252,17 @@ def person_details(request, pk):
         except MultipleObjectsReturned:
             error = _('The current invoice holder has multiple invoices and someone was too lazy to implement support for that')
 
+    tickets = person.ticket_set.all()
+    tickets_handed_out = all([t.is_handed_out for t in tickets])
+
     invoices = person.invoice_set.all()
     special_invoices = person.specialinvoice_set.all()
 
     return render(request, 'tickets/person_details.html',
-                  {'person': person, 'invoices': invoices,
+                  {'person': person,
+                   'tickets': tickets,
+                   'tickets_handed_out': tickets_handed_out,
+                   'invoices': invoices,
                    'special_invoices': special_invoices,
                    'move_form': move_form, 'error': error,
                    'new_person': new_person})

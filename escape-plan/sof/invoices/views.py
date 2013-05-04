@@ -26,9 +26,9 @@ def set_handed_out_special(request, pk):
 @login_required
 @permission_required('tickets.add_ticket')
 def set_handed_out(request, pk):
-    invoice = get_object_or_404(Invoice, pk=pk)
+    person = get_object_or_404(Person, pk=pk)
 
-    for ticket in invoice.ticket_set.all():
+    for ticket in person.ticket_set.all():
         ticket.is_handed_out = True
         ticket.save()
 
@@ -69,7 +69,8 @@ def add_trappan(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
 
     if not invoice.ticket_set.filter(ticket_type_id=TRAPPAN_ID).exists():
-        ticket = invoice.ticket_set.create(ticket_type_id=TRAPPAN_ID)
+        ticket = invoice.ticket_set.create(ticket_type_id=TRAPPAN_ID,
+                                           person=invoice.person)
         ticket.send_as_email()
         invoice.send_as_email()
 
