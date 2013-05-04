@@ -8,13 +8,14 @@ from .models import (ShiftType, ShiftSubType, Shift, Worker, WorkerRegistration,
 class PersonAdmin(admin.ModelAdmin):
     list_select_related = True
     list_display = ('get_full_name', 'email')
-    search_fields = ('first_name', 'last_name', 'email')
+    search_fields = ('first_name', 'last_name', 'email', 'pid')
 
 
 class WorkerRegistrationAdmin(admin.ModelAdmin):
     list_select_related = True
     list_display = ('worker', 'shift')
-    search_fields = ('worker__first_name', 'worker__last_name', 'worker__email')
+    search_fields = ('worker__first_name', 'worker__last_name', 'worker__email',
+                     'worker__pid')
 
 
 class ShiftAdmin(admin.ModelAdmin):

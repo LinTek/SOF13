@@ -4,7 +4,8 @@ from .models import Ticket, TicketType
 
 
 class TicketAdmin(admin.ModelAdmin):
-    search_fields = ('invoice__ocr', 'invoice__person__liu_id', 'invoice__person__pid')
+    search_fields = ('invoice__ocr', 'invoice__person__liu_id',
+                     'invoice__person__pid', 'person__pid')
 
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketType)

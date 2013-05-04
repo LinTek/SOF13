@@ -70,7 +70,8 @@ def turbo_confirm(request):
 
                 for ticket_type_id in ticket_type_ids:
                     ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                                   invoice=invoice)
+                                                   invoice=invoice,
+                                                   person=person)
                     ticket.send_as_email()
                 invoice.send_as_email()
 
@@ -197,7 +198,8 @@ def sell(request):
 
             for ticket_type_id in ticket_type_ids:
                 ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                               invoice=invoice)
+                                               invoice=invoice,
+                                               person=visitor)
                 ticket.send_as_email()
             invoice.send_as_email()
 
@@ -294,7 +296,7 @@ def public_sell(request):
                 if ticket_type.ticket_set.count() >= ticket_type.max_amount:
                     raise TicketSoldOut()
 
-                Ticket.objects.create(invoice=invoice, ticket_type=ticket_type)
+                Ticket.objects.create(invoice=invoice, ticket_type=ticket_type, person=person)
             invoice.send_verify_email()
 
             success = True
@@ -337,7 +339,8 @@ def preemption(request):
             if worker.invoice_set.exists():
                 raise InvoiceExists()
 
-            invoice = Invoice(person=worker.person_ptr, is_verified=False)
+            person = worker.person_ptr
+            invoice = Invoice(person=person, is_verified=False)
             invoice.generate_data()
             invoice.send_verify_email()
             invoice.save()
@@ -346,7 +349,8 @@ def preemption(request):
 
             for ticket_type_id in ticket_type_ids:
                 Ticket.objects.create(invoice=invoice,
-                                      ticket_type_id=ticket_type_id)
+                                      ticket_type_id=ticket_type_id,
+                                      person=person)
 
             success = True
             liu_id_form = LiuIDForm()

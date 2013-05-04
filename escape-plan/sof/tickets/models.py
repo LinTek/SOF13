@@ -45,7 +45,7 @@ class Ticket(models.Model):
     ticket_type = models.ForeignKey(TicketType)
     sell_date = models.DateTimeField(auto_now_add=True)
     invoice = models.ForeignKey(Invoice)
-    person = models.ForeignKey(Person, null=True)
+    person = models.ForeignKey(Person)
 
     is_handed_out = models.BooleanField(_('handed out'), default=False, blank=True)
     is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
