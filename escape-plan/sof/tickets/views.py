@@ -70,7 +70,8 @@ def turbo_confirm(request):
 
                 for ticket_type_id in ticket_type_ids:
                     ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                                   invoice=invoice)
+                                                   invoice=invoice,
+                                                   person=person)
                     ticket.send_as_email()
                 invoice.send_as_email()
 
@@ -197,7 +198,8 @@ def sell(request):
 
             for ticket_type_id in ticket_type_ids:
                 ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                               invoice=invoice)
+                                               invoice=invoice,
+                                               person=visitor)
                 ticket.send_as_email()
             invoice.send_as_email()
 
@@ -237,10 +239,11 @@ def person_details(request, pk):
         try:
             new_person = Person.objects.search(move_form.cleaned_data.get('liu_id'))
             invoice = person.invoice_set.get()
-            invoice.person = new_person
-            invoice.save()
 
             for ticket in invoice.ticket_set.all():
+                ticket.person = new_person
+                ticket.save()
+
                 ticket.send_as_email()
 
         except Person.DoesNotExist:
@@ -249,11 +252,17 @@ def person_details(request, pk):
         except MultipleObjectsReturned:
             error = _('The current invoice holder has multiple invoices and someone was too lazy to implement support for that')
 
+    tickets = person.ticket_set.all()
+    tickets_handed_out = all([t.is_handed_out for t in tickets])
+
     invoices = person.invoice_set.all()
     special_invoices = person.specialinvoice_set.all()
 
     return render(request, 'tickets/person_details.html',
-                  {'person': person, 'invoices': invoices,
+                  {'person': person,
+                   'tickets': tickets,
+                   'tickets_handed_out': tickets_handed_out,
+                   'invoices': invoices,
                    'special_invoices': special_invoices,
                    'move_form': move_form, 'error': error,
                    'new_person': new_person})
@@ -294,7 +303,7 @@ def public_sell(request):
                 if ticket_type.ticket_set.count() >= ticket_type.max_amount:
                     raise TicketSoldOut()
 
-                Ticket.objects.create(invoice=invoice, ticket_type=ticket_type)
+                Ticket.objects.create(invoice=invoice, ticket_type=ticket_type, person=person)
             invoice.send_verify_email()
 
             success = True
@@ -337,7 +346,8 @@ def preemption(request):
             if worker.invoice_set.exists():
                 raise InvoiceExists()
 
-            invoice = Invoice(person=worker.person_ptr, is_verified=False)
+            person = worker.person_ptr
+            invoice = Invoice(person=person, is_verified=False)
             invoice.generate_data()
             invoice.send_verify_email()
             invoice.save()
@@ -346,7 +356,8 @@ def preemption(request):
 
             for ticket_type_id in ticket_type_ids:
                 Ticket.objects.create(invoice=invoice,
-                                      ticket_type_id=ticket_type_id)
+                                      ticket_type_id=ticket_type_id,
+                                      person=person)
 
             success = True
             liu_id_form = LiuIDForm()
