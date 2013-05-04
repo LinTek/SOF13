@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 
 from sof.functionary.models import Worker, Person
 
-from .models import SpecialInvoice, Invoice, Payment
+from .models import SpecialInvoice, Invoice, Payment, PaymentStatus
 
 TRAPPAN_ID = 41
 
@@ -113,8 +113,16 @@ def stats(request):
 @login_required
 @permission_required('tickets.add_invoice')
 def invoice_list(request):
+    interesting_invoices = []
     invoices = (Invoice.objects
                 .select_related('person', 'person__worker', 'person__visitor')
                 .prefetch_related('ticket_set', 'ticket_set__ticket_type', 'payment_set'))
 
-    return render(request, 'invoices/invoice_list.html', {'invoices': invoices})
+    for invoice in invoices:
+        status = invoice.get_payment_status()
+
+        if status == PaymentStatus.SUM_MISMATCH:  # in (PaymentStatus.OVERDUE, PaymentStatus.SUM_MISMATCH):
+            invoice.payment_status = status
+            interesting_invoices.append(invoice)
+
+    return render(request, 'invoices/invoice_list.html', {'invoices': interesting_invoices})

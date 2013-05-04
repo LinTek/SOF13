@@ -98,6 +98,9 @@
         <dt>Totalbelopp</dt>
         <dd>{{ invoice.get_total_price|floatformat:2 }} kr</dd>
 
+        <dt>Denormaliserat belopp</dt>
+        <dd>{{ invoice.denormalized_total_price|floatformat:2 }} kr</dd>
+
         <dt>Betalt belopp</dt>
         <dd>{{ invoice.get_payment_sum|floatformat:2 }} kr</dd>
     </dl>
@@ -109,6 +112,15 @@
     </div>
 
     {% if perms.tickets.add_invoice %}
+    {% if invoice.payment_set.exists %}
+        <h5>Betalningar</h5>
+        <ul>
+        {% for payment in invoice.payment_set.all %}
+            <li>{{ payment.amount|floatformat:2 }} kr, {{ payment.date }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
     <p></p>
     <div class="alert alert-block alert-warning">
         <h4>Danger Zone&#0153;</h4>
