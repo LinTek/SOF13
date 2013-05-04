@@ -27,7 +27,7 @@
         {% for r in registrations %}
             <tr>
                 <td class="check_in_status">{% check_in_status r %}</td>
-                <td>{{ r.worker }}</td>
+                <td><a href="{% url "add_registrations" worker_id=r.worker.pk %}">{{ r.worker }}</a></td>
                 <td>{{ r.worker.phone_number }}</td>
                 <td>{{ r.worker.tshirt_size }}</td>
                 <td>
