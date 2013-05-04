@@ -319,6 +319,17 @@ def toggle_handed_out(request):
 
 
 @login_required
+def set_all_handed_out(request, token):
+    orchestra = _orchestra_by_token(token)
+
+    for member in orchestra.member_set.all():
+        member.ticket_handed_out = True
+        member.save()
+
+    return redirect('check_in_list', token=token)
+
+
+@login_required
 def check_in(request):
     form = SearchForm(request.GET or None)
     members = orchestras = None

@@ -38,5 +38,13 @@
     {% endfor %}
     </table>
 
+    <div class="alert alert-important">
+        <h4>Lämna ut alla i klump</h4>
+        Tänk på att inte lämna ut armband för de orkestermedlemmar som redan markerats som utlämnade.
+
+        <div><a class="btn btn-warning" href="{% url set_all_handed_out token=orchestra.token %}">Markera alla som utlämnade</a></div>
+    </div>
+
     <a href="{% url check_in %}" class="btn btn-primary">Tillbaka</a>
+
 {% endblock content %}
