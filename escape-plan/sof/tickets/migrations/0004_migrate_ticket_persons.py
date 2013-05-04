@@ -10,6 +10,7 @@ class Migration(DataMigration):
     def forwards(self, orm):
         for ticket in orm.Ticket.objects.all():
             ticket.person = ticket.invoice.person
+            ticket.save()
 
     def backwards(self, orm):
         "Write your backwards methods here."
