@@ -252,7 +252,7 @@ def person_details(request, pk):
         except MultipleObjectsReturned:
             error = _('The current invoice holder has multiple invoices and someone was too lazy to implement support for that')
 
-    tickets = person.ticket_set.all()
+    tickets = person.ticket_set.filter(invoice__is_verified=True)
     tickets_handed_out = all([t.is_handed_out for t in tickets])
 
     invoices = person.invoice_set.all()
