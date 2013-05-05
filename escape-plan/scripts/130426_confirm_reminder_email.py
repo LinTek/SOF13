@@ -1,11 +1,9 @@
 import datetime
-from pytz import timezone
 
 from django.utils import timezone
 
 from sof.invoices.models import Invoice
 from sof.utils.email import send_mail
-from sof.utils.datetime_utils import sthlm
 
 
 for invoice in Invoice.objects.filter(is_verified=False):
