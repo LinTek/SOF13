@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-03 15:14+0200\n"
-"PO-Revision-Date: 2013-05-03 15:14+0100\n"
+"POT-Creation-Date: 2013-05-05 21:45+0200\n"
+"PO-Revision-Date: 2013-05-05 21:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -138,65 +138,73 @@ msgid "contract approved"
 msgstr "kontrakt påskrivet"
 
 #: functionary/models.py:148
+msgid "attended info meeting"
+msgstr "deltagit infomöte"
+
+#: functionary/models.py:149
+msgid "fetched merchandise"
+msgstr "hämtat ut prylar"
+
+#: functionary/models.py:150
 msgid "super worker"
 msgstr "superfunktionär"
 
-#: functionary/models.py:149
+#: functionary/models.py:151
 msgid "orchestra worker"
 msgstr "orkesterfadder"
 
-#: functionary/models.py:151
+#: functionary/models.py:153
 msgid "has meta info"
 msgstr "fyllt i infoformulär"
 
-#: functionary/models.py:152
+#: functionary/models.py:154
 msgid "phone number"
 msgstr "telefonnummer"
 
-#: functionary/models.py:153
+#: functionary/models.py:155
 msgid "t-shirt size"
 msgstr "t-shirtstorlek"
 
-#: functionary/models.py:154
+#: functionary/models.py:156
 msgid "ICE number"
 msgstr "telefonnummer anhörig"
 
-#: functionary/models.py:155
+#: functionary/models.py:157
 msgid "allergies"
 msgstr "specialkost"
 
-#: functionary/models.py:156
+#: functionary/models.py:158
 msgid "other"
 msgstr "övrigt"
 
-#: functionary/models.py:195
+#: functionary/models.py:197
 msgid "worker registration"
 msgstr "funktionärsregistrering"
 
-#: functionary/models.py:196
+#: functionary/models.py:198
 msgid "worker registrations"
 msgstr "funktionärsregistreringar"
 
-#: functionary/models.py:200
+#: functionary/models.py:202
 msgid "checked in"
 msgstr "incheckad"
 
-#: functionary/models.py:201
+#: functionary/models.py:203
 msgid "checked out"
 msgstr "utcheckad"
 
-#: functionary/views.py:253
+#: functionary/views.py:283
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:265
-#: tickets/views.py:150
-#: tickets/views.py:311
+#: functionary/views.py:295
+#: tickets/views.py:151
+#: tickets/views.py:320
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:268
-#: tickets/views.py:156
+#: functionary/views.py:298
+#: tickets/views.py:157
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
 
@@ -213,17 +221,17 @@ msgid "is verified"
 msgstr "bekräftad"
 
 #: invoices/models.py:29
-#: invoices/models.py:92
+#: invoices/models.py:104
 msgid "due date"
 msgstr "förfallodatum"
 
 #: invoices/models.py:30
-#: invoices/models.py:91
+#: invoices/models.py:103
 msgid "OCR number"
 msgstr "OCR-nummer"
 
 #: invoices/models.py:33
-#: tickets/models.py:48
+#: tickets/models.py:51
 msgid "is sent as email"
 msgstr "Skickad som email"
 
@@ -231,40 +239,48 @@ msgstr "Skickad som email"
 msgid "denormalized total price"
 msgstr "totalpris när fakturan skickades"
 
-#: invoices/models.py:87
+#: invoices/models.py:35
+msgid "sent nice reminder"
+msgstr "snäll påminnelse skickad"
+
+#: invoices/models.py:37
+msgid "staff comment"
+msgstr "intern kommentar"
+
+#: invoices/models.py:99
 msgid "special invoice"
 msgstr "specialfaktura"
 
-#: invoices/models.py:88
+#: invoices/models.py:100
 msgid "special invoices"
 msgstr "specialfakturor"
 
-#: invoices/models.py:90
+#: invoices/models.py:102
 msgid "specification"
 msgstr "specifikation"
 
-#: invoices/models.py:93
-#: invoices/models.py:114
+#: invoices/models.py:105
+#: invoices/models.py:126
 msgid "amount"
 msgstr "summa"
 
-#: invoices/models.py:96
+#: invoices/models.py:108
 msgid "is paid"
 msgstr "betald"
 
-#: invoices/models.py:97
+#: invoices/models.py:109
 msgid "is handed out"
 msgstr "utlämnad"
 
-#: invoices/models.py:110
+#: invoices/models.py:122
 msgid "payment"
 msgstr "betalning"
 
-#: invoices/models.py:111
+#: invoices/models.py:123
 msgid "payments"
 msgstr "betalningar"
 
-#: invoices/models.py:113
+#: invoices/models.py:125
 msgid "date"
 msgstr "datum"
 
@@ -288,71 +304,71 @@ msgstr "LiU-ID eller personnummer"
 msgid "Search query"
 msgstr "Sökterm"
 
-#: tickets/models.py:22
+#: tickets/models.py:23
 msgid "ticket type"
 msgstr "biljettyp"
 
-#: tickets/models.py:23
+#: tickets/models.py:24
 msgid "ticket types"
 msgstr "biljettyper"
 
-#: tickets/models.py:25
+#: tickets/models.py:26
 msgid "name"
 msgstr "namn"
 
-#: tickets/models.py:26
+#: tickets/models.py:27
 msgid "price"
 msgstr "pris"
 
-#: tickets/models.py:27
+#: tickets/models.py:28
 msgid "rebate price"
 msgstr "rabatterat pris"
 
-#: tickets/models.py:29
+#: tickets/models.py:30
 msgid "max amount"
 msgstr "maximalt antal"
 
-#: tickets/models.py:30
+#: tickets/models.py:31
 msgid "opening date"
 msgstr "försäljningsstart"
 
-#: tickets/models.py:31
+#: tickets/models.py:32
 msgid "opening date for public selling"
 msgstr "offentlig försäljningsstart"
 
-#: tickets/models.py:41
+#: tickets/models.py:42
 msgid "ticket"
 msgstr "biljett"
 
-#: tickets/models.py:42
+#: tickets/models.py:43
 msgid "tickets"
 msgstr "biljetter"
 
-#: tickets/models.py:47
+#: tickets/models.py:50
 msgid "handed out"
 msgstr "utlämnad"
 
-#: tickets/views.py:147
-#: tickets/views.py:305
+#: tickets/views.py:148
+#: tickets/views.py:314
 msgid "This ticket type is sold out"
 msgstr "Någon av de valda biljettyperna är slutsåld"
 
-#: tickets/views.py:153
-#: tickets/views.py:308
-#: tickets/views.py:359
+#: tickets/views.py:154
+#: tickets/views.py:317
+#: tickets/views.py:370
 msgid "An invoice already exist for this person"
 msgstr "En faktura finns redan för denna person"
 
-#: tickets/views.py:212
-#: tickets/views.py:247
+#: tickets/views.py:214
+#: tickets/views.py:250
 msgid "The person was not found"
 msgstr "Personen hittades inte"
 
-#: tickets/views.py:250
+#: tickets/views.py:253
 msgid "The current invoice holder has multiple invoices and someone was too lazy to implement support for that"
 msgstr "Nuvarande fakturainnehavare har flera fakturor, vilket någon var för lat för att implementera stöd för..."
 
-#: tickets/views.py:356
+#: tickets/views.py:367
 msgid "The functionary was not found"
 msgstr "Personen kunde inte hittas"
 
