@@ -34,6 +34,8 @@ class Invoice(models.Model):
     denormalized_total_price = models.DecimalField(_('denormalized total price'), decimal_places=2, max_digits=8, default=0)
     nice_reminder_sent = models.BooleanField(_('sent nice reminder'), default=False, blank=True)
 
+    comment = models.TextField(_('staff comment'), blank=True)
+
     def __unicode__(self):
         return unicode(self.ocr)
 

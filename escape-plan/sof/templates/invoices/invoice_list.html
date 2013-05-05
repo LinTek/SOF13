@@ -21,7 +21,10 @@
         <tr>
             <td>{% payment_status invoice.payment_status %}</td>
             <td>{{ invoice.ocr }}</td>
-            <td><a href="{% url "person_details" invoice.person.pk %}">{{ invoice.person }}</a></td>
+            <td>
+                <a href="{% url "person_details" invoice.person.pk %}">{{ invoice.person }}</a>
+                {% if invoice.comment %}<p>{{ invoice.comment }}</p>{% endif %}
+            </td>
             <td>{{ invoice.get_total_price|floatformat:2 }} kr</td>
             <td>{{ invoice.get_payment_sum|floatformat:2 }} kr</td>
             <td>{{ invoice.due_date }}</td>
