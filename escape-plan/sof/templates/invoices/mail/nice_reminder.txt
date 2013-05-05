@@ -1,0 +1,33 @@
+Hej,
+
+Vi har fortfarande inte tagit emot någon betalning för ditt köp av biljetter
+till SOF 2013, trots att fakturans förfallodatum har passerat. Vänligen betala snarast.
+
+Om vi inte vi erhåller din betalning inom kort kommer en betalningspåminnelse
+att skickas. 50 kr i påminnelseavgift tillkommer i sådana fall.
+
+Du har köpt följande biljetter till SOF 2013:
+{% for ticket in invoice.ticket_set.all %}
+   {{ ticket.ticket_type.name }}
+{% endfor %}
+Totalt:               {{ invoice.get_total_price|floatformat:2 }} kr
+
+Använd nedanstående uppgifter för att betala köpet:
+
+Bankgironummer:       515-1493
+Förfallodatum:        {{ invoice.due_date|date:"Y-m-d" }}
+Meddelande:           {{ invoice.ocr }}
+
+OBS!
+Var noga med att ni skriver meddelandet exakt rätt. Det finns en risk
+att ni förlorar biljetten om ni skriver fel.
+
+Om du betalat din faktura under de senaste dagarna, vänligen bortse från
+detta meddelande.
+
+Detta mail går inte att svara på. Vid frågor angående fakturan, kontakta
+Sofia Andersson <sofia.andersson@sof13.se>.
+Vid frågor om biljetterna, skicka ett mail till biljett@sof13.se.
+
+Med vänliga hälsningar,
+Biljettansvarig SOF 2013

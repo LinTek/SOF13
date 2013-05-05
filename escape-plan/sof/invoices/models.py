@@ -32,6 +32,7 @@ class Invoice(models.Model):
 
     is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
     denormalized_total_price = models.DecimalField(_('denormalized total price'), decimal_places=2, max_digits=8, default=0)
+    nice_reminder_sent = models.BooleanField(_('sent nice reminder'), default=False, blank=True)
 
     def __unicode__(self):
         return unicode(self.ocr)
@@ -49,6 +50,11 @@ class Invoice(models.Model):
 
     def send_verify_email(self):
         send_mail('invoices/mail/preemption', [self.person.email], {'invoice': self})
+
+    def send_nice_reminder(self):
+        send_mail('invoices/mail/nice_reminder', [self.person.email], {'invoice': self})
+        self.nice_reminder_sent = True
+        self.save()
 
     def is_handed_out(self):
         return all([ticket.is_handed_out for ticket in self.ticket_set.all()])
@@ -70,6 +76,9 @@ class Invoice(models.Model):
         return self.get_total_ticket_sum() * (1 - rebate_percent)
 
     def get_payment_status(self):
+        if self.is_verified is False:
+            return PaymentStatus.NOT_PAID
+
         payment_sum = self.get_payment_sum()
 
         if self.get_total_price() == payment_sum:
