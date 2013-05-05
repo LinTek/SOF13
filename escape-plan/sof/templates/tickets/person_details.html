@@ -72,6 +72,7 @@
     <a class="btn" href="{% url "set_handed_out" person.pk %}"><i class="icon-ok"></i> Markera som utlämnat</a>
 {% endif %}
 
+{% if perms.tickets.add_invoice %}
 
 {% for invoice in invoices %}
     <hr>
@@ -111,7 +112,7 @@
         {% endif %}
     </div>
 
-    {% if perms.tickets.add_invoice %}
+
     {% if invoice.payment_set.exists %}
         <h5>Betalningar</h5>
         <ul>
@@ -136,8 +137,9 @@
             <button class="btn btn-small" type="submit">Flytta biljetter</button>
         </form>
     </div>
-    {% endif %}
 {% endfor %}
+
+{% endif %}
 
 {% for invoice in special_invoices %}
     <hr>

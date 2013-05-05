@@ -72,9 +72,9 @@ class Invoice(models.Model):
     def get_payment_status(self):
         payment_sum = self.get_payment_sum()
         if payment_sum == 0:
-            if self.due_date >= datetime.date.today():
-                return PaymentStatus.NOT_PAID
-            return PaymentStatus.OVERDUE
+            if datetime.date.today() - datetime.timedelta(days=3) > self.due_date:
+                return PaymentStatus.OVERDUE
+            return PaymentStatus.NOT_PAID
 
         if self.get_total_price() == payment_sum:
             return PaymentStatus.PAID

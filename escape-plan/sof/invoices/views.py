@@ -1,4 +1,5 @@
 import datetime
+from collections import defaultdict
 
 from django.db import transaction
 from django.db.models import Sum, Count
@@ -113,16 +114,21 @@ def stats(request):
 @login_required
 @permission_required('tickets.add_invoice')
 def invoice_list(request):
-    interesting_invoices = []
     invoices = (Invoice.objects
                 .select_related('person', 'person__worker', 'person__visitor')
                 .prefetch_related('ticket_set', 'ticket_set__ticket_type', 'payment_set'))
 
+    interesting_invoices = defaultdict(list)
+
     for invoice in invoices:
         status = invoice.get_payment_status()
 
-        if status == PaymentStatus.SUM_MISMATCH:  # in (PaymentStatus.OVERDUE, PaymentStatus.SUM_MISMATCH):
+        if status in (PaymentStatus.OVERDUE, PaymentStatus.SUM_MISMATCH):
             invoice.payment_status = status
-            interesting_invoices.append(invoice)
+            interesting_invoices[status].append(invoice)
 
-    return render(request, 'invoices/invoice_list.html', {'invoices': interesting_invoices})
+    interesting_types = (interesting_invoices[PaymentStatus.SUM_MISMATCH],
+                         interesting_invoices[PaymentStatus.OVERDUE])
+
+    return render(request, 'invoices/invoice_list.html',
+                  {'interesting_types': interesting_types})

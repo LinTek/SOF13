@@ -22,7 +22,7 @@
 {% endif %}
 
 {% if perms.tickets.add_invoice %}
-    <li><a href="{% url "invoice_list" %}">Felaktigt betalda fakturor</a></li>
+    <li><a href="{% url "invoice_list" %}">Felaktiga/försenade fakturor</a></li>
     <li><a href="{% url "stats" %}">Blandad statistik</a></li>
 {% endif %}
 </ul>

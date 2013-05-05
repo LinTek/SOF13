@@ -4,25 +4,28 @@
 {% block title %}- Fakturor{% endblock title %}
 
 {% block content %}
-<table class="table table-striped">
-    <tr>
-        <th>Status</th>
-        <th>Fakturanummer</th>
-        <th>Person</th>
-        <th>Totalbelopp</th>
-        <th>Betalt belopp</th>
-        <th>Förfallodatum</th>
-    </tr>
-{% for invoice in invoices %}
-    <tr>
-        <td>{% payment_status invoice.payment_status %}</td>
-        <td>{{ invoice.ocr }}</td>
-        <td><a href="{% url "person_details" invoice.person.pk %}">{{ invoice.person }}</a></td>
-        <td>{{ invoice.get_total_price|floatformat:2 }} kr</td>
-        <td>{{ invoice.get_payment_sum|floatformat:2 }} kr</td>
-        <td>{{ invoice.due_date }}</td>
-    </tr>
+
+{% for type_invoices in interesting_types %}
+    <table class="table table-striped">
+        <tr>
+            <th>Status</th>
+            <th>Fakturanummer</th>
+            <th>Person</th>
+            <th>Totalbelopp</th>
+            <th>Betalt belopp</th>
+            <th>Förfallodatum</th>
+        </tr>
+    {% for invoice in type_invoices %}
+        <tr>
+            <td>{% payment_status invoice.payment_status %}</td>
+            <td>{{ invoice.ocr }}</td>
+            <td><a href="{% url "person_details" invoice.person.pk %}">{{ invoice.person }}</a></td>
+            <td>{{ invoice.get_total_price|floatformat:2 }} kr</td>
+            <td>{{ invoice.get_payment_sum|floatformat:2 }} kr</td>
+            <td>{{ invoice.due_date }}</td>
+        </tr>
+    {% endfor %}
+    </table>
 {% endfor %}
-</table>
 
 {% endblock content %}
