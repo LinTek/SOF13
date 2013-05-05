@@ -1,11 +1,9 @@
 # coding: utf-8
 import csv
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
 
-from sof.utils.forms import format_kobra_pid, ForgivingPIDField
-from sof.utils.kobra_client import KOBRAClient, StudentNotFound, get_kwargs
+from sof.utils.forms import ForgivingPIDField
 
 from sof.functionary.models import Visitor, Person
 from sof.tickets.models import Ticket
@@ -25,6 +23,7 @@ TYPES = {
     'Lördag / Saturday': 31,
 }
 
+
 def try_get_person(pid):
     person = None
     if pid:
@@ -39,7 +38,9 @@ def create_tickets(invoice, ticket_types):
     ticket_type_ids = [TYPES[tt] for tt in ticket_types.split(', ')]
 
     for ticket_type_id in ticket_type_ids:
-        ticket = Ticket.objects.create(invoice=invoice, ticket_type_id=ticket_type_id)
+        ticket = Ticket.objects.create(invoice=invoice,
+                                       ticket_type_id=ticket_type_id,
+                                       person=invoice.person)
         ticket.send_as_email()
 
 
