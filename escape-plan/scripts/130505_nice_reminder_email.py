@@ -7,3 +7,4 @@ invoices = (Invoice.objects
 for invoice in invoices:
     if invoice.get_payment_status() == PaymentStatus.OVERDUE:
         invoice.send_nice_reminder()
+        print unicode(invoice.person)
