@@ -4,7 +4,7 @@ import datetime
 from itertools import groupby
 
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.conf import settings
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.decorators import login_required, permission_required
@@ -162,15 +162,20 @@ def worker_check_in(request, date=None):
                      .order_by('shift__start', 'shift__end', 'shift__id'))
 
     if date:
-        registrations = registrations.filter(shift__start__day=date.day, shift__start__month=date.month, shift__start__year=date.year)
+        registrations = registrations.filter(shift__start__day=date.day,
+                                             shift__start__month=date.month,
+                                             shift__start__year=date.year)
 
     shifts = _group_by_shift(list(registrations))
+    total_max_workers = 0
 
     for shift, regs in shifts:
         regs.sort(key=lambda r: (r.worker.first_name, r.worker.last_name))
+        total_max_workers += shift.max_workers
 
     return render(request, 'functionary/worker_check_in.html',
-                  {'shifts': shifts, 'dates': dates})
+                  {'shifts': shifts, 'current_date': date, 'dates': dates,
+                   'total_count': len(registrations), 'total_max_workers': total_max_workers})
 
 
 @login_required

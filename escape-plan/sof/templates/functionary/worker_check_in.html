@@ -6,14 +6,23 @@
         <a href="{% url "worker_check_in" day %}">{{ day|date:"l"|title }}</a> |
     {% endfor %}
 
+    <h2>
+    {% if current_date %}
+        {{ current_date|date:"l"|title }}
+    {% else %}
+        Alla dagar
+    {% endif %}
+        <small>| <b>{{ total_count }}</b> st tillsatta platser av {{ total_max_workers }} st</small>
+    </h2>
+
     <table class="table table-striped">
     {% for shift, registrations in shifts %}
         <tr>
             <th colspan="7">
                 <h4>{{ shift }}
                     <small>
-                        {% if shift.shift_sub_type %} | {{ shift.shift_sub_type }} {% endif %}
-                         <b>({{ registrations|length }} / {{ shift.max_workers }})</b>
+                         {% if shift.shift_sub_type %}| {{ shift.shift_sub_type }} {% endif %}
+                         | <b>({{ registrations|length }} st / {{ shift.max_workers }} st)</b>
                     </small>
                 </h4>
                 {% if shift.note %}{{ shift.note }}{% endif %}
