@@ -30,5 +30,5 @@ with open('payments.csv', 'rU') as csvfile:
         if invoice.get_payment_status() == PaymentStatus.PAID:
             continue
 
-        invoice.payment_set.create(date=datetime.date.today(),
+        invoice.payment_set.create(date=datetime.date(2013, 05, 02),
                                    amount=amount)
