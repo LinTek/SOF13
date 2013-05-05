@@ -16,7 +16,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from sof.utils.kobra_client import KOBRAClient, StudentNotFound
 
 from .models import Shift, WorkerRegistration, Worker, ShiftType
-from .forms import SearchForm, AddWorkerForm
+from .forms import SearchForm, AddWorkerForm, NoteForm
 
 
 def _group_by_type(lst):
@@ -217,13 +217,19 @@ def toggle_merchandise(request):
 @permission_required('auth.add_user')
 def add_registrations(request, worker_id):
     worker = get_object_or_404(Worker, pk=worker_id)
+
+    form = NoteForm(request.POST or None, instance=worker)
+    if form.is_valid():
+        form.save()
+
     all_shifts = _group_by_type(list(Shift.objects.with_free_places(worker)))
     worker_shifts = worker.workerregistration_set.select_related('shift')
 
     return render(request, 'functionary/add_registrations.html',
                   {'worker': worker,
                    'all_shifts': all_shifts,
-                   'worker_shifts': worker_shifts})
+                   'worker_shifts': worker_shifts,
+                   'form': form})
 
 
 @login_required

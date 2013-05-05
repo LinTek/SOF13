@@ -18,3 +18,9 @@ class AddWorkerForm(forms.ModelForm):
 
     lintek = forms.BooleanField(label=_('LinTek member'), required=False)
     pid = ForgivingPIDField(label=_('Personal identification number'))
+
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = ('other',)

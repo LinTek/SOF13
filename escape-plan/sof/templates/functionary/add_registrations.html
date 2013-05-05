@@ -24,10 +24,20 @@
 
         <dt>Specialkost</dt>
         <dd>{{ worker.allergies }}&nbsp;</dd>
-
-        <dt>Övrigt</dt>
-        <dd>{{ worker.other }}</dd>
     </dl>
+
+    <form method="post" class="form form-horizontal">
+        {% csrf_token %}
+        {{ form|crispy}}
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">
+                    Spara kommentar
+                </button>
+            </div>
+        </div>
+    </form>
 
     {% if worker.contract_approved %}
     <div class="alert alert-success">
