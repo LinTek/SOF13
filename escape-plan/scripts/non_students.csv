@@ -201,24 +201,63 @@ Tidstämpel,Välj biljett(er) / Chose tickets,Förnamn / First name,Efternamn / 
 2013-05-02 20.46.08,Lördag / Saturday,Sofia,Pettersson,940206-7723,pettersson-94@hotmail.com,OK
 2013-05-02 21.36.51,Lördag / Saturday,Per,Mallin,8902271934,per.mallin@gmail.com,OK
 2013-05-02 22.32.11,Lördag / Saturday,William,Berggren,900615-0537,w_berggren@hotmail.com,OK (import 130503)
-2013-05-03 08.46.23,Lördag / Saturday,Hanna,Petersson,8805062083,hanna.peterson@hotmail.com,Redo för import
-2013-05-03 12.35.29,Fredag / Friday,Kristofer,Skyttner,19861125-7216,kriffe@gmail.com,Redo för import
-2013-05-03 12.37.19,Lördag / Saturday,Joel,Mineur,870507-1978,joelmineur@gmail.com,Redo för import
-2013-05-03 14.51.37,Lördag / Saturday,Pernilla,Larsson,901227-1681,perris-@hotmail.com,Redo för import
-2013-05-03 15.55.18,Lördag / Saturday,Anders,Jacobsson,571127-1998,anders1127@yahoo.se,Redo för import
-2013-05-03 19.51.24,"Fredag / Friday, Lördag / Saturday",Niklas,Lärkas,900125-4938,niklas.larkas@hotmail.com,Redo för import
-2013-05-03 19.53.16,"Fredag / Friday, Lördag / Saturday",Johan,Olsson,850327-8254,tjolle_85@hotmail.com,Redo för import
-2013-05-03 20.11.27,Lördag / Saturday,Erica,Damgaard,930602-5389,Ericadamgaard@hotmail.com,Redo för import
-2013-05-03 20.12.39,"Fredag / Friday, Lördag / Saturday",Niklas,Abrahamsson,840430-7251,niklas.abrahamsson@gmail.com,Redo för import
-2013-05-04 00.16.43,Lördag / Saturday,Linda,Karlsson,861020-6206,linka452@gmail.com,Redo för import
-2013-05-04 11.39.52,Torsdag / Thursday,Matilda,Gotting,870319-2461,matilda_gott@hotmail.com,Redo för import
-2013-05-04 15.30.04,Helhelg / Weekend,Ali,El Ghazire,900124-0093,alivargen@gmail.com,Redo för import
-2013-05-04 16.20.50,Torsdag / Thursday,Mathias,Liljeroth,8806037134,liljeroth88@hotmail.com,Redo för import
-2013-05-04 17.20.15,Lördag / Saturday,Anton,Knudsen,870315-6250,anton.knudsen1@gmail.com,Redo för import
-2013-05-04 19.09.42,Fredag / Friday,Silvia,Chirca,880115-6582,silvica4ever@hotmail.com,Redo för import
-2013-05-04 19.10.09,Fredag / Friday,Silvia,Chirca,880115-6582,silvica4ever@hotmail.com,Redo för import
-2013-05-04 19.11.35,Fredag / Friday,Elin,Johansson,880204-2427,elin.jhns@gmail.com,Redo för import
-2013-05-04 19.15.17,Lördag / Saturday,Daniel,Axelsson,820209-0372,Dax430@gmail.com,Redo för import
-2013-05-04 23.36.28,Torsdag / Thursday,Angelica,Borgkvist,9006073861,angelica.borgkvist@hotmail.com,Redo för import
-2013-05-04 23.37.33,Torsdag / Thursday,Patrik,Wallius,8902010274,metal4life_89@hotmail.com,Redo för import
-2013-05-04 23.46.32,Torsdag / Thursday,Andreas,Lalin,8707170455,andreaslalin.al@gmail.com,Redo för import
+2013-05-03 08.46.23,Lördag / Saturday,Hanna,Petersson,8805062083,hanna.peterson@hotmail.com,OK
+2013-05-03 12.35.29,Fredag / Friday,Kristofer,Skyttner,19861125-7216,kriffe@gmail.com,"Finns, ändrat mail"
+2013-05-03 12.37.19,Lördag / Saturday,Joel,Mineur,870507-1978,joelmineur@gmail.com,OK
+2013-05-03 14.51.37,Lördag / Saturday,Pernilla,Larsson,901227-1681,perris-@hotmail.com,OK
+2013-05-03 15.55.18,Lördag / Saturday,Anders,Jacobsson,571127-1998,anders1127@yahoo.se,OK
+2013-05-03 19.51.24,"Fredag / Friday, Lördag / Saturday",Niklas,Lärkas,900125-4938,niklas.larkas@hotmail.com,OK
+2013-05-03 19.53.16,"Fredag / Friday, Lördag / Saturday",Johan,Olsson,850327-8254,tjolle_85@hotmail.com,OK
+2013-05-03 20.11.27,Lördag / Saturday,Erica,Damgaard,930602-5389,Ericadamgaard@hotmail.com,OK
+2013-05-03 20.12.39,"Fredag / Friday, Lördag / Saturday",Niklas,Abrahamsson,840430-7251,niklas.abrahamsson@gmail.com,OK
+2013-05-04 00.16.43,Lördag / Saturday,Linda,Karlsson,861020-6206,linka452@gmail.com,OK
+2013-05-04 11.39.52,Torsdag / Thursday,Matilda,Gotting,870319-2461,matilda_gott@hotmail.com,OK
+2013-05-04 15.30.04,Helhelg / Weekend,Ali,El Ghazire,900124-0093,alivargen@gmail.com,OK
+2013-05-04 16.20.50,Torsdag / Thursday,Mathias,Liljeroth,8806037134,liljeroth88@hotmail.com,OK
+2013-05-04 17.20.15,Lördag / Saturday,Anton,Knudsen,870315-6250,anton.knudsen1@gmail.com,OK
+2013-05-04 19.09.42,Fredag / Friday,Silvia,Chirca,880115-6582,silvica4ever@hotmail.com,OK
+2013-05-04 19.10.09,Fredag / Friday,Silvia,Chirca,880115-6582,silvica4ever@hotmail.com,Dublett
+2013-05-04 19.11.35,Fredag / Friday,Elin,Johansson,880204-2427,elin.jhns@gmail.com,OK
+2013-05-04 19.15.17,Lördag / Saturday,Daniel,Axelsson,820209-0372,Dax430@gmail.com,OK
+2013-05-04 23.36.28,Torsdag / Thursday,Angelica,Borgkvist,9006073861,angelica.borgkvist@hotmail.com,OK
+2013-05-04 23.37.33,Torsdag / Thursday,Patrik,Wallius,8902010274,metal4life_89@hotmail.com,OK (import 120505)
+2013-05-04 23.46.32,Torsdag / Thursday,Andreas,Lalin,8707170455,andreaslalin.al@gmail.com,Byta till helhelg? Skickar mail...
+2013-05-05 13.52.02,"Fredag / Friday, Lördag / Saturday",Joakim ,Gustavsson,8509091651,Joakim.g.nyk@hotmail.se,Redo för import
+2013-05-05 14.15.09,Lördag / Saturday,Jenny,Carlsson,760625-1903,ms.jenny.carlsson@gmail.com,Redo för import
+2013-05-05 14.30.55,Lördag / Saturday,Isabelle,Sandblom,9107270549,isasah091@studentmail.oru.se,Redo för import
+2013-05-05 16.12.06,Helhelg / Weekend,Sven,Chau,870312-3037,sven.chau@gmail.com,Redo för import
+2013-05-05 16.13.45,Helhelg / Weekend,Amela,Ferhatovic,860531-1326,amela_f_86@hotmail.com,Redo för import
+2013-05-05 16.15.27,Helhelg / Weekend,Minh,Luc,850320-2759,minhluc007@hotmail.com,Redo för import
+2013-05-05 16.22.01,Helhelg / Weekend,Hamin,Mousavi,850710-1437,snell@hamin.se,Redo för import
+2013-05-05 16.26.14,Fredag / Friday,Oscar,Bernhardsson,900410-4296,obernhardsson@hotmail.com,Redo för import
+2013-05-05 16.30.14,Fredag / Friday,Simon,Berglund,910507-5312,sibe7691@gmail.com,Redo för import
+2013-05-05 16.31.33,Fredag / Friday,Clara,Mosesson,910502-0722,aralc_91@hotmail.com,Redo för import
+2013-05-05 17.02.27,Helhelg / Weekend,Carlos,Martinez,870104-7477,jc_m1@hotmail.com,Redo för import
+2013-05-05 17.28.42,Lördag / Saturday,Joakim,Wahlstedt,881026-2439,walle_99@hotmail.com,Redo för import
+2013-05-05 17.30.38,Fredag / Friday,Andreas,Lundin,850630-6979,andreaslundin@hotmail.com,Redo för import
+2013-05-05 18.01.06,Torsdag / Thursday,Minna,Reiman,931116-0742,minna_reiman@hotmail.com,Redo för import
+2013-05-05 18.45.57,Fredag / Friday,Mads,Svane Hansen,850807-2147,madssvanehansen@gmail.com,Redo för import
+2013-05-05 19.03.03,Lördag / Saturday,Timmy,Svensson,880821-1976,timsve87@hotmail.com,Redo för import
+2013-05-05 20.33.16,Helhelg / Weekend,Clément,Perret,911026-0000,zagzog5@hotmail.com,Redo för import
+2013-05-05 20.34.50,Lördag / Saturday,Markus,Åsbom,911117-3259,mackan_bas@hotmail.com,Redo för import
+2013-05-05 20.43.55,Helhelg / Weekend,Ivan,Kjellenberg,930808-7130,ivan.kjellenberg@hotmail.com,Redo för import
+2013-05-05 20.47.34,Helhelg / Weekend,Theodor,Hasselblad,9309010412,theodortheman@gmail.com,Redo för import
+2013-05-05 21.23.06,Lördag / Saturday,Louise,Roddar,880228-7121,louro295@student.liu.se,Redo för import
+2013-05-05 22.04.20,Lördag / Saturday,Julia,Hallberg,941029-0085,christoffer.rosenkvist@gmail.com,Redo för import
+2013-05-05 22.25.25,"Torsdag / Thursday, Lördag / Saturday",Christoffer,Rosenkvist,870122-1916,christoffer.rosenkvist@gmail.com,Redo för import
+2013-05-05 22.31.19,Helhelg / Weekend,Viktor,Griph,831216-1915,viktor@griph.se,Redo för import
+2013-05-06 10.40.52,Fredag / Friday,Jonas,Clement-Wolff,910427-0000,jocw@hotmail.fr,Redo för import
+2013-05-06 11.39.07,Helhelg / Weekend,Ebba,Thorell,930419-5689,ebba.thorell@gmail.com,Redo för import
+2013-05-06 13.34.55,Lördag / Saturday,Lovisa,Skoog,881003-0406,lovisaskoog@gmail.com,Redo för import
+2013-05-06 13.43.02,Lördag / Saturday,Jonas,Högdahl,870818-8571,jonho698@student.liu.se,Redo för import
+2013-05-06 14.53.52,Torsdag / Thursday,Andreas,Gartnell,8807014751,agartnell@gmail.com,Redo för import
+2013-05-06 15.14.51,Lördag / Saturday,Michael,Engfors,8609140259,mikael.engfors@gmail.com,Redo för import
+2013-05-06 15.26.23,Lördag / Saturday,Agatha,Malinowska,900409-0000,mikael.engfors@gmail.com,Redo för import
+2013-05-06 15.26.34,Fredag / Friday,Benjamin,Kistler,850808-0000,benjamin.kistler1@students.fhnw.ch,Redo för import
+2013-05-06 15.26.45,Fredag / Friday,Pascal,Behm,851227-0000,pascal.behm@students.fhnw.ch,Redo för import
+2013-05-06 15.39.07,Lördag / Saturday,Sara,Bjaaland,920925-3021,ziiri__92@hotmail.com,Redo för import
+2013-05-06 15.46.03,Torsdag / Thursday,Adam,Samuelsson,890718-2599,ebergenlid@gmail.com,Redo för import
+2013-05-06 16.20.25,Helhelg / Weekend,Andreas,johansson,850901-5619,andreas.johansson_85@hotmail.com,Redo för import
+2013-05-06 16.34.32,Torsdag / Thursday,Rasmus,Jonsson,910127-4711,rasse_jonsson@hotmail.com,Redo för import
+2013-05-06 16.34.40,Torsdag / Thursday,Amanda,Bergh,930515-0626,bergh.amanda@gmail.com,Redo för import
+2013-05-06 16.36.24,Torsdag / Thursday,Josephine,Sjöstedt,920524-0584,jossan92_me@hotmail.com,Redo för import
