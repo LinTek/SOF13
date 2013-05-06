@@ -65,9 +65,10 @@ kör collectstatic om man ändrat några statiska filer.
 Efter att man ändrat något måste mod_wsgi laddas om för att uppdateringen ska
 slå igenom (detsamma gäller i princip alla ramverk och tekniker, vissa gör
 dock detta automatiskt). Detta kan göras genom att köra touch på wsgi.py-filen
-som ligger i conf-mappen.
+som ligger i conf-mappen. Det finns en sådan för orkestersystemet och en för
+kårtegebidragsanmälan.
 
-    touch sof/conf/wsgi.py
+    touch sof/conf/wsgi_orchestra.py
 
 
 ## Typiskt deployment-workflow
@@ -78,7 +79,7 @@ fabfile som sköter deploy. Vi har dock prioriterat bort detta.
     sudo su - django-sof13
     cd sof13/orkester
     git pull
-    touch sof/conf/wsgi.py
+    touch sof/conf/wsgi_orchestra.py
 
 Om man skapat några migrations respektive lagt till någon statisk fil (bilder,
 css men inte t.ex. templates är statiska filer) krävs även att man kör:

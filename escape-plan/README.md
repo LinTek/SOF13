@@ -3,8 +3,26 @@ Escape-plan / Plan B
 
 Ett funktionärs- och biljettsystem för utvecklare med deadlines. Se gärna även
 ../anmalan/README.md som innehåller mer info. Denna applikations virtualenv
-på SOF-servern heter dock just nu *funkis* istället för *sof*.
+på SOF-servern heter dock *funkis* istället för *sof*.
 
+
+# Deploya
+Överlag kan du använda informationen i ../anmalan/README.md, med skillnaden
+att man får göra  ``wo funkis`` istället för ``wo sof`` om man behöver köra
+migrations eller starta ett python-skal. Config-filen för Apache hittar man
+i /etc/apache2/sites-available/funkis.sof13.se,
+
+    sudo su - django-sof13
+    cd sof13/escape-plan/
+    git pull
+    touch sof/conf/wsgi.py
+
+Om man skapat några migrations respektive lagt till någon statisk fil (bilder,
+css, javascript) krävs även att man kör:
+
+    wo funkis
+    dj migrate
+    dj collectstatic
 
 # Installation av utvecklingsmiljö
 
