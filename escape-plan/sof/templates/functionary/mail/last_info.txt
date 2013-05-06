@@ -1,0 +1,22 @@
+
+Hej!
+
+Här kommer den viktigaste informationen från funktionärsmötet i lördags.
+
+Du skall jobba följande pass:
+-----------------------------------------{% for r in registrations %}{% if r.shift.is_dummy %}
+{{ r.shift.shift_type }} (under hela festivalen){% else %}
+{{ r.shift.start|date:"l j F" }} {{ r.shift.start|date:"H:i" }}-{{ r.shift.end|date:"H:i" }} - {{ r.shift.shift_type }}{% endif %}{% endfor %}
+
+Kom senast fem minuter innan ditt pass börjar, till Funktionärsincheckningen. Den är placerad i ett av två vita tält precis bakom E-huset. På kartan på länken här nere är dessa utmärkta med ett F på röd bakgrund. Som funktionär kommer du in på området via Funktionärsingången, som är placerad vid det bortre dansgolvet. Klicka på länken och kolla på kartan.
+(i funktionärsfoldern är Personalincheckningen felmarkerad)
+
+http://www.sof13.se/assets/SOF13/Karta-remake.png
+
+Om du inte har hämtat T-shirt, märken och funktionärsfolder, kan du göra detta i samband med biljettutlämningen, som är utanför C4 under lunchen mellan måndag-onsdag.
+
+Kom mätt till ditt pass. Du får en matbiljett per pass när du checkar in. Det kommer även finnas jobbgodis. Tag gärna med en tom vattenflaska som du kan fylla på på området. På kvällen blir det myggigt, och solen biter, myggmedel/solkräm är hett tips!
+
+Mvh
+David Stolt
+Funktionärsansvarig SOF13
