@@ -57,6 +57,19 @@ def send_email(request, pk):
 
 @login_required
 @permission_required('tickets.add_invoice')
+def send_ticket_email(request, pk):
+    person = get_object_or_404(Person, pk=pk)
+    tickets = person.ticket_set.filter(invoice__is_verified=True,
+                                       is_handed_out=False)
+
+    for ticket in tickets:
+        ticket.send_as_email()
+
+    return redirect('person_details', pk=person.pk)
+
+
+@login_required
+@permission_required('tickets.add_invoice')
 def send_email_special(request, pk):
     invoice = get_object_or_404(SpecialInvoice, pk=pk)
     invoice.send_as_email()

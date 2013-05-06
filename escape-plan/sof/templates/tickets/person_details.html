@@ -43,7 +43,7 @@
         </dd>
 
         <dt>T-shirtstorlek</dt>
-        <dd>{{ person.tshirt_size }}</dd>
+        <dd>{{ person.tshirt_size }}&nbsp;</dd>
 
         <dt>Prylar</dt>
         <dd>{% merchandise_status person %}</dd>
@@ -68,8 +68,21 @@
     </li>
 {% endfor %}
 </ul>
+
 {% if not tickets_handed_out %}
-    <a class="btn" href="{% url "set_handed_out" person.pk %}"><i class="icon-ok"></i> Markera som utlämnat</a>
+    <a class="btn btn-success" href="{% url "set_handed_out" person.pk %}">
+        <i class="icon-ok icon-white"></i> Markera som utlämnat
+    </a>
+{% endif %}
+
+{% if perms.tickets.add_invoice and not tickets_handed_out %}
+<p></p>
+<div class="alert alert-block alert-warning">
+    <h4>Danger Zone&#0153;</h4>
+    <a class="btn btn-small" href="{% url "send_ticket_email" person.pk %}">
+        <i class="icon-envelope"></i> Skicka ut outlämnade biljetter
+    </a>
+</div>
 {% endif %}
 
 {% if perms.tickets.add_invoice %}
@@ -125,7 +138,7 @@
     <p></p>
     <div class="alert alert-block alert-warning">
         <h4>Danger Zone&#0153;</h4>
-        <a class="btn btn-small" href="{% url "send_email" invoice.pk %}"><i class="icon-envelope"></i> Skicka via e-post</a>
+        <a class="btn btn-small" href="{% url "send_email" invoice.pk %}"><i class="icon-envelope"></i> Skicka fakturan via e-post</a>
         {% if not invoice.payment_set.exists %}
             <a class="btn btn-small" href="{% url "set_paid" invoice.pk %}"><i class="icon-star"></i> Lägg till fullständig betalning</a>
         {% endif %}
