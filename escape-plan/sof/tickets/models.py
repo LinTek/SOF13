@@ -51,7 +51,7 @@ class Ticket(models.Model):
     is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
 
     def send_as_email(self):
-        person = self.invoice.person
+        person = self.person
         person.formatted_pid = format_kobra_pid(person.pid)
         send_mail('tickets/mail/ticket', [person.email], {'ticket': self, 'person': person})
         self.is_sent_as_email = True
