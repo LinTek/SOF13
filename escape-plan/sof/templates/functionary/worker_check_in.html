@@ -2,11 +2,31 @@
 {% load shift_extras %}
 
 {% block content %}
-    {% for day in dates %}
-        <a href="{% url "worker_check_in" day %}">{{ day|date:"l"|title }}</a> |
-    {% endfor %}
+    <div>
+        {% for day in dates %}
+        <a href="{% url "worker_check_in" day %}{% if shift_type %}?type={{ shift_type.pk }}{% endif %}">
+            {{ day|date:"l"|title }}
+        </a> |
+        {% endfor %}
+        <p></p>
+    </div>
+
+    <div>
+        {% for shift_type in shift_types %}
+        <a href="?type={{ shift_type.pk }}">{{ shift_type }}</a> |
+        {% endfor %}
+        <p></p>
+    </div>
+
+    <div>
+        <a href="{% url "worker_check_in" %}">Visa alla dagar och typer</a>
+    </div>
 
     <h2>
+    {% if shift_type %}
+        {{ shift_type }},
+    {% endif %}
+
     {% if current_date %}
         {{ current_date|date:"l"|title }}
     {% else %}

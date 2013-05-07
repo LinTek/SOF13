@@ -146,6 +146,8 @@ def workers_by_type(request):
 @permission_required('auth.add_user')
 def worker_check_in(request, date=None):
     dates = sorted(set(s.start.date() for s in Shift.objects.all()))
+    shift_types = ShiftType.objects.order_by('name')
+    shift_type = None
 
     if date:
         try:
@@ -155,6 +157,8 @@ def worker_check_in(request, date=None):
 
         if not date in dates:
             raise Http404
+
+    shift_type_id = request.GET.get('type')
 
     registrations = (WorkerRegistration.objects
                      .select_related('worker', 'shift', 'shift__shift_type',
@@ -166,6 +170,10 @@ def worker_check_in(request, date=None):
                                              shift__start__month=date.month,
                                              shift__start__year=date.year)
 
+    if shift_type_id:
+        shift_type = get_object_or_404(ShiftType, pk=int(shift_type_id))
+        registrations = registrations.filter(shift__shift_type=shift_type)
+
     shifts = _group_by_shift(list(registrations))
     total_max_workers = 0
 
@@ -175,7 +183,8 @@ def worker_check_in(request, date=None):
 
     return render(request, 'functionary/worker_check_in.html',
                   {'shifts': shifts, 'current_date': date, 'dates': dates,
-                   'total_count': len(registrations), 'total_max_workers': total_max_workers})
+                   'total_count': len(registrations), 'shift_types': shift_types,
+                   'shift_type': shift_type, 'total_max_workers': total_max_workers})
 
 
 @login_required
