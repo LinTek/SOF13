@@ -93,7 +93,7 @@
 
     <ul>
     {% for ticket in invoice.ticket_set.all %}
-        <li>{{ ticket.ticket_type }}</li>
+        <li>{{ ticket.ticket_type }} <small> {{ ticket.sell_date }}</small></li>
     {% endfor %}
     </ul>
 
@@ -108,6 +108,9 @@
 
         <dt>Utlämningsstatus</dt>
         <dd>{% handed_out_status invoice.is_handed_out %}</dd>
+
+        <dt>Förfallodatum</dt>
+        <dd>{{ invoice.due_date }}</dd>
 
         <dt>Totalbelopp</dt>
         <dd>{{ invoice.get_total_price|floatformat:2 }} kr</dd>
