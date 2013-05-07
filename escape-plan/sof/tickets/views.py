@@ -220,7 +220,7 @@ def sell(request):
                     person = Person.objects.search(q)
 
                 except Person.DoesNotExist:
-                    if ' ' in q:
+                    if ' ' in q and len(q.split()) == 2:
                         first, last = q.split()
                         person = Person.objects.get(first_name__istartswith=first,
                                                     last_name__istartswith=last)
