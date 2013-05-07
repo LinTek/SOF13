@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load shift_extras %}
 
+{% block js %}
+<script type="text/javascript">
+    setInterval(update_watchlist, 30000);
+</script>
+{% endblock js %}
+
 {% block content %}
     <h1>
         {% if shift_type %}
@@ -43,47 +49,9 @@
 
     <hr>
 
-    {% if watchlist %}
-        <h2>Notiser</h2>
-        <table class="table table-striped">
-            <tr>
-                <th></th>
-                <th>Namn</th>
-                <th>Telefonnummer</th>
-                <th>Pass</th>
-                <th>Avtal inlämnat</th>
-                <th>Infomöte</th>
-                <th>Prylar</th>
-            </tr>
-            {% for r in watchlist %}
-            <tr>
-                <td>
-                {% if not r.checked_in %}
-                    <span class="label label-important">Ej incheckad</span>
-                {% else %}
-                    <span class="label label-warning">Ej utcheckad</span>
-                {% endif %}
-                </td>
-                <td><a href="{% url "add_registrations" worker_id=r.worker.pk %}">{{ r.worker }}</a></td>
-                <td>{{ r.worker.phone_number }}</td>
-                <td>{{ r.shift }}</td>
-                <td>
-                {% if r.worker.contract_approved %}
-                    <span class="label label-success">Inlämnat</span>
-                {% else %}
-                    <span class="label label-important">Ej inlämnat</span>
-                {% endif %}
-                </td>
-                <td>
-                    {% info_meeting_status r.worker %}
-                </td>
-                <td>
-                    {% merchandise_status r.worker %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
+    <div id="watchlist">
+    {% include "functionary/partials/notifications.html" %}
+    </div>
 
     <h2>Alla pass</h2>
     <table class="table table-striped">

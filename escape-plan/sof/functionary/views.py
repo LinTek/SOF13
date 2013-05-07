@@ -5,7 +5,7 @@ from itertools import groupby
 
 from django.utils import timezone
 from django.db import transaction
-from django.db.models import Count, Sum
+from django.db.models import Count
 from django.conf import settings
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.decorators import login_required, permission_required
@@ -187,7 +187,12 @@ def worker_check_in(request, date=None):
             if late_for_check_in(r) or late_for_check_out(r):
                 watchlist.append(r)
 
-    return render(request, 'functionary/worker_check_in.html',
+    if request.GET.get('watchlist') is not None:
+        template = 'functionary/partials/notifications.html'
+    else:
+        template = 'functionary/worker_check_in.html'
+
+    return render(request, template,
                   {'shifts': shifts, 'current_date': date, 'dates': dates,
                    'total_count': len(registrations), 'shift_types': shift_types,
                    'shift_type': shift_type, 'total_max_workers': total_max_workers,

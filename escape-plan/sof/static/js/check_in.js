@@ -28,3 +28,14 @@ $(document).on("click", ".toggle_merchandise", function(e) {
     toggle($(this), URL.toggle_merchandise);
     e.preventDefault();
 });
+
+function update_watchlist() {
+    $.ajax({
+        url: window.location.href,
+        data: {'watchlist': ''},
+        method: 'GET',
+        success: function(response) {
+            $('watchlist').html(response);
+        }
+    });
+}
