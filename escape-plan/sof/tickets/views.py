@@ -3,7 +3,7 @@ import json
 import datetime
 
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
 from django.http import HttpResponse
@@ -175,7 +175,7 @@ def sell(request):
 
     ticket_type_form = TicketTypeForm(request.POST or None, display_all=request.user.is_staff)
     visitor_form = VisitorForm(request.POST or None)
-    search_form = SearchForm(request.GET or None)
+    search_form = SearchForm(request.POST or None)
 
     tickets = (Ticket.objects
                .select_related('ticket_type', 'invoice', 'invoice__person')
@@ -216,7 +216,17 @@ def sell(request):
             if tickets:
                 person = tickets[0].person
             else:
-                person = Person.objects.search(q)
+                try:
+                    person = Person.objects.search(q)
+
+                except Person.DoesNotExist:
+                    if ' ' in q:
+                        first, last = q.split()
+                        person = Person.objects.get(first_name__istartswith=first,
+                                                    last_name__istartswith=last)
+                    else:
+                        person = Person.objects.get(Q(first_name__istartswith=q) |
+                                                    Q(last_name__istartswith=q))
 
             return redirect('person_details', pk=person.pk)
 

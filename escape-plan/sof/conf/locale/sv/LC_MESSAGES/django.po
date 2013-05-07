@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-05 21:45+0200\n"
-"PO-Revision-Date: 2013-05-05 21:45+0100\n"
+"POT-Creation-Date: 2013-05-07 21:51+0200\n"
+"PO-Revision-Date: 2013-05-07 21:52+0100\n"
 "Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -193,17 +193,17 @@ msgstr "incheckad"
 msgid "checked out"
 msgstr "utcheckad"
 
-#: functionary/views.py:283
+#: functionary/views.py:304
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:295
+#: functionary/views.py:316
 #: tickets/views.py:151
-#: tickets/views.py:320
+#: tickets/views.py:343
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:298
+#: functionary/views.py:319
 #: tickets/views.py:157
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
@@ -349,26 +349,30 @@ msgid "handed out"
 msgstr "utlämnad"
 
 #: tickets/views.py:148
-#: tickets/views.py:314
+#: tickets/views.py:337
 msgid "This ticket type is sold out"
 msgstr "Någon av de valda biljettyperna är slutsåld"
 
 #: tickets/views.py:154
-#: tickets/views.py:317
-#: tickets/views.py:370
+#: tickets/views.py:340
+#: tickets/views.py:393
 msgid "An invoice already exist for this person"
 msgstr "En faktura finns redan för denna person"
 
-#: tickets/views.py:214
-#: tickets/views.py:250
+#: tickets/views.py:234
+#: tickets/views.py:273
 msgid "The person was not found"
 msgstr "Personen hittades inte"
 
-#: tickets/views.py:253
+#: tickets/views.py:237
+msgid "More than one object matched the query"
+msgstr "Mer än en person stämde in på söktermen"
+
+#: tickets/views.py:276
 msgid "The current invoice holder has multiple invoices and someone was too lazy to implement support for that"
 msgstr "Nuvarande fakturainnehavare har flera fakturor, vilket någon var för lat för att implementera stöd för..."
 
-#: tickets/views.py:367
+#: tickets/views.py:390
 msgid "The functionary was not found"
 msgstr "Personen kunde inte hittas"
 

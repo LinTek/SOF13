@@ -8,7 +8,7 @@
     </div>
 {% endif %}
 
-<form method="get" class="form form-horizontal">
+<form method="post" class="form form-horizontal">
     {% csrf_token %}
     {{ search_form|crispy}}
     Du kan söka efter LiU-ID, RFID/steckkodsnummer eller personnummer.
