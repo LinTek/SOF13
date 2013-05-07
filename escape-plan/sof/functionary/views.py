@@ -323,14 +323,12 @@ def search(request):
 
 
 def late_for_check_in(registration):
-    return (registration.shift.start + datetime.timedelta(minutes=60) >
-            timezone.now() >
+    return (timezone.now() >
             registration.shift.start + datetime.timedelta(minutes=15)
             and registration.checked_in is False)
 
 
 def late_for_check_out(registration):
     return (registration.checked_in and not registration.checked_out and
-            registration.shift.end + datetime.timedelta(minutes=60) >
             timezone.now() >
             registration.shift.end + datetime.timedelta(minutes=15))
