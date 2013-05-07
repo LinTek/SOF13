@@ -3,6 +3,7 @@ import json
 import datetime
 from itertools import groupby
 
+from django.utils import timezone
 from django.db import transaction
 from django.db.models import Count, Sum
 from django.conf import settings
@@ -148,6 +149,7 @@ def worker_check_in(request, date=None):
     dates = sorted(set(s.start.date() for s in Shift.objects.all()))
     shift_types = ShiftType.objects.order_by('name')
     shift_type = None
+    watchlist = []
 
     if date:
         try:
@@ -181,10 +183,15 @@ def worker_check_in(request, date=None):
         regs.sort(key=lambda r: (r.worker.first_name, r.worker.last_name))
         total_max_workers += shift.max_workers
 
+        for r in regs:
+            if late_for_check_in(r) or late_for_check_out(r):
+                watchlist.append(r)
+
     return render(request, 'functionary/worker_check_in.html',
                   {'shifts': shifts, 'current_date': date, 'dates': dates,
                    'total_count': len(registrations), 'shift_types': shift_types,
-                   'shift_type': shift_type, 'total_max_workers': total_max_workers})
+                   'shift_type': shift_type, 'total_max_workers': total_max_workers,
+                   'watchlist': watchlist})
 
 
 @login_required
@@ -308,3 +315,17 @@ def search(request):
 
     return render(request, 'functionary/search.html',
                   {'form': form, 'error': error})
+
+
+def late_for_check_in(registration):
+    return (registration.shift.start + datetime.timedelta(minutes=60) >
+            timezone.now() >
+            registration.shift.start + datetime.timedelta(minutes=15)
+            and registration.checked_in is False)
+
+
+def late_for_check_out(registration):
+    return (registration.checked_in and not registration.checked_out and
+            registration.shift.end + datetime.timedelta(minutes=60) >
+            timezone.now() >
+            registration.shift.end + datetime.timedelta(minutes=15))

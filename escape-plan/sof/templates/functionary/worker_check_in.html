@@ -2,6 +2,25 @@
 {% load shift_extras %}
 
 {% block content %}
+    <h1>
+        {% if shift_type %}
+            {{ shift_type }},
+            {% if current_date %}
+                {{ current_date|date:"l" }}
+            {% else %}
+                alla dagar
+            {% endif %}
+        {% else %}
+            {% if current_date %}
+                {{ current_date|date:"l"|title }}
+            {% else %}
+                Alla dagar
+            {% endif %}
+        {% endif %}
+
+        <small>| <b>{{ total_count }}</b> st tillsatta platser av {{ total_max_workers }} st</small>
+    </h1>
+
     <div>
         {% for day in dates %}
         <a href="{% url "worker_check_in" day %}{% if shift_type %}?type={{ shift_type.pk }}{% endif %}">
@@ -22,19 +41,51 @@
         <a href="{% url "worker_check_in" %}">Visa alla dagar och typer</a>
     </div>
 
-    <h2>
-    {% if shift_type %}
-        {{ shift_type }},
+    <hr>
+
+    {% if watchlist %}
+        <h2>Notiser</h2>
+        <table class="table table-striped">
+            <tr>
+                <th></th>
+                <th>Namn</th>
+                <th>Telefonnummer</th>
+                <th>Pass</th>
+                <th>Avtal inlämnat</th>
+                <th>Infomöte</th>
+                <th>Prylar</th>
+            </tr>
+            {% for r in watchlist %}
+            <tr>
+                <td>
+                {% if not r.checked_in %}
+                    <span class="label label-important">Ej incheckad</span>
+                {% else %}
+                    <span class="label label-warning">Ej utcheckad</span>
+                {% endif %}
+                </td>
+                <td><a href="{% url "add_registrations" worker_id=r.worker.pk %}">{{ r.worker }}</a></td>
+                <td>{{ r.worker.phone_number }}</td>
+                <td>{{ r.shift }}</td>
+                <td>
+                {% if r.worker.contract_approved %}
+                    <span class="label label-success">Inlämnat</span>
+                {% else %}
+                    <span class="label label-important">Ej inlämnat</span>
+                {% endif %}
+                </td>
+                <td>
+                    {% info_meeting_status r.worker %}
+                </td>
+                <td>
+                    {% merchandise_status r.worker %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
     {% endif %}
 
-    {% if current_date %}
-        {{ current_date|date:"l" }}
-    {% else %}
-        alla dagar
-    {% endif %}
-        <small>| <b>{{ total_count }}</b> st tillsatta platser av {{ total_max_workers }} st</small>
-    </h2>
-
+    <h2>Alla pass</h2>
     <table class="table table-striped">
     {% for shift, registrations in shifts %}
         <tr>
@@ -67,11 +118,11 @@
                 <td>{{ r.worker.phone_number }}</td>
                 <td>{{ r.worker.tshirt_size }}</td>
                 <td>
-                    {% if r.worker.contract_approved %}
-                        <span class="label label-success">Inlämnat</span>
-                    {% else %}
-                        <span class="label label-important">Ej inlämnat</span>
-                    {% endif %}
+                {% if r.worker.contract_approved %}
+                    <span class="label label-success">Inlämnat</span>
+                {% else %}
+                    <span class="label label-important">Ej inlämnat</span>
+                {% endif %}
                 </td>
                 <td>
                     {% info_meeting_status r.worker %}
@@ -81,6 +132,10 @@
                 </td>
             </tr>
         {% endfor %}
+    {% empty %}
+    <tr>
+        <td colspan="7">Det finns inga pass av denna typ den valda dagen</td>
+    </tr>
     {% endfor %}
     </table>
 {% endblock content %}
