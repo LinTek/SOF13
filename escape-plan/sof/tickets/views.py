@@ -207,11 +207,24 @@ def sell(request):
 
     elif search_form.is_valid():
         try:
-            person = Person.objects.search(search_form.cleaned_data.get('q'))
+            tickets = None
+            q = search_form.cleaned_data.get('q')
+
+            if q.isdigit():
+                tickets = Ticket.objects.filter(pk=int(q))
+
+            if tickets:
+                person = tickets[0].person
+            else:
+                person = Person.objects.search(q)
+
             return redirect('person_details', pk=person.pk)
 
         except Person.DoesNotExist:
             error = _('The person was not found')
+
+        except Person.MultipleObjectsReturned:
+            error = _('More than one object matched the query')
 
     return render(request, 'tickets/sell.html',
                   {'ticket_type_form': ticket_type_form,
