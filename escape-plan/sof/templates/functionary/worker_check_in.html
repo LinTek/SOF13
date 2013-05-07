@@ -28,9 +28,9 @@
     {% endif %}
 
     {% if current_date %}
-        {{ current_date|date:"l"|title }}
+        {{ current_date|date:"l" }}
     {% else %}
-        Alla dagar
+        alla dagar
     {% endif %}
         <small>| <b>{{ total_count }}</b> st tillsatta platser av {{ total_max_workers }} st</small>
     </h2>
@@ -56,6 +56,8 @@
             <th>Telefon</th>
             <th><abbr title="T-shirtstorlek">Storlek</abbr></th>
             <th>Avtal inlämnat</th>
+            <th>Infomöte</th>
+            <th>Prylar</th>
         </tr>
 
         {% for r in registrations %}
@@ -70,6 +72,12 @@
                     {% else %}
                         <span class="label label-important">Ej inlämnat</span>
                     {% endif %}
+                </td>
+                <td>
+                    {% info_meeting_status r.worker %}
+                </td>
+                <td>
+                    {% merchandise_status r.worker %}
                 </td>
             </tr>
         {% endfor %}
