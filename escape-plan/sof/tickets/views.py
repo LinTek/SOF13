@@ -65,15 +65,29 @@ def turbo_confirm(request):
             else:
                 person = visitor_form.save()
 
-            if ticket_type_ids:
-                invoice = create_invoice(person)
-
+            invoices = Invoice.objects.filter(person=person)
+            # This silently does nothing if there are too many invoices. Not great,
+            # but it is also caught in turbo_submit, where we have a better way to show the error.
+            if ticket_type_ids and len(invoices) <= 1:
+                if len(invoices) == 0:
+                    invoice = create_invoice(person)
+                else:
+                    invoice = invoices[0]
+                
+                existing_tickets = Ticket.objects.filter(person=person).prefetch_related("ticket_type")
+                existing_ticket_type_ids = map(lambda t: t.ticket_type.id, existing_tickets)
+                
+                changed = False
                 for ticket_type_id in ticket_type_ids:
-                    ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
-                                                   invoice=invoice,
-                                                   person=person)
-                    ticket.send_as_email()
-                invoice.send_as_email()
+                    if not int(ticket_type_id) in existing_ticket_type_ids:
+                        ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
+                                                       invoice=invoice,
+                                                       person=person)
+                        ticket.send_as_email()
+                        changed = True
+
+                if changed:
+                    invoice.send_as_email()
 
             response['is_valid'] = True
             return HttpResponse(json.dumps(response),
@@ -114,7 +128,7 @@ def turbo_submit(request):
                 person = Person.objects.search(term)
 
                 # However, it must not have an invoice yet for this form
-                if Invoice.objects.filter(person=person).exists():
+                if Invoice.objects.filter(person=person).count() > 1:
                     raise InvoiceExists()
 
                 try:
@@ -151,7 +165,7 @@ def turbo_submit(request):
             error = _('Student was not found')
 
         except InvoiceExists:
-            error = _('An invoice already exist for this person')
+            error = _('More than one invoice already exist for this person - automatically adding more tickets is not supported')
 
         except ValueError:
             error = _('Could not get the result')
