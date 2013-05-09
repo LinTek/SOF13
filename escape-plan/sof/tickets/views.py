@@ -73,10 +73,10 @@ def turbo_confirm(request):
                     invoice = create_invoice(person)
                 else:
                     invoice = invoices[0]
-                
+
                 existing_tickets = Ticket.objects.filter(person=person).prefetch_related("ticket_type")
                 existing_ticket_type_ids = map(lambda t: t.ticket_type.id, existing_tickets)
-                
+
                 changed = False
                 for ticket_type_id in ticket_type_ids:
                     if not int(ticket_type_id) in existing_ticket_type_ids:
@@ -305,6 +305,7 @@ def person_details(request, pk):
                    'new_person': new_person})
 
 
+@login_required
 @transaction.commit_on_success
 def public_sell(request):
     error = ''
