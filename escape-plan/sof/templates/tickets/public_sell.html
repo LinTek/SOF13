@@ -4,19 +4,49 @@
 {% block title %} - Köp biljett{% endblock %}
 
 {% block content %}
-<h2>Online-biljettköpet är stängt</h2>
+<h2>Biljettköp för LiU-studenter</h2>
+
+{% if error %}
+    <div class="alert alert-error">
+        <h4>Ett fel uppstod!</h4>
+        {{ error }}
+    </div>
+{% endif %}
+
+{% if success %}
+    <div class="alert alert-success">
+        <h4>Sisådär ja!</h4>
+        En bekräftelselänk har skickats till din studentmail. Klicka på denna
+        för att bekräfta din beställning.
+    </div>
+{% endif %}
 
 <p>
-    Du är välkommen att köpa din biljett på plats vid biljettutlämningen som ligger precis
-    vid ingången till området, bakom Zenit-huset, Campus Valla.
+    Fyll i ditt LiU-ID nedan. En bekräftelselänk kommer att skickas till din studentmail.
+    När du bekräftat ditt köp via länken kommer en faktura att skickas till din e-postadress.
+    Fakturan måste betalas inom 14 dagar, annars riskerar du en påminnelseavgift på 50 kr.
+</p>
+<p>
+    Är du inte LiU-student är du välkommen att köpa din biljett på plats vid biljettutlämningen.
     Obeservera att betalningen för din biljett fortfarande sker via faktura, ej kontant.
 </p>
 <p>
+    Vid frågor eller problem, släng iväg ett mejl till <a href="mailto:biljett@sof13.se">biljett@sof13.se</a>.
     Har du redan köpt en biljett men vill lägga till någon annan typ av biljett,
-    går det utmärkt att köpa till den nya biljetten <b>vid biljettutlämningen</b>.
-    Vid övriga frågor eller problem med <b>befintliga</b> biljetter, släng iväg ett mejl till <a href="mailto:biljett@sof13.se">biljett@sof13.se</a>.
+    går det utmärkt att köpa till den nya biljetten vid biljettutlämningen.<br/>
 </p>
 <p>
     Läs även <a href="http://www.sof13.se/biljetter/betal-och-leveransvillkor" target="_blank">betal- och leveransvillkoren</a>.
 </p>
+
+<form method="post" class="form form-horizontal">
+    {% csrf_token %}
+    {{ ticket_type_form|crispy}}
+    {{ liu_id_form|crispy}}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-large btn-primary">Skicka</button>
+    </div>
+</form>
+
 {% endblock %}
