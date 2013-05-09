@@ -7,7 +7,8 @@ sys.path.append(os.path.abspath(os.path.join(PROJECT_ROOT, '..')))
 
 # People in this list will get e-mail on 500 errors
 ADMINS = (
-    ('Niclas Olofsson', 'n@niclasolofsson.se'),
+    ('Niclas Olofsson', 'niclas.olofsson@sof13.se'),
+    ('Simon Lindgren', 'simon.lindgren@sof13.se')
 )
 
 MANAGERS = ADMINS
