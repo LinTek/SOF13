@@ -308,7 +308,6 @@ def person_details(request, pk):
                    'new_person': new_person})
 
 
-@login_required
 @transaction.commit_on_success
 def public_sell(request):
     error = ''
@@ -317,6 +316,8 @@ def public_sell(request):
     ticket_type_form = PublicTicketTypeForm(request.POST or None)
 
     if liu_id_form.is_valid() and ticket_type_form.is_valid():
+        return HttpResponse('Ticket sale is closed')
+
         try:
             term = liu_id_form.cleaned_data['liu_id']
 
