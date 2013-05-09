@@ -6,6 +6,7 @@ from django.db import transaction
 from django.db.models import Count, Q
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
@@ -90,6 +91,8 @@ def turbo_confirm(request):
                     invoice.send_as_email()
 
             response['is_valid'] = True
+            response['url'] = reverse('person_details', kwargs={'pk': person.pk})
+
             return HttpResponse(json.dumps(response),
                                 content_type='application/json')
 

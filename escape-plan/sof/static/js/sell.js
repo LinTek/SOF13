@@ -36,8 +36,7 @@ var confirm_turbo_form = function(e) {
             if (response.is_valid === false) {
                  alert('Något verkar inte vara korrekt ifyllt.');
             } else {
-                $('#id_term').val('');
-                location.reload();
+                window.location.replace(response.url);
             }
         },
         error: function(response) {
