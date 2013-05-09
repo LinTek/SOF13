@@ -30,7 +30,6 @@ class Invoice(models.Model):
     ocr = models.CharField(_('OCR number'), max_length=20, unique=True)
     person = models.ForeignKey(Person)
 
-    is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
     denormalized_total_price = models.DecimalField(_('denormalized total price'), decimal_places=2, max_digits=8, default=0)
     nice_reminder_sent = models.BooleanField(_('sent nice reminder'), default=False, blank=True)
 
@@ -38,6 +37,10 @@ class Invoice(models.Model):
 
     def __unicode__(self):
         return unicode(self.ocr)
+
+    @property
+    def is_verified(self):
+        return all([t.is_verified for t in self.ticket_set.all()])
 
     def generate_data(self):
         self.token = os.urandom(20).encode('hex')

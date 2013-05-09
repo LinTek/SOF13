@@ -47,6 +47,7 @@ class Ticket(models.Model):
     invoice = models.ForeignKey(Invoice)
     person = models.ForeignKey(Person)
 
+    is_verified = models.BooleanField(_('is verified'), default=False, blank=True)
     is_handed_out = models.BooleanField(_('handed out'), default=False, blank=True)
     is_sent_as_email = models.BooleanField(_('is sent as email'), default=False, blank=True)
 
