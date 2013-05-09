@@ -231,7 +231,6 @@ def toggle_info_meeting(request):
 
 
 @login_required
-@permission_required('auth.add_user')
 def toggle_merchandise(request):
     w = get_object_or_404(Worker, pk=request.POST.get('pk', 0))
     w.fetched_merchandise = (not w.fetched_merchandise)
