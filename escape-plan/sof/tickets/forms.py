@@ -1,3 +1,5 @@
+from django_localflavor_se.forms import SEPersonalIdentityNumberField
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.forms.widgets import CheckboxSelectMultiple
@@ -112,6 +114,14 @@ class VisitorForm(forms.ModelForm):
         }
 
     pid = ForgivingPIDField(label=_('Personal identification number'))
+
+
+class PublicVisitorForm(forms.ModelForm):
+    class Meta:
+        model = Visitor
+        fields = ('first_name', 'last_name', 'pid', 'email')
+
+    pid = SEPersonalIdentityNumberField(label=_('Personal identification number'))
 
 
 class WorkerForm(forms.ModelForm):

@@ -4,7 +4,7 @@
 {% block title %} - Köp biljett{% endblock %}
 
 {% block content %}
-<h2>Biljettköp för LiU-studenter</h2>
+<h2>Biljettköp för icke LiU-studenter</h2>
 
 {% if error %}
     <div class="alert alert-error">
@@ -16,17 +16,17 @@
 {% if success %}
     <div class="alert alert-success">
         <h4>Sisådär ja!</h4>
-        En bekräftelselänk har skickats till din studentmail. Klicka på denna
+        En bekräftelselänk har skickats till din e-postadress. Klicka på denna
         för att bekräfta din beställning.
     </div>
 {% endif %}
 
 <p>
-    Är du inte LiU-student? Gå till <a href="{% url "public_non_liu_sell" %}">bijettköpet för icke LiU-studenter</a>.
+    Är du LiU-student? Gå till <a href="{% url "public_sell" %}">bijettköpet för LiU-studenter</a>.
 </p>
 <p>
-    Fyll i ditt LiU-ID nedan. En bekräftelselänk kommer att skickas till din studentmail.
-    När du bekräftat ditt köp via länken kommer en faktura att skickas till din e-postadress.
+    Fyll i personuppgifter och e-postadress nedan. En bekräftelselänk kommer att skickas till den
+    e-postadress du anger. När du bekräftat ditt köp via länken kommer en faktura att skickas via e-post.
     Fakturan måste betalas inom 14 dagar, annars riskerar du en påminnelseavgift på 50 kr.
 </p>
 <p>
@@ -42,7 +42,7 @@
 <form method="post" class="form form-horizontal">
     {% csrf_token %}
     {{ ticket_type_form|crispy}}
-    {{ liu_id_form|crispy}}
+    {{ visitor_form|crispy}}
 
     <div class="form-actions">
         <button type="submit" class="btn btn-large btn-primary">Skicka</button>

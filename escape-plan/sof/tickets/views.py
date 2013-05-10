@@ -22,7 +22,8 @@ from sof.invoices.models import Invoice
 
 from .models import Ticket, TicketType
 from .forms import (TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm,
-                    LiuIDForm, PreemptionTicketTypeForm, WorkerForm, PublicTicketTypeForm)
+                    LiuIDForm, PreemptionTicketTypeForm, WorkerForm,
+                    PublicTicketTypeForm, PublicVisitorForm)
 
 
 class InvoiceExists():
@@ -30,6 +31,10 @@ class InvoiceExists():
 
 
 class TicketSoldOut():
+    pass
+
+
+class InvalidForm():
     pass
 
 
@@ -74,10 +79,10 @@ def turbo_confirm(request):
                     invoice = create_invoice(person)
                 else:
                     invoice = invoices[0]
-                
+
                 existing_tickets = Ticket.objects.filter(person=person).prefetch_related("ticket_type")
                 existing_ticket_type_ids = map(lambda t: t.ticket_type.id, existing_tickets)
-                
+
                 changed = False
                 for ticket_type_id in ticket_type_ids:
                     if not int(ticket_type_id) in existing_ticket_type_ids:
@@ -316,8 +321,6 @@ def public_sell(request):
     ticket_type_form = PublicTicketTypeForm(request.POST or None)
 
     if liu_id_form.is_valid() and ticket_type_form.is_valid():
-        return HttpResponse('Ticket sale is closed')
-
         try:
             term = liu_id_form.cleaned_data['liu_id']
 
@@ -364,6 +367,58 @@ def public_sell(request):
     return render(request, 'tickets/public_sell.html',
                   {'ticket_type_form': ticket_type_form,
                    'liu_id_form': liu_id_form,
+                   'error': error, 'success': success})
+
+
+@transaction.commit_on_success
+def public_non_liu_sell(request):
+    error = ''
+    success = False
+    visitor_form = PublicVisitorForm(request.POST or None)
+    ticket_type_form = PublicTicketTypeForm(request.POST or None)
+
+    if visitor_form.is_valid() and ticket_type_form.is_valid():
+        try:
+            visitor = visitor_form.save()
+            person = visitor.person_ptr
+
+            invoice = Invoice(person=person, is_verified=False)
+            invoice.generate_data()
+            invoice.save()
+
+            ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
+
+            for ticket_type_id in ticket_type_ids:
+                ticket_type = TicketType.objects.select_for_update().get(pk=ticket_type_id)
+
+                if ticket_type.ticket_set.count() >= ticket_type.max_amount:
+                    # 4 o'clock in the morning hack...
+                    invoice.delete()
+                    person.delete()
+                    raise TicketSoldOut()
+
+                Ticket.objects.create(invoice=invoice, ticket_type=ticket_type, person=person)
+            invoice.send_verify_email()
+
+            success = True
+            visitor_form = PublicVisitorForm()
+            ticket_type_form = PublicTicketTypeForm()
+
+        except TicketSoldOut:
+            error = _('This ticket type is sold out')
+
+        except InvoiceExists:
+            error = _('An invoice already exist for this person')
+
+        except StudentNotFound:
+            error = _('Student was not found')
+
+        except InvalidForm:
+            error = _('The form was not filled in properly')
+
+    return render(request, 'tickets/public_non_liu_sell.html',
+                  {'ticket_type_form': ticket_type_form,
+                   'visitor_form': visitor_form,
                    'error': error, 'success': success})
 
 
