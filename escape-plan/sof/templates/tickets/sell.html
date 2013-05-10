@@ -35,6 +35,7 @@
         </div>
     </div>
 
+    {% if latest_tickets %}
     <div>
         <h4>10 senast sålda biljetter</h4>
 
@@ -44,13 +45,14 @@
         {% endfor %}
         </ul>
     </div>
+    {% endif %}
 
     <div>
-        <h4>Statistik</h4>
+        <h4>Statistik <small>( uthämtade / sålda / max antal )</small></h4>
         <ul>
         {% for ticket_type in ticket_stats %}
             <li><b>{{ ticket_type }}</b> -
-            {{ ticket_type.sold }} / {{ ticket_type.max_amount }}</li>
+            {{ ticket_type.fetched }} / {{ ticket_type.sold }} / {{ ticket_type.max_amount }}</li>
         {% endfor %}
         </ul>
     </div>

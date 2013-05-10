@@ -3,7 +3,7 @@ import json
 import datetime
 
 from django.db import transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Sum, Q
 from django.conf import settings
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.urlresolvers import reverse
@@ -205,9 +205,11 @@ def sell(request):
                .order_by('-sell_date')[:10])
 
     if request.user.is_staff:
-        stats = TicketType.objects.all().annotate(sold=Count('ticket'))
+        stats = TicketType.objects.all().annotate(sold=Count('ticket'),
+                                                  fetched=Sum('ticket__is_handed_out'))
     else:
-        stats = TicketType.objects.active().annotate(sold=Count('ticket'))
+        stats = TicketType.objects.active().annotate(sold=Count('ticket'),
+                                                     fetched=Sum('ticket__is_handed_out'))
 
     if visitor_form.is_valid() and ticket_type_form.is_valid():
         visitor = visitor_form.save(commit=False)
