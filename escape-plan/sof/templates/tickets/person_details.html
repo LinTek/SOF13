@@ -133,7 +133,10 @@
         <h5>Betalningar</h5>
         <ul>
         {% for payment in invoice.payment_set.all %}
-            <li>{{ payment.amount|floatformat:2 }} kr, {{ payment.date }}</li>
+            <li>{{ payment.amount|floatformat:2 }} kr, {{ payment.date }}
+                {% if payment.is_card_payment %}
+                <span class="label label-info">Kortbetalning</span>
+                {% endif %}</li>
         {% endfor %}
         </ul>
     {% endif %}

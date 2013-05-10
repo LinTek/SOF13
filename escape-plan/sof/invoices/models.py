@@ -122,6 +122,7 @@ class Payment(models.Model):
         verbose_name = _('payment')
         verbose_name_plural = _('payments')
 
+    is_card_payment = models.BooleanField(_('card payment'), default=False)
     date = models.DateTimeField(_('date'))
     amount = models.DecimalField(_('amount'), decimal_places=2, max_digits=8)
     invoice = models.ForeignKey(Invoice)

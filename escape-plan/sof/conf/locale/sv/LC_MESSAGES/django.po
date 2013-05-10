@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 21:51+0200\n"
-"PO-Revision-Date: 2013-05-07 21:52+0100\n"
+"POT-Creation-Date: 2013-05-10 16:14+0200\n"
+"PO-Revision-Date: 2013-05-10 16:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: Swedish <>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #: functionary/forms.py:10
-#: tickets/forms.py:95
+#: tickets/forms.py:105
 msgid "LiU-ID or card number"
 msgstr "LiU-ID eller kortnummer"
 
@@ -28,8 +28,9 @@ msgid "LinTek member"
 msgstr "LinTek-medlem"
 
 #: functionary/forms.py:20
-#: tickets/forms.py:114
 #: tickets/forms.py:128
+#: tickets/forms.py:136
+#: tickets/forms.py:150
 msgid "Personal identification number"
 msgstr "Personnummer"
 
@@ -193,18 +194,19 @@ msgstr "incheckad"
 msgid "checked out"
 msgstr "utcheckad"
 
-#: functionary/views.py:304
+#: functionary/views.py:303
 msgid "Blocked user or LiU-card"
 msgstr "Spärrad användare eller LiU-kort"
 
-#: functionary/views.py:316
-#: tickets/views.py:151
-#: tickets/views.py:343
+#: functionary/views.py:315
+#: tickets/views.py:178
+#: tickets/views.py:373
+#: tickets/views.py:422
 msgid "Student was not found"
 msgstr "Personen hittades inte"
 
-#: functionary/views.py:319
-#: tickets/views.py:157
+#: functionary/views.py:318
+#: tickets/views.py:184
 msgid "Could not get the result"
 msgstr "Kunde inte hämta sökresultat"
 
@@ -231,7 +233,7 @@ msgid "OCR number"
 msgstr "OCR-nummer"
 
 #: invoices/models.py:33
-#: tickets/models.py:51
+#: tickets/models.py:52
 msgid "is sent as email"
 msgstr "Skickad som email"
 
@@ -284,23 +286,32 @@ msgstr "betalningar"
 msgid "date"
 msgstr "datum"
 
-#: tickets/forms.py:33
-#: tickets/forms.py:55
-#: tickets/forms.py:78
+#: tickets/forms.py:17
+msgid "Invoice"
+msgstr "Faktura"
+
+#: tickets/forms.py:18
+#: tickets/forms.py:114
+msgid "Card payment"
+msgstr "Kortbetalning"
+
+#: tickets/forms.py:43
+#: tickets/forms.py:65
+#: tickets/forms.py:88
 msgid "Ticket type"
 msgstr "Biljettyp"
 
-#: tickets/forms.py:41
-#: tickets/forms.py:63
-#: tickets/forms.py:86
+#: tickets/forms.py:51
+#: tickets/forms.py:73
+#: tickets/forms.py:96
 msgid "Conflicting ticket types"
 msgstr "Ogitig kombination av biljettyper"
 
-#: tickets/forms.py:91
+#: tickets/forms.py:101
 msgid "LiU-ID or PID"
 msgstr "LiU-ID eller personnummer"
 
-#: tickets/forms.py:100
+#: tickets/forms.py:110
 msgid "Search query"
 msgstr "Sökterm"
 
@@ -336,43 +347,56 @@ msgstr "försäljningsstart"
 msgid "opening date for public selling"
 msgstr "offentlig försäljningsstart"
 
-#: tickets/models.py:42
+#: tickets/models.py:33
+msgid "ending date"
+msgstr "slutdatum försäljning"
+
+#: tickets/models.py:43
 msgid "ticket"
 msgstr "biljett"
 
-#: tickets/models.py:43
+#: tickets/models.py:44
 msgid "tickets"
 msgstr "biljetter"
 
-#: tickets/models.py:50
+#: tickets/models.py:51
 msgid "handed out"
 msgstr "utlämnad"
 
-#: tickets/views.py:148
-#: tickets/views.py:337
+#: tickets/views.py:175
+#: tickets/views.py:367
+#: tickets/views.py:416
 msgid "This ticket type is sold out"
 msgstr "Någon av de valda biljettyperna är slutsåld"
 
-#: tickets/views.py:154
-#: tickets/views.py:340
-#: tickets/views.py:393
-msgid "An invoice already exist for this person"
-msgstr "En faktura finns redan för denna person"
+#: tickets/views.py:181
+msgid "More than one invoice already exist for this person - automatically adding more tickets is not supported"
+msgstr "Mer än en faktura existerar redan för denna person - automatiskt tillägg av fler biljetter stöds ej"
 
-#: tickets/views.py:234
-#: tickets/views.py:273
+#: tickets/views.py:264
+#: tickets/views.py:303
 msgid "The person was not found"
 msgstr "Personen hittades inte"
 
-#: tickets/views.py:237
+#: tickets/views.py:267
 msgid "More than one object matched the query"
 msgstr "Mer än en person stämde in på söktermen"
 
-#: tickets/views.py:276
+#: tickets/views.py:306
 msgid "The current invoice holder has multiple invoices and someone was too lazy to implement support for that"
 msgstr "Nuvarande fakturainnehavare har flera fakturor, vilket någon var för lat för att implementera stöd för..."
 
-#: tickets/views.py:390
+#: tickets/views.py:370
+#: tickets/views.py:419
+#: tickets/views.py:475
+msgid "An invoice already exist for this person"
+msgstr "En faktura finns redan för denna person"
+
+#: tickets/views.py:425
+msgid "The form was not filled in properly"
+msgstr "Formuläret fylldes ej i korrekt"
+
+#: tickets/views.py:472
 msgid "The functionary was not found"
 msgstr "Personen kunde inte hittas"
 

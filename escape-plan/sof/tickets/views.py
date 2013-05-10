@@ -23,7 +23,7 @@ from sof.invoices.models import Invoice
 from .models import Ticket, TicketType
 from .forms import (TicketTypeForm, TurboTicketForm, VisitorForm, SearchForm,
                     LiuIDForm, PreemptionTicketTypeForm, WorkerForm,
-                    PublicTicketTypeForm, PublicVisitorForm)
+                    PublicTicketTypeForm, PublicVisitorForm, PaymentTypeForm)
 
 
 class InvoiceExists():
@@ -44,6 +44,7 @@ class InvalidForm():
 def turbo_confirm(request):
     response = {}
     ticket_type_form = TicketTypeForm(request.POST, display_all=request.user.is_staff)
+    payment_type_form = PaymentTypeForm(request.POST or None)
 
     worker_id = request.GET.get('worker_id')
     visitor_id = request.GET.get('visitor_id')
@@ -62,7 +63,7 @@ def turbo_confirm(request):
         worker_form = WorkerForm()
         visitor_form = VisitorForm(request.POST)
 
-    if ticket_type_form.is_valid():
+    if ticket_type_form.is_valid() and payment_type_form.is_valid():
         ticket_type_ids = ticket_type_form.cleaned_data.get('ticket_type')
 
         if (worker_id and worker_form.is_valid()) or visitor_form.is_valid():
@@ -84,6 +85,7 @@ def turbo_confirm(request):
                 existing_ticket_type_ids = map(lambda t: t.ticket_type.id, existing_tickets)
 
                 changed = False
+                card_payment = False
                 for ticket_type_id in ticket_type_ids:
                     if not int(ticket_type_id) in existing_ticket_type_ids:
                         ticket = Ticket.objects.create(ticket_type_id=ticket_type_id,
@@ -92,7 +94,13 @@ def turbo_confirm(request):
                         ticket.send_as_email()
                         changed = True
 
-                if changed:
+                card_payment = payment_type_form.cleaned_data['card_payment']
+                if card_payment:
+                    invoice.payment_set.create(amount=invoice.get_total_price(),
+                                               date=datetime.datetime.now(),
+                                               is_card_payment=True)
+
+                if changed and not card_payment:
                     invoice.send_as_email()
 
             response['is_valid'] = True
@@ -116,6 +124,7 @@ def turbo_submit(request):
     error = None
     ticket_type_form = TicketTypeForm(request.POST or None, display_all=request.user.is_staff)
     turbo_form = TurboTicketForm(request.POST or None)
+    payment_type_form = PaymentTypeForm(request.POST or None)
 
     csrf_token_value = get_token(request)
 
@@ -132,10 +141,8 @@ def turbo_submit(request):
                     raise TicketSoldOut()
 
             try:
-                # The person already exists, it may be a Worker or a "double-blipp"
                 person = Person.objects.search(term)
 
-                # However, it must not have an invoice yet for this form
                 if Invoice.objects.filter(person=person).count() > 1:
                     raise InvoiceExists()
 
@@ -159,6 +166,7 @@ def turbo_submit(request):
             response['html'] = render_to_string('tickets/partials/turbo_confirm.html',
                                                 {'ticket_type_form': ticket_type_form,
                                                  'person_form': person_form,
+                                                 'payment_type_form': payment_type_form,
                                                  'worker_job_count': worker_job_count,
                                                  'worker_no_contract': worker_no_contract,
                                                  'csrf_token_value': csrf_token_value},
@@ -181,6 +189,7 @@ def turbo_submit(request):
     response['is_valid'] = False
     response['html'] = render_to_string('tickets/partials/turbo.html',
                                         {'ticket_type_form': ticket_type_form,
+                                         'payment_type_form': payment_type_form,
                                          'turbo_form': turbo_form,
                                          'error': error}, RequestContext(request))
 
@@ -198,6 +207,7 @@ def sell(request):
     ticket_type_form = TicketTypeForm(request.POST or None, display_all=request.user.is_staff)
     visitor_form = VisitorForm(request.POST or None)
     search_form = SearchForm(request.POST or None)
+    payment_type_form = PaymentTypeForm(request.POST or None)
 
     tickets = (Ticket.objects
                .select_related('ticket_type', 'invoice', 'invoice__person')
@@ -211,7 +221,7 @@ def sell(request):
         stats = TicketType.objects.active().annotate(sold=Count('ticket'),
                                                      fetched=Sum('ticket__is_handed_out'))
 
-    if visitor_form.is_valid() and ticket_type_form.is_valid():
+    if visitor_form.is_valid() and ticket_type_form.is_valid() and payment_type_form.is_valid():
         visitor = visitor_form.save(commit=False)
         visitor.save()
 
@@ -225,7 +235,14 @@ def sell(request):
                                                invoice=invoice,
                                                person=visitor)
                 ticket.send_as_email()
-            invoice.send_as_email()
+
+            card_payment = payment_type_form.cleaned_data['card_payment']
+            if card_payment:
+                invoice.payment_set.create(amount=invoice.get_total_price(),
+                                           date=datetime.datetime.now(),
+                                           is_card_payment=True)
+            else:
+                invoice.send_as_email()
 
         return redirect('person_details', pk=visitor.person_ptr.pk)
 
@@ -262,6 +279,7 @@ def sell(request):
 
     return render(request, 'tickets/sell.html',
                   {'ticket_type_form': ticket_type_form,
+                   'payment_type_form': payment_type_form,
                    'turbo_form': TurboTicketForm(),
                    'visitor_form': visitor_form,
                    'search_form': search_form,

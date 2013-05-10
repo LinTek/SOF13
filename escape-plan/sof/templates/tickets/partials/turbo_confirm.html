@@ -12,16 +12,11 @@
         </h3>
     </div>
 
-    {% if worker_no_contract %}
-        <div class="alert alert-warning">
-            <b>Avtal ej påskrivet!</b> Personen har inte lämnat in sitt funktionärsavtal
-            och kommer därför inte att få någon rabatt på biljettpriset.
-        </div>
-    {% endif %}
     <form method="post" class="form form-horizontal turbo_confirm" id="id_turbo_modal_form">
       <div class="modal-body">
             {% csrf_token %}
             {{ ticket_type_form|crispy}}
+            {{ payment_type_form|crispy }}
             {{ person_form|crispy}}
       </div>
       <div class="modal-footer">

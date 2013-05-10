@@ -2,12 +2,20 @@ from django_localflavor_se.forms import SEPersonalIdentityNumberField
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.forms.widgets import CheckboxSelectMultiple
+from django.forms.widgets import CheckboxSelectMultiple, RadioSelect
 
 from sof.utils.forms import ForgivingPIDField
 from sof.functionary.models import Visitor, Worker
 
 from .models import TicketType
+
+
+class PaymentType:
+    CARD = 'card'
+    INVOICE = 'invoice'
+
+PAYMENT_TYPES = ((PaymentType.INVOICE, _('Invoice')),
+                 (PaymentType.CARD, _('Card payment')))
 
 
 class TicketTypeForm(forms.Form):
@@ -100,6 +108,10 @@ class TurboTicketForm(forms.Form):
 
 class SearchForm(forms.Form):
     q = forms.CharField(label=_('Search query'), max_length=20, required=True)
+
+
+class PaymentTypeForm(forms.Form):
+    card_payment = forms.BooleanField(label=_('Card payment'), required=False)
 
 
 class VisitorForm(forms.ModelForm):
