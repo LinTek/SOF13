@@ -225,7 +225,7 @@ def sell(request):
                 ticket.send_as_email()
             invoice.send_as_email()
 
-        return redirect('ticket_sell')
+        return redirect('person_details', pk=visitor.person_ptr.pk)
 
     elif search_form.is_valid():
         try:
