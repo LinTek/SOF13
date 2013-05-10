@@ -15,7 +15,7 @@ class TicketTypeManager(models.Manager):
         return self.filter(opening_date__lte=now())
 
     def public(self):
-        return self.filter(opening_date_public__lte=now())
+        return self.filter(opening_date_public__lte=now(), ending_date__gte=now())
 
 
 class TicketType(models.Model):
@@ -30,6 +30,7 @@ class TicketType(models.Model):
     max_amount = models.PositiveIntegerField(_('max amount'))
     opening_date = models.DateTimeField(_('opening date'))
     opening_date_public = models.DateTimeField(_('opening date for public selling'))
+    ending_date = models.DateTimeField(_('ending date'))
 
     objects = TicketTypeManager()
 
